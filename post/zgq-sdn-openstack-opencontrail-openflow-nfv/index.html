@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>浅谈Openstack、OpenContrail、OpenFlow、NFV - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="浅谈Openstack、OpenContrail、OpenFlow、NFV" />
+<meta property="og:description" content="浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/" />
+
+
+
+<meta property="article:published_time" content="2018-04-03T19:08:48&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-04-03T19:08:48&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="浅谈Openstack、OpenContrail、OpenFlow、NFV">
+<meta itemprop="description" content="浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD">
+
+
+<meta itemprop="datePublished" content="2018-04-03T19:08:48&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-03T19:08:48&#43;08:00" />
+<meta itemprop="wordCount" content="1606">
+
+
+
+<meta itemprop="keywords" content="Openstack,OpenContrail,OpenFlow,SDN,NFV," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="浅谈Openstack、OpenContrail、OpenFlow、NFV"/>
+<meta name="twitter:description" content="浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">浅谈Openstack、OpenContrail、OpenFlow、NFV</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-03 </span>
+        <div class="post-category">
+            
+              <a href="/categories/sdn/"> SDN </a>
+            
+          </div>
+        <span class="more-meta"> 约 1606 字 </span>
+        <span class="more-meta"> 预计阅读 4 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。</p>
+
+<p>首先先从2个大的概念说起吧：SDN和NFV。它们都是网络虚拟化技术，即用软件来实现传统硬件的网络功能。其中名气最大的就是SDN（软件定义网络）和NFV（网络功能虚拟化）。起初、两者的初衷和架构并不相同，SDN起源于园区网，发展于数据中心，目的是将控制平面和转发平面分离，通过集中化的控制平面能够灵活定义网络行为；而NFV则由运营商联盟提出，为了加速部署新的网络服务，运营商倾向于放弃笨重昂贵的专用网络设备，转而使用标准的IT虚拟化技术来拆分网络功能模块，如DNS、NAT、Firewall等。于是一些运营商联合成立了欧洲通信标准协会ETSI（European Telecommunications Standards Institute），他的一个工作组（ETSI ISG NFV）负责开发制定电信网络的虚拟化架构，如NFV MANO。但随着互联网的发展，两者逐渐融合。有人认为，两者的侧重点不一样，NFV更偏向于网络功能虚拟化，而SDN是对网络本身的控制，两者可以结合使用，作为一种电信级的解决方案（2014年江苏电信的解决方案 <a href="https://www.sdnlab.com/15751.html">https://www.sdnlab.com/15751.html</a> ）。</p>
+
+<p>接着说SDN的解决方案吧，知道几种OpenContrail，OpenFlow，OpenDayLight，OpenvSwitch。 说说我对他们的理解吧：</p>
+
+<ul>
+<li>OpenFlow：准确的它是一种协议，并不完全是一种解决方案，其主要目的是觉着现在的协议太多太复杂了，所以推翻了以前的所有协议，重新定义了一种。但正好SDN是控制面和转发面分离，OpenFlow也是，所以它也被称作了一种SDN解决方案。但OpenFlow太学院派了，随着时间的发展，已经逐渐被淘汰（高潮是OpenFlow v1.3，v1.5之后好像就没版本了）。</li>
+<li>OpenContrail：与OpenFlow不同的是，OpenContrail是商业派的解决方案，由Juniper在2012年底收购Contrail之后将其SDN平台开源出来，这就是OpenContrail（现已经改名为Tungsten Fabric）。正如前面SDN定义的那样，OpenContrail也分成了控制面和转发面两部分。控制面主要由配置模块、控制模块、分析模块组成，转发面主要是vRouter</li>
+<li>OpenvSwitch：属于开源的SDN解决方案，被Openstack社区用来和Neutron项目配合使用。目前算是比较主流的SDN解决方案之一。小规模的云都喜欢用它，一般的协议都支持，也能支持DPDK。稳定性方面依赖Linux内核版本。以前在Centos 7的3.10.0内核下，是不是会出现Crash。后来升级到4.6.0之后，没有再出现过Crash的现象。</li>
+<li>OpenDayLight：它是由CISCO主导的一个基于Linux的SDN控制器，并不是一个完整的解决方案，一般会配合OpenvSwitch来做解决方案。它比Neutron要更专业一些，但要比OpenContrail轻一些，介于两者之间吧。前期被OpenContrail打压得不行，现在逐渐成熟起来。</li>
+</ul>
+
+<p>前面说到过SDN+NFV的解决方案，另一种解决方案是Openstack/VMware + OpenContrail。这里讲讲Openstack + OpenContrail。一般大多数OpenStack部署使用OpenvSwitch和OpenStack Neutron进行对接，但是想要实现大规模生产部署需要更多的商业化的产品，这时候就可以选择OpenContrail与Openstack进行对接。OpenContrail提供neutron_plugin_contrail作为插件和Neuron对接，之后openstack就可以通过neutron下发配置给contrail的config模块。刚刚说过，一般情况下Openstack Neutron也就够了，vxlan、FW、LB什么的都支持，那么为啥要用OpenContrail？ 我个人认为，前者是社区的方案，OpenContrail是Juniper的，所以后者给客户的信心会大一点；另一方面OpenContrail确实要强一些，比如支持的协议多一点点（MPLS over GRE/UDP），比如OpenContrail的服务链功能。当然，最重要的还是稳定性和性能，可惜我没做过这方面的对比测试，网上也没找到资料，只知道2017年中国电信省级云资源池试商用SDN工程用的就是这个方案。</p>
+
+<p>这篇Blog就先写到这，等继续学习了OpenContrail之后再更新吧。</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Zhanggq</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-04-03</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/openstack/">Openstack</a>
+          
+          <a href="/tags/opencontrail/">OpenContrail</a>
+          
+          <a href="/tags/openflow/">OpenFlow</a>
+          
+          <a href="/tags/sdn/">SDN</a>
+          
+          <a href="/tags/nfv/">NFV</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/zgq-web-golang-good-program/">
+            <span class="next-text nav-default">关于Go----Golang的优秀组件整理</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+</body>
+</html>

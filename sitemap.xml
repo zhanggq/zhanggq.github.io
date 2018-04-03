@@ -10,6 +10,13 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/zgq-web-golang-good-program/</loc>
     <lastmod>2018-04-03T18:53:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -79,8 +86,50 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/tags/nfv/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/opencontrail/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/openflow/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/openstack/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2018-04-03T18:53:48+08:00</lastmod>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/sdn/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/sdn/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

@@ -35,6 +35,33 @@
     </item>
     
     <item>
+      <title>浅谈Openstack、OpenContrail、OpenFlow、NFV</title>
+      <link>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</link>
+      <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</guid>
+      
+        <description>&lt;p&gt;浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。&lt;/p&gt;
+
+&lt;p&gt;首先先从2个大的概念说起吧：SDN和NFV。它们都是网络虚拟化技术，即用软件来实现传统硬件的网络功能。其中名气最大的就是SDN（软件定义网络）和NFV（网络功能虚拟化）。起初、两者的初衷和架构并不相同，SDN起源于园区网，发展于数据中心，目的是将控制平面和转发平面分离，通过集中化的控制平面能够灵活定义网络行为；而NFV则由运营商联盟提出，为了加速部署新的网络服务，运营商倾向于放弃笨重昂贵的专用网络设备，转而使用标准的IT虚拟化技术来拆分网络功能模块，如DNS、NAT、Firewall等。于是一些运营商联合成立了欧洲通信标准协会ETSI（European Telecommunications Standards Institute），他的一个工作组（ETSI ISG NFV）负责开发制定电信网络的虚拟化架构，如NFV MANO。但随着互联网的发展，两者逐渐融合。有人认为，两者的侧重点不一样，NFV更偏向于网络功能虚拟化，而SDN是对网络本身的控制，两者可以结合使用，作为一种电信级的解决方案（2014年江苏电信的解决方案 &lt;a href=&#34;https://www.sdnlab.com/15751.html&#34;&gt;https://www.sdnlab.com/15751.html&lt;/a&gt; ）。&lt;/p&gt;
+
+&lt;p&gt;接着说SDN的解决方案吧，知道几种OpenContrail，OpenFlow，OpenDayLight，OpenvSwitch。 说说我对他们的理解吧：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;OpenFlow：准确的它是一种协议，并不完全是一种解决方案，其主要目的是觉着现在的协议太多太复杂了，所以推翻了以前的所有协议，重新定义了一种。但正好SDN是控制面和转发面分离，OpenFlow也是，所以它也被称作了一种SDN解决方案。但OpenFlow太学院派了，随着时间的发展，已经逐渐被淘汰（高潮是OpenFlow v1.3，v1.5之后好像就没版本了）。&lt;/li&gt;
+&lt;li&gt;OpenContrail：与OpenFlow不同的是，OpenContrail是商业派的解决方案，由Juniper在2012年底收购Contrail之后将其SDN平台开源出来，这就是OpenContrail（现已经改名为Tungsten Fabric）。正如前面SDN定义的那样，OpenContrail也分成了控制面和转发面两部分。控制面主要由配置模块、控制模块、分析模块组成，转发面主要是vRouter&lt;/li&gt;
+&lt;li&gt;OpenvSwitch：属于开源的SDN解决方案，被Openstack社区用来和Neutron项目配合使用。目前算是比较主流的SDN解决方案之一。小规模的云都喜欢用它，一般的协议都支持，也能支持DPDK。稳定性方面依赖Linux内核版本。以前在Centos 7的3.10.0内核下，是不是会出现Crash。后来升级到4.6.0之后，没有再出现过Crash的现象。&lt;/li&gt;
+&lt;li&gt;OpenDayLight：它是由CISCO主导的一个基于Linux的SDN控制器，并不是一个完整的解决方案，一般会配合OpenvSwitch来做解决方案。它比Neutron要更专业一些，但要比OpenContrail轻一些，介于两者之间吧。前期被OpenContrail打压得不行，现在逐渐成熟起来。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前面说到过SDN+NFV的解决方案，另一种解决方案是Openstack/VMware + OpenContrail。这里讲讲Openstack + OpenContrail。一般大多数OpenStack部署使用OpenvSwitch和OpenStack Neutron进行对接，但是想要实现大规模生产部署需要更多的商业化的产品，这时候就可以选择OpenContrail与Openstack进行对接。OpenContrail提供neutron_plugin_contrail作为插件和Neuron对接，之后openstack就可以通过neutron下发配置给contrail的config模块。刚刚说过，一般情况下Openstack Neutron也就够了，vxlan、FW、LB什么的都支持，那么为啥要用OpenContrail？ 我个人认为，前者是社区的方案，OpenContrail是Juniper的，所以后者给客户的信心会大一点；另一方面OpenContrail确实要强一些，比如支持的协议多一点点（MPLS over GRE/UDP），比如OpenContrail的服务链功能。当然，最重要的还是稳定性和性能，可惜我没做过这方面的对比测试，网上也没找到资料，只知道2017年中国电信省级云资源池试商用SDN工程用的就是这个方案。&lt;/p&gt;
+
+&lt;p&gt;这篇Blog就先写到这，等继续学习了OpenContrail之后再更新吧。&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
       <title>关于Go----Golang的优秀组件整理</title>
       <link>https://zhanggq.github.io/post/zgq-web-golang-good-program/</link>
       <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>

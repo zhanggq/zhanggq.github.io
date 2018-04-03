@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sdn on Zhanggq</title>
+    <link>https://zhanggq.github.io/categories/sdn/</link>
+    <description>Recent content in Sdn on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Apr 2018 19:08:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/categories/sdn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>浅谈Openstack、OpenContrail、OpenFlow、NFV</title>
+      <link>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</link>
+      <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</guid>
+      <description>浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD</description>
+    </item>
+    
+  </channel>
+</rss>
