@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Caddy on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/caddy/</link>
+    <description>Recent content in Caddy on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Apr 2018 18:43:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/tags/caddy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Caddy初探</title>
+      <link>https://zhanggq.github.io/post/zgq-web-caddy-test/</link>
+      <pubDate>Tue, 03 Apr 2018 18:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-caddy-test/</guid>
+      <description>Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi</description>
+    </item>
+    
+  </channel>
+</rss>

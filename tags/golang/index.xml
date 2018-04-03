@@ -6,10 +6,19 @@
     <description>Recent content in Golang on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Apr 2018 16:43:48 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Apr 2018 18:43:48 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Caddy初探</title>
+      <link>https://zhanggq.github.io/post/zgq-web-caddy-test/</link>
+      <pubDate>Tue, 03 Apr 2018 18:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-caddy-test/</guid>
+      <description>Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi</description>
+    </item>
     
     <item>
       <title>我对网站开发的总结与思考</title>

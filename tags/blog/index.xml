@@ -20,14 +20,5 @@
       <description>第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo</description>
     </item>
     
-    <item>
-      <title>第一篇Blog，顺便吐槽一下segmentfault</title>
-      <link>https://zhanggq.github.io/post/zgq-web-caddy-test/</link>
-      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-caddy-test/</guid>
-      <description>Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi</description>
-    </item>
-    
   </channel>
 </rss>
