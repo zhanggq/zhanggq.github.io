@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Caddy初探 - Zhanggq</title>
+  <title>关于Go----Golang的优秀组件整理 - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi" />
+  <meta name="description" content="这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.37.1" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-caddy-test/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-golang-good-program/" />
 
 
 
@@ -58,20 +58,16 @@
 
 
 
-<meta property="og:title" content="Caddy初探" />
-<meta property="og:description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi" />
+<meta property="og:title" content="关于Go----Golang的优秀组件整理" />
+<meta property="og:description" content="这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-caddy-test/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-golang-good-program/" />
 
 
 
-<meta property="article:published_time" content="2018-04-03T18:43:48&#43;08:00"/>
+<meta property="article:published_time" content="2018-04-03T18:53:48&#43;08:00"/>
 
-<meta property="article:modified_time" content="2018-04-03T18:43:48&#43;08:00"/>
-
-
-
-
+<meta property="article:modified_time" content="2018-04-03T18:53:48&#43;08:00"/>
 
 
 
@@ -79,20 +75,24 @@
 
 
 
-<meta itemprop="name" content="Caddy初探">
-<meta itemprop="description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi">
-
-
-<meta itemprop="datePublished" content="2018-04-03T18:43:48&#43;08:00" />
-<meta itemprop="dateModified" content="2018-04-03T18:43:48&#43;08:00" />
-<meta itemprop="wordCount" content="355">
 
 
 
-<meta itemprop="keywords" content="Caddy,Golang," />
+
+<meta itemprop="name" content="关于Go----Golang的优秀组件整理">
+<meta itemprop="description" content="这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能">
+
+
+<meta itemprop="datePublished" content="2018-04-03T18:53:48&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-03T18:53:48&#43;08:00" />
+<meta itemprop="wordCount" content="471">
+
+
+
+<meta itemprop="keywords" content="Golang," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Caddy初探"/>
-<meta name="twitter:description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi"/>
+<meta name="twitter:title" content="关于Go----Golang的优秀组件整理"/>
+<meta name="twitter:description" content="这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -173,7 +173,7 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Caddy初探</h1>
+      <h1 class="post-title">关于Go----Golang的优秀组件整理</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2018-04-03 </span>
@@ -182,7 +182,7 @@
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 355 字 </span>
+        <span class="more-meta"> 约 471 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
       </div>
     </header>
@@ -199,81 +199,52 @@
 
     
     <div class="post-content">
-      <p>Caddy
-类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器</p>
+      <p>这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。</p>
 
-<p>代码
-<a href="https://github.com/mholt/caddy">https://github.com/mholt/caddy</a></p>
+<p>1.框架
+Go的框架有很多很多，但至今还没有一款能和Spring媲美的神级框架出现。所以大神都是自己直接写，不用框架。这里介绍我用过的2个框架gin和beego，前者路由速度快，后者功能全。但还是我前面讲的那句话，两个都不能算是神级框架，所以仁者见仁，智者见智吧。
+github.com/gin-gonic/gin
+github.com/astaxie/beego</p>
 
-<p>使用，先升级Go至1.9以上(<a href="https://my.oschina.net/u/2601623/blog/1785798)，然后">https://my.oschina.net/u/2601623/blog/1785798)，然后</a></p>
+<p>2.WEB服务
+caddy类似于Apache，Nginx，是一个高性能的HTTP/2和反向代理服务器，天然支持https。挺强。
+github.com/mholt/caddy</p>
 
-<pre><code>go get github.com/mholt/caddy/caddy
-go get github.com/caddyserver/builds
-cd $GOPATH/src/github.com/mholt/caddy/caddy
-go run build.go
-./caddy
-</code></pre>
+<p>3.数据库操作
+gorm或者beego的orm，但和前面的框架类似，用也可以，不用也可以。
+github.com/jinzhu/gorm</p>
 
-<p>初步尝试，在caddy同目录下创建Caddyfile文件，并写入配置，然后运行caddy</p>
+<p>4.包管理工具
+类似于Maven。目前我只用过govendor，其它的还有godep、glide。但有个不好的地方就是被墙的还是被墙，得翻墙出去找。
+github.com/kardianos/govendor</p>
 
-<pre><code># cat Caddyfile
-0.0.0.0:2015
+<p>5.热重启
+通过监听syscall信号量实现优雅重启。
+github.com/fvbock/endless</p>
 
-push
-browse
-websocket /echo cat
-ext    .html
-log    /var/log/access.log
-proxy  /api 127.0.0.1:7005
-header /api Access-Control-Allow-Origin *
-# 
-# ./caddy
-Activating privacy features... done.
-http://0.0.0.0:2015
-</code></pre>
+<p>6.log记录
+github.com/Sirupsen/logrus</p>
 
-<p>效果如图，运行了一个简单的文件服务器
-<img src="https://i.imgur.com/pZ8mOWy.png" alt="" /></p>
+<p>7.定时任务
+github.com/robfig/cron</p>
 
-<p>开启https，需要加一行配置tls /root/ca.pem /root/ca-key.pem，如图：</p>
+<p>8.帮助文档生成工具
+自己的应用编好之后，自动给你生成帮助文档，执行xxxx -h或者xxxx help显示帮助文档
+github.com/urfave/cli(以前叫github.com/codegangsta/cli)</p>
 
-<pre><code># cat Caddyfile
-0.0.0.0:2015 {
-    gzip
-    tls /etc/ssl/caddy/ca.pem /etc/ssl/caddy/ca-key.pem
-    #tls xxxx@qq.com {
-    #    protocols tls1.0 tls1.2
-    #}
-    push
-    browse
-    websocket /echo cat
-    ext    .html
-    log    /var/log/access.log
-    proxy  /api 127.0.0.1:7005
-    header /api Access-Control-Allow-Origin *
-}
-# ./caddy
-Activating privacy features... done.
-https://0.0.0.0:2015
-</code></pre>
+<p>9.配置文件读取
+github.com/spf13/viper</p>
 
-<p><img src="https://i.imgur.com/cW0B0lb.png" alt="" /></p>
+<p>10.内存管理
+支持Redis内存存储
+github.com/coocood/freecache</p>
 
-<p>看到有很多帖子说Caddy可以自动申请证书，但我尝试了多次都没有成功。墙外的虚机也不行……</p>
+<p>11.redis依赖
+github.com/garyburd/redigo</p>
 
-<p>反向代理，简单配置如下，给原来的web服务直接加了https，挺好。</p>
-
-<pre><code>0.0.0.0:2015 {
-    gzip
-    tls /root/ca.pem /root/ca-key.pem
-    proxy / http://localhost:8080 {
-        header_upstream Host {host}
-        header_upstream X-Real-IP {remote}
-        header_upstream X-Forwarded-For {remote}
-        header_upstream X-Forwarded-Proto {scheme}
-    }  
-} 
-</code></pre>
+<p>12.静态网站生成器
+我的Blog就是靠它生成的，挺好用
+github.com/gohugoio/hugo</p>
 
     </div>
 
@@ -301,8 +272,6 @@ https://0.0.0.0:2015
     <footer class="post-footer">
       <div class="post-tags">
           
-          <a href="/tags/caddy/">Caddy</a>
-          
           <a href="/tags/golang/">Golang</a>
           
         </div>
@@ -310,14 +279,9 @@ https://0.0.0.0:2015
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-web-golang-good-program/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">关于Go----Golang的优秀组件整理</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-ui-think/">
-            <span class="next-text nav-default">我对网站开发的总结与思考</span>
+          <a class="next" href="/post/zgq-web-caddy-test/">
+            <span class="next-text nav-default">Caddy初探</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>

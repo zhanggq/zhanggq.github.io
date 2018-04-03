@@ -35,6 +35,63 @@
     </item>
     
     <item>
+      <title>关于Go----Golang的优秀组件整理</title>
+      <link>https://zhanggq.github.io/post/zgq-web-golang-good-program/</link>
+      <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-golang-good-program/</guid>
+      
+        <description>&lt;p&gt;这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。&lt;/p&gt;
+
+&lt;p&gt;1.框架
+Go的框架有很多很多，但至今还没有一款能和Spring媲美的神级框架出现。所以大神都是自己直接写，不用框架。这里介绍我用过的2个框架gin和beego，前者路由速度快，后者功能全。但还是我前面讲的那句话，两个都不能算是神级框架，所以仁者见仁，智者见智吧。
+github.com/gin-gonic/gin
+github.com/astaxie/beego&lt;/p&gt;
+
+&lt;p&gt;2.WEB服务
+caddy类似于Apache，Nginx，是一个高性能的HTTP/2和反向代理服务器，天然支持https。挺强。
+github.com/mholt/caddy&lt;/p&gt;
+
+&lt;p&gt;3.数据库操作
+gorm或者beego的orm，但和前面的框架类似，用也可以，不用也可以。
+github.com/jinzhu/gorm&lt;/p&gt;
+
+&lt;p&gt;4.包管理工具
+类似于Maven。目前我只用过govendor，其它的还有godep、glide。但有个不好的地方就是被墙的还是被墙，得翻墙出去找。
+github.com/kardianos/govendor&lt;/p&gt;
+
+&lt;p&gt;5.热重启
+通过监听syscall信号量实现优雅重启。
+github.com/fvbock/endless&lt;/p&gt;
+
+&lt;p&gt;6.log记录
+github.com/Sirupsen/logrus&lt;/p&gt;
+
+&lt;p&gt;7.定时任务
+github.com/robfig/cron&lt;/p&gt;
+
+&lt;p&gt;8.帮助文档生成工具
+自己的应用编好之后，自动给你生成帮助文档，执行xxxx -h或者xxxx help显示帮助文档
+github.com/urfave/cli(以前叫github.com/codegangsta/cli)&lt;/p&gt;
+
+&lt;p&gt;9.配置文件读取
+github.com/spf13/viper&lt;/p&gt;
+
+&lt;p&gt;10.内存管理
+支持Redis内存存储
+github.com/coocood/freecache&lt;/p&gt;
+
+&lt;p&gt;11.redis依赖
+github.com/garyburd/redigo&lt;/p&gt;
+
+&lt;p&gt;12.静态网站生成器
+我的Blog就是靠它生成的，挺好用
+github.com/gohugoio/hugo&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
       <title>Caddy初探</title>
       <link>https://zhanggq.github.io/post/zgq-web-caddy-test/</link>
       <pubDate>Tue, 03 Apr 2018 18:43:48 +0800</pubDate>

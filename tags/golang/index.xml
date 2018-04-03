@@ -6,10 +6,19 @@
     <description>Recent content in Golang on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Apr 2018 18:43:48 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Apr 2018 18:53:48 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于Go----Golang的优秀组件整理</title>
+      <link>https://zhanggq.github.io/post/zgq-web-golang-good-program/</link>
+      <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-golang-good-program/</guid>
+      <description>这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能</description>
+    </item>
     
     <item>
       <title>Caddy初探</title>
