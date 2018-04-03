@@ -10,15 +10,15 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/post/zgq-ui-segmentfault/</loc>
-    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
+    <loc>https://zhanggq.github.io/post/zgq-ui-think/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/post/this-is-a-very-long-title2/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
+    <loc>https://zhanggq.github.io/post/zgq-ui-segmentfault/</loc>
+    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -37,36 +37,29 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/english/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/golang/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/english/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/linux/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/index/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/mysql/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/preview/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -79,13 +72,6 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/tag-2/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://zhanggq.github.io/tags/</loc>
     <lastmod>2018-04-03T15:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -93,15 +79,15 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/test/</loc>
-    <lastmod>2017-08-30T15:43:48+08:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/ui/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/web/</loc>
-    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

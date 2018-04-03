@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>我对网站开发的总结与思考 - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-ui-think/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="我对网站开发的总结与思考" />
+<meta property="og:description" content="一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-ui-think/" />
+
+
+
+<meta property="article:published_time" content="2018-04-03T16:43:48&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-04-03T16:43:48&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="我对网站开发的总结与思考">
+<meta itemprop="description" content="一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成">
+
+
+<meta itemprop="datePublished" content="2018-04-03T16:43:48&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-03T16:43:48&#43;08:00" />
+<meta itemprop="wordCount" content="2729">
+
+
+
+<meta itemprop="keywords" content="UI,Golang,Mysql,Linux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="我对网站开发的总结与思考"/>
+<meta name="twitter:description" content="一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">我对网站开发的总结与思考</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-03 </span>
+        <div class="post-category">
+            
+              <a href="/categories/web/"> WEB </a>
+            
+          </div>
+        <span class="more-meta"> 约 2729 字 </span>
+        <span class="more-meta"> 预计阅读 6 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p><strong>一、前言</strong>
+  2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成一个完整的体系，所以在这里写点东西，写到哪算哪吧，是总结，也是思考。
+  2006年做的是CSS，powerbuilder + weblogic + Oracle。后来也用powerbuilder + access写了些单机小程序玩。不知道PB算不算上古时代的前端技术(≖ ‿ ≖)✧。大概到了08年，第一次接触了BSS，惊为天人，感觉用WEB比PB那玩意高大上了好多，从此开始一发不可收拾，入坑自学研究至今（虽然WEB开发从来不是我的工作内容）。</p>
+
+<p><strong>二、总结</strong>
+  最初学习WEB开发是从JAVA开始，《Think In Java》，然后开始Spring、Struts、Hibernate三大框架，以及Dreamweaver这种网页编辑器。但因为没有服务器，也不是本职工作，只能看看别人写的源码，自己没法上手，所以始终不得要领。
+  直到15年开始做云计算，16年开始用Go，突然发现以前百思不得其解的东西，如今变得非常简单。最初是用Go开始写WEB服务端，顺便在Go里面加了一些HTML代码，然后发现自己原来已经写出了一个简单的网站。接着在Git上找了套Go的框架Beego（因为有中文）和前端框架Layui，很轻松的就搭出了一个管理平台。恰逢阿里云打折，又买了台云主机，在自己的虚机上部署了应用，就算是发布了。
+    (￣▽￣)/
+<img src="https://i.imgur.com/6DEkrP8.png" alt="" /></p>
+
+<p>第一步踏出之后，发现后面的路就变得好走了，一方面继续学习，一方面自己思考。第二个WEB是自己写股票分析WEB。后端还是Beego+Mariadb，前端改成了Amaze UI（因为Layui不支持Echarts，或者说是我没搞起来，另一方面因为Amaze UI的实例多）。由于时间关系（毕竟只是空余时间自己学着玩的），很多功能还没搞起来，只做了自动同步数据（网易的API接口，爬出来写数据库），界面展示，股票查询这些。过程中知道了MVC(Model View Controller，是模型(model)－视图(view)－控制器(controller))，知道了网页动静分离，知道了大名鼎鼎的Ajax。因为都是自己在捣鼓，所以后端的开发工作也占用了比较多的时间，比如用Docker容器做了WEB服务和数据库的分离，Mariadb集群（实际上这P大点的东西搞个本地映射就完了，数据丢了从网易全部爬一遍也要不了多少时间），顺便把Docker镜像都传到自己的阿里云仓库了（不收费，真大气）。
+<img src="https://i.imgur.com/oerBiK9.png" alt="" /></p>
+
+<p>后面的路该怎么走？继续边走边琢磨吧，还有好多东西没玩过，比如说Vue最近很火；比如说Bootstrap虽然不如小鲜肉火，但也曾是业界标杆；比如说nodejs可以完美解决前后端分离；比如说MVC已经过气了，现在火的是MVP、MVVM。还可以再研究一下caddy，毕竟是go里面排第一的。</p>
+
+<p><strong>三、思考</strong></p>
+
+<ol>
+<li>为什么用Go？ Java很牛逼，常年霸占开发语言榜首<a href="https://www.tiobe.com/tiobe-index/。但就我个人而言，工作中用不着Java，只能看，不能摸，咋玩？Java体系太庞大，不适合我这样的匆匆过客。Python也很牛逼，工作中也用，但怎么说呢，性能不高，对第三方库依赖也太重，我自己用起来都觉得麻烦（Go编完了随便往一个容器里面一放就能跑，Python还得装一堆依赖）。">https://www.tiobe.com/tiobe-index/。但就我个人而言，工作中用不着Java，只能看，不能摸，咋玩？Java体系太庞大，不适合我这样的匆匆过客。Python也很牛逼，工作中也用，但怎么说呢，性能不高，对第三方库依赖也太重，我自己用起来都觉得麻烦（Go编完了随便往一个容器里面一放就能跑，Python还得装一堆依赖）。</a></li>
+
+<li><p>什么是MVC，它为什么会存在，又为什么被淘汰了？先声明一点，这个话题很大，而且我也不是圈内人士，我只能说点我自己的观念。MVC首先是个老古董，最初并没有流行开（我也不知道它是什么时候火起来的），我觉得人们最初的想法其实很简单，就是让网页的速度更快，而为了达到这个目的，出现了网页动静分离这样一个概念。MVC恰好又符合这一思想，model、view、controller各自做好自己的事情（View负责页面，Controller负责路由，Model负责逻辑和数据库），降低互相间的耦合程度，把一部分工作前移交给浏览器去做，静态页面由浏览器去缓存，动态页面需要的时候再去加载。那为什么现在它又被淘汰了？因为它有了两种演进方向：</p>
+
+<ul>
+<li>MVP（Model-View-Presenter），Presenter功能和Controller类似，但MVP与MVC有着一个重大的区别：在MVP中View并不直接使用Model，它们之间的通信是通过Presenter，所有的交互都发生在Presenter内部，而在MVC中View会直接从Model中读取数据而不是通过Controller。题外话：这两个一个是上世纪80年代的东东，一个上上世纪90年代的东东，完美的区分这两者有意义么，我觉得差不多理解其思想就行了，有兴趣的可以去看看一位Google Manager的文章<a href="https://addyosmani.com/blog/understanding-mvc-and-mvp-for-javascript-and-backbone-developers/">https://addyosmani.com/blog/understanding-mvc-and-mvp-for-javascript-and-backbone-developers/</a></li>
+<li>MVVM（Model-View-ViewModel），其实和MVC关系已经不大了，只是为了便于理解把他们放在了一起。ViewModel大致上就是MVP的Presenter和MVC的Controller了，而View和ViewModel间没有了MVP的界面接口，而是直接交互，用数据“绑定”的形式让数据更新的事件不需要开发人员手动去编写特殊用例，而是自动地双向同步，用一种统一的集中的方式实现频繁需要被实现的数据更新问题。例如用于股票这种数据需要被实时更新的场景。简单的总结一下就是，以前用过的Layui和Amaze UI属于MVC(MVP)，还没用过的Vue是MVVM(ElementUI还是iView容我再纠结一下)。Vue还是AngularJS？来张图：
+<img src="https://i.imgur.com/Qnl91oD.png" alt="" />
+<img src="https://i.imgur.com/TYTRYSg.png" alt="" /></li>
+</ul></li>
+
+<li><p>数据库优化，这也是一个大的命题。做一个网站，撇开内容、美工之外，其他无非就是速度，并发、稳定性。其中数据库在这三个方面都有涉及，为何？速度，不管是都还是写，都和数据库的响应速度有关；并发，大量并发的场景下用户Session的存放，总不能都放内存里吧；稳定性，大量并发的情况下如何保持数据库不锁死。我个人觉得需要想明白的事情包括：</p>
+
+<ul>
+<li>先搞清楚网站的读写比例，再决定设计方向；</li>
+<li>降低数据库的计算功能，让其把资源都放在存储上；</li>
+<li>数据库进行读写分离；</li>
+<li>数据库之间的数据同步；</li>
+<li>引入缓存系统和搜索技术；</li>
+<li>数据库拆分（垂直拆分&ndash;&gt;水平拆分）;</li>
+<li>分布式事务</li>
+<li>使用NoSql数据库,采用Key/Value这种简单的数据结构</li>
+<li>剩下的就是多读读书，比如看看阿里是怎么做的</li>
+</ul></li>
+
+<li><p>其它：CDN技术、反向代理、SOA、RAM Caching、Http压缩、Http加速等等。不会的还有很多，Mark一下，慢慢来。</p></li>
+</ol>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Zhanggq</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-04-03</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/ui/">UI</a>
+          
+          <a href="/tags/golang/">Golang</a>
+          
+          <a href="/tags/mysql/">Mysql</a>
+          
+          <a href="/tags/linux/">Linux</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/zgq-ui-segmentfault/">
+            <span class="next-text nav-default">第一篇Blog，顺便吐槽一下segmentfault</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+</body>
+</html>

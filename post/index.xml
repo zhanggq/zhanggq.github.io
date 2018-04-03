@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Apr 2018 15:43:48 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Apr 2018 16:43:48 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>我对网站开发的总结与思考</title>
+      <link>https://zhanggq.github.io/post/zgq-ui-think/</link>
+      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-ui-think/</guid>
+      <description>一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成</description>
+    </item>
     
     <item>
       <title>第一篇Blog，顺便吐槽一下segmentfault</title>
@@ -18,15 +27,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-ui-segmentfault/</guid>
       <description>第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo</description>
-    </item>
-    
-    <item>
-      <title>This is a very long title This is a very long title This is a very long title This is a very long title This is a very long title</title>
-      <link>https://zhanggq.github.io/post/this-is-a-very-long-title2/</link>
-      <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/this-is-a-very-long-title2/</guid>
-      <description>This is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long titleThis is a very long title</description>
     </item>
     
   </channel>

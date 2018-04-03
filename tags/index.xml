@@ -21,20 +21,29 @@
     </item>
     
     <item>
-      <title>English</title>
-      <link>https://zhanggq.github.io/tags/english/</link>
-      <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
+      <title>Golang</title>
+      <link>https://zhanggq.github.io/tags/golang/</link>
+      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/english/</guid>
+      <guid>https://zhanggq.github.io/tags/golang/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Preview</title>
-      <link>https://zhanggq.github.io/tags/preview/</link>
-      <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
+      <title>Linux</title>
+      <link>https://zhanggq.github.io/tags/linux/</link>
+      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/preview/</guid>
+      <guid>https://zhanggq.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mysql</title>
+      <link>https://zhanggq.github.io/tags/mysql/</link>
+      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/mysql/</guid>
       <description></description>
     </item>
     
@@ -48,11 +57,11 @@
     </item>
     
     <item>
-      <title>Tag 2</title>
-      <link>https://zhanggq.github.io/tags/tag-2/</link>
-      <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
+      <title>Ui</title>
+      <link>https://zhanggq.github.io/tags/ui/</link>
+      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/tag-2/</guid>
+      <guid>https://zhanggq.github.io/tags/ui/</guid>
       <description></description>
     </item>
     
