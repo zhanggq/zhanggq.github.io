@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo" />
+  <meta name="description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.37.1" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-ui-segmentfault/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-caddy-test/" />
 
 
 
@@ -59,9 +59,9 @@
 
 
 <meta property="og:title" content="第一篇Blog，顺便吐槽一下segmentfault" />
-<meta property="og:description" content="第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo" />
+<meta property="og:description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-ui-segmentfault/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-caddy-test/" />
 
 
 
@@ -80,19 +80,19 @@
 
 
 <meta itemprop="name" content="第一篇Blog，顺便吐槽一下segmentfault">
-<meta itemprop="description" content="第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo">
+<meta itemprop="description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi">
 
 
 <meta itemprop="datePublished" content="2018-04-03T15:43:48&#43;08:00" />
 <meta itemprop="dateModified" content="2018-04-03T15:43:48&#43;08:00" />
-<meta itemprop="wordCount" content="173">
+<meta itemprop="wordCount" content="355">
 
 
 
 <meta itemprop="keywords" content="blog,segmentfault," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="第一篇Blog，顺便吐槽一下segmentfault"/>
-<meta name="twitter:description" content="第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo"/>
+<meta name="twitter:description" content="Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https://github.com/mholt/caddy 使用，先升级Go至1.9以上(https://my.oschi"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -182,7 +182,7 @@
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 173 字 </span>
+        <span class="more-meta"> 约 355 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
       </div>
     </header>
@@ -199,9 +199,81 @@
 
     
     <div class="post-content">
-      <p>第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blog。没想到，还没写几篇文章，就各种审核不通过。各种商业小白文倒是火得很。无语无奈之下，自己动手丰衣足食吧。</p>
+      <p>Caddy
+类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器</p>
 
-<p>截止到目前，只是搭了一个架子出来，顺便学学Markdown怎么写。后面有空再把评论功能加上，以及去<a href="https://themes.gohugo.io/找找其它顺眼的主题。Hugo确实强大，可以去学习一下源码。">https://themes.gohugo.io/找找其它顺眼的主题。Hugo确实强大，可以去学习一下源码。</a></p>
+<p>代码
+<a href="https://github.com/mholt/caddy">https://github.com/mholt/caddy</a></p>
+
+<p>使用，先升级Go至1.9以上(<a href="https://my.oschina.net/u/2601623/blog/1785798)，然后">https://my.oschina.net/u/2601623/blog/1785798)，然后</a></p>
+
+<pre><code>go get github.com/mholt/caddy/caddy
+go get github.com/caddyserver/builds
+cd $GOPATH/src/github.com/mholt/caddy/caddy
+go run build.go
+./caddy
+</code></pre>
+
+<p>初步尝试，在caddy同目录下创建Caddyfile文件，并写入配置，然后运行caddy</p>
+
+<pre><code># cat Caddyfile
+0.0.0.0:2015
+
+push
+browse
+websocket /echo cat
+ext    .html
+log    /var/log/access.log
+proxy  /api 127.0.0.1:7005
+header /api Access-Control-Allow-Origin *
+# 
+# ./caddy
+Activating privacy features... done.
+http://0.0.0.0:2015
+</code></pre>
+
+<p>效果如图，运行了一个简单的文件服务器
+<img src="https://i.imgur.com/pZ8mOWy.png" alt="" /></p>
+
+<p>开启https，需要加一行配置tls /root/ca.pem /root/ca-key.pem，如图：</p>
+
+<pre><code># cat Caddyfile
+0.0.0.0:2015 {
+    gzip
+    tls /etc/ssl/caddy/ca.pem /etc/ssl/caddy/ca-key.pem
+    #tls xxxx@qq.com {
+    #    protocols tls1.0 tls1.2
+    #}
+    push
+    browse
+    websocket /echo cat
+    ext    .html
+    log    /var/log/access.log
+    proxy  /api 127.0.0.1:7005
+    header /api Access-Control-Allow-Origin *
+}
+# ./caddy
+Activating privacy features... done.
+https://0.0.0.0:2015
+</code></pre>
+
+<p><img src="https://i.imgur.com/cW0B0lb.png" alt="" /></p>
+
+<p>看到有很多帖子说Caddy可以自动申请证书，但我尝试了多次都没有成功。墙外的虚机也不行……</p>
+
+<p>反向代理，简单配置如下，给原来的web服务直接加了https，挺好。</p>
+
+<pre><code>0.0.0.0:2015 {
+    gzip
+    tls /root/ca.pem /root/ca-key.pem
+    proxy / http://localhost:8080 {
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-For {remote}
+        header_upstream X-Forwarded-Proto {scheme}
+    }  
+} 
+</code></pre>
 
     </div>
 
@@ -238,17 +310,12 @@
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-ui-think/">
+          <a class="prev" href="/post/zgq-ui-segmentfault/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">我对网站开发的总结与思考</span>
+            <span class="prev-text nav-default">第一篇Blog，顺便吐槽一下segmentfault</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         
-          <a class="next" href="/post/zgq-web-caddy-test/">
-            <span class="next-text nav-default">第一篇Blog，顺便吐槽一下segmentfault</span>
-            <span class="prev-text nav-mobile">下一篇</span>
-            <i class="iconfont icon-right"></i>
-          </a>
       </nav>
     </footer>
     

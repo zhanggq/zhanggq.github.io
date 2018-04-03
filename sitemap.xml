@@ -24,6 +24,13 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/post/zgq-web-caddy-test/</loc>
+    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/tags/blog/</loc>
     <lastmod>2018-04-03T15:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>

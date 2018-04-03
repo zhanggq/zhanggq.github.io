@@ -59,7 +59,7 @@
 &lt;p&gt;&lt;strong&gt;三、思考&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;为什么用Go？ Java很牛逼，常年霸占开发语言榜首&lt;a href=&#34;https://www.tiobe.com/tiobe-index/。但就我个人而言，工作中用不着Java，只能看，不能摸，咋玩？Java体系太庞大，不适合我这样的匆匆过客。Python也很牛逼，工作中也用，但怎么说呢，性能不高，对第三方库依赖也太重，我自己用起来都觉得麻烦（Go编完了随便往一个容器里面一放就能跑，Python还得装一堆依赖）。&#34;&gt;https://www.tiobe.com/tiobe-index/。但就我个人而言，工作中用不着Java，只能看，不能摸，咋玩？Java体系太庞大，不适合我这样的匆匆过客。Python也很牛逼，工作中也用，但怎么说呢，性能不高，对第三方库依赖也太重，我自己用起来都觉得麻烦（Go编完了随便往一个容器里面一放就能跑，Python还得装一堆依赖）。&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;为什么用Go？ Java很牛逼，常年霸占开发语言榜首 &lt;a href=&#34;https://www.tiobe.com/tiobe-index/&#34;&gt;https://www.tiobe.com/tiobe-index/&lt;/a&gt; 。但就我个人而言，工作中用不着Java，只能看，不能摸，咋玩？Java体系太庞大，不适合我这样的匆匆过客。Python也很牛逼，工作中也用，但怎么说呢，性能不高，对第三方库依赖也太重，我自己用起来都觉得麻烦（Go编完了随便往一个容器里面一放就能跑，Python还得装一堆依赖）。&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;什么是MVC，它为什么会存在，又为什么被淘汰了？先声明一点，这个话题很大，而且我也不是圈内人士，我只能说点我自己的观念。MVC首先是个老古董，最初并没有流行开（我也不知道它是什么时候火起来的），我觉得人们最初的想法其实很简单，就是让网页的速度更快，而为了达到这个目的，出现了网页动静分离这样一个概念。MVC恰好又符合这一思想，model、view、controller各自做好自己的事情（View负责页面，Controller负责路由，Model负责逻辑和数据库），降低互相间的耦合程度，把一部分工作前移交给浏览器去做，静态页面由浏览器去缓存，动态页面需要的时候再去加载。那为什么现在它又被淘汰了？因为它有了两种演进方向：&lt;/p&gt;
 
@@ -100,6 +100,92 @@
         <description>&lt;p&gt;第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blog。没想到，还没写几篇文章，就各种审核不通过。各种商业小白文倒是火得很。无语无奈之下，自己动手丰衣足食吧。&lt;/p&gt;
 
 &lt;p&gt;截止到目前，只是搭了一个架子出来，顺便学学Markdown怎么写。后面有空再把评论功能加上，以及去&lt;a href=&#34;https://themes.gohugo.io/找找其它顺眼的主题。Hugo确实强大，可以去学习一下源码。&#34;&gt;https://themes.gohugo.io/找找其它顺眼的主题。Hugo确实强大，可以去学习一下源码。&lt;/a&gt;&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>第一篇Blog，顺便吐槽一下segmentfault</title>
+      <link>https://zhanggq.github.io/post/zgq-web-caddy-test/</link>
+      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-caddy-test/</guid>
+      
+        <description>&lt;p&gt;Caddy
+类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器&lt;/p&gt;
+
+&lt;p&gt;代码
+&lt;a href=&#34;https://github.com/mholt/caddy&#34;&gt;https://github.com/mholt/caddy&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;使用，先升级Go至1.9以上(&lt;a href=&#34;https://my.oschina.net/u/2601623/blog/1785798)，然后&#34;&gt;https://my.oschina.net/u/2601623/blog/1785798)，然后&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go get github.com/mholt/caddy/caddy
+go get github.com/caddyserver/builds
+cd $GOPATH/src/github.com/mholt/caddy/caddy
+go run build.go
+./caddy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;初步尝试，在caddy同目录下创建Caddyfile文件，并写入配置，然后运行caddy&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# cat Caddyfile
+0.0.0.0:2015
+
+push
+browse
+websocket /echo cat
+ext    .html
+log    /var/log/access.log
+proxy  /api 127.0.0.1:7005
+header /api Access-Control-Allow-Origin *
+# 
+# ./caddy
+Activating privacy features... done.
+http://0.0.0.0:2015
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果如图，运行了一个简单的文件服务器
+&lt;img src=&#34;https://i.imgur.com/pZ8mOWy.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;开启https，需要加一行配置tls /root/ca.pem /root/ca-key.pem，如图：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# cat Caddyfile
+0.0.0.0:2015 {
+    gzip
+    tls /etc/ssl/caddy/ca.pem /etc/ssl/caddy/ca-key.pem
+    #tls xxxx@qq.com {
+    #    protocols tls1.0 tls1.2
+    #}
+    push
+    browse
+    websocket /echo cat
+    ext    .html
+    log    /var/log/access.log
+    proxy  /api 127.0.0.1:7005
+    header /api Access-Control-Allow-Origin *
+}
+# ./caddy
+Activating privacy features... done.
+https://0.0.0.0:2015
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cW0B0lb.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;看到有很多帖子说Caddy可以自动申请证书，但我尝试了多次都没有成功。墙外的虚机也不行……&lt;/p&gt;
+
+&lt;p&gt;反向代理，简单配置如下，给原来的web服务直接加了https，挺好。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;0.0.0.0:2015 {
+    gzip
+    tls /root/ca.pem /root/ca-key.pem
+    proxy / http://localhost:8080 {
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-For {remote}
+        header_upstream X-Forwarded-Proto {scheme}
+    }  
+} 
+&lt;/code&gt;&lt;/pre&gt;
 </description>
       
     </item>
