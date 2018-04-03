@@ -11,56 +11,20 @@
     
     
     <item>
-      <title>Development</title>
-      <link>https://zhanggq.github.io/categories/development/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhanggq.github.io/categories/development/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>English</title>
       <link>https://zhanggq.github.io/categories/english/</link>
-      <pubDate>Thu, 31 Aug 2017 15:43:48 +0800</pubDate>
+      <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/categories/english/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Golang</title>
-      <link>https://zhanggq.github.io/categories/golang/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhanggq.github.io/categories/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Index</title>
       <link>https://zhanggq.github.io/categories/index/</link>
-      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/categories/index/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Shortcodes</title>
-      <link>https://zhanggq.github.io/categories/shortcodes/</link>
-      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/categories/shortcodes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Syntax Highlighting</title>
-      <link>https://zhanggq.github.io/categories/syntax-highlighting/</link>
-      <pubDate>Tue, 30 Aug 2011 16:01:23 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/categories/syntax-highlighting/</guid>
       <description></description>
     </item>
     
@@ -70,6 +34,15 @@
       <pubDate>Wed, 30 Aug 2017 15:43:48 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/categories/test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>https://zhanggq.github.io/categories/web/</link>
+      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/categories/web/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web on Zhanggq</title>
+    <link>https://zhanggq.github.io/categories/web/</link>
+    <description>Recent content in Web on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Apr 2018 15:43:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>第一篇Blog，顺便吐槽一下segmentfault</title>
+      <link>https://zhanggq.github.io/post/zgq-ui-segmentfault/</link>
+      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-ui-segmentfault/</guid>
+      <description>第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo</description>
+    </item>
+    
+  </channel>
+</rss>
