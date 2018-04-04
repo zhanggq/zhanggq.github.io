@@ -28,15 +28,6 @@
 &lt;p&gt;2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰k8s，如今再来看，发现变化太大了，有了各式的自动部署工具，有了容器，也有了墙…… 。按照新的方式重新搭建了一遍，参考的帖子放在前面，因为别人写的比我好多了，所以这里只总结经验。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#section0&#34;&gt;&lt;font color=blue&gt;摘要&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section1&#34;&gt;&lt;font color=blue&gt;手工搭建&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section2&#34;&gt;&lt;font color=blue&gt;Kubeadm&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section3&#34;&gt;&lt;font color=blue&gt;Kubespray&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
 &lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;1-手工搭建&#34;&gt;1.手工搭建&lt;/h2&gt;
@@ -88,18 +79,6 @@ Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时�
 &lt;blockquote&gt;
 &lt;p&gt;学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本文结合实际分析一下br-ex的流，即外部访问的包是怎么一步步经过流表间的跳转最后发送给虚机的，以及虚机的回包处理过程。&lt;/p&gt;
 &lt;/blockquote&gt;
-
-&lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#section0&#34;&gt;&lt;font color=blue&gt;前言&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section1&#34;&gt;&lt;font color=blue&gt;Neutron底层网络模型&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section2&#34;&gt;&lt;font color=blue&gt;OVS基本命令&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section3&#34;&gt;&lt;font color=blue&gt;初始状态OVS流表分析&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section4&#34;&gt;&lt;font color=blue&gt;创建虚机后OVS流表分析&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section5&#34;&gt;&lt;font color=blue&gt;虚机发包OVS流表分析&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section12&#34;&gt;&lt;font color=peru&gt;参考资料&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 
 &lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
