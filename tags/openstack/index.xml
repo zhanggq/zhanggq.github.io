@@ -6,10 +6,19 @@
     <description>Recent content in Openstack on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Apr 2018 19:08:48 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Apr 2018 13:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/openstack/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ovs流表分析</title>
+      <link>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</link>
+      <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</guid>
+      <description>前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本</description>
+    </item>
     
     <item>
       <title>浅谈Openstack、OpenContrail、OpenFlow、NFV</title>

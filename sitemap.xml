@@ -94,7 +94,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/markdown/</loc>
-    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <lastmod>2018-04-04T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -129,7 +129,14 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/openstack/</loc>
-    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/ovs/</loc>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -143,14 +150,14 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/sdn/</loc>
-    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/sdn/</loc>
-    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -178,7 +185,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/categories/web/</loc>
-    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <lastmod>2018-04-04T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
