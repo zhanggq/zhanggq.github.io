@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Ovs流表分析 - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-sdn-ovs-flow/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Ovs流表分析" />
+<meta property="og:description" content="前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-sdn-ovs-flow/" />
+
+
+
+<meta property="article:published_time" content="2018-04-04T13:03:09&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-04-04T13:03:09&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Ovs流表分析">
+<meta itemprop="description" content="前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本">
+
+
+<meta itemprop="datePublished" content="2018-04-04T13:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-04T13:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="3648">
+
+
+
+<meta itemprop="keywords" content="Markdown," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ovs流表分析"/>
+<meta name="twitter:description" content="前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Ovs流表分析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-04 </span>
+        <div class="post-category">
+            
+              <a href="/categories/web/"> WEB </a>
+            
+          </div>
+        <span class="more-meta"> 约 3648 字 </span>
+        <span class="more-meta"> 预计阅读 8 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#目录">目录</a></li>
+<li><a href="#一-neutron底层网络模型">一、Neutron底层网络模型</a></li>
+<li><a href="#二-ovs基本命令分类">二、OVS基本命令分类</a></li>
+<li><a href="#三-初始状态ovs流表分析">三、初始状态OVS流表分析</a></li>
+<li><a href="#四-创建虚机后ovs流表分析">四、创建虚机后OVS流表分析</a></li>
+<li><a href="#五-虚机发包ovs流表分析">五、虚机发包OVS流表分析</a></li>
+<li><a href="#参考资料">参考资料</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p><a name="section0"></a></p>
+
+<h2 id="前言">前言</h2>
+
+<blockquote>
+<p>学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本文结合实际分析一下br-ex的流，即外部访问的包是怎么一步步经过流表间的跳转最后发送给虚机的，以及虚机的回包处理过程。</p>
+</blockquote>
+
+<h2 id="目录">目录</h2>
+
+<ul>
+<li><a href="#section0"><font color=blue>前言</font></a></li>
+<li><a href="#section1"><font color=blue>Neutron底层网络模型</font></a></li>
+<li><a href="#section2"><font color=blue>OVS基本命令</font></a></li>
+<li><a href="#section3"><font color=blue>初始状态OVS流表分析</font></a></li>
+<li><a href="#section4"><font color=blue>创建虚机后OVS流表分析</font></a></li>
+<li><a href="#section5"><font color=blue>虚机发包OVS流表分析</font></a></li>
+<li><a href="#section12"><font color=peru>参考资料</font></a></li>
+</ul>
+
+<p><a name="section1"></a></p>
+
+<h2 id="一-neutron底层网络模型">一、Neutron底层网络模型</h2>
+
+<p>Neutron中底层网络的实现千差万别：有的agent本地是真正处理数据流的网络设备（OVS，Router，LoadBalancer等），而有的agent本地是SDN控制器（如ODL、ONOS、OpenContrail、NSX等）。上述Neutron底层网络的两种模型示意如下
+<img src="https://i.imgur.com/3JEtVZf.png" alt="" />
+第一种模型中Neutron相当于SDN控制器，plugin与agent间的通信机制（如rpc）就相当于简单的南向协议。第二种模型中Neutron作为SDN应用，将业务需求告知SDN控制器，SDN控制器再通过五花八门的南向协议远程控制网络设备。当然，第二种模型中也可以把Neutron看做超级控制器或者网络编排器，去完成OpenStack中网络业务的集中分发。</p>
+
+<p>以下我们讲的是第一种模型中OVS处理数据流的工作机制。后一种模型中，SDN控制器也可以通过OpenFlow或者OVSDB来控制OVS处理数据流，对此暂时不进行讨论。</p>
+
+<p>VXLAN组网下，虚机到公网的网络模型如下图所示：
+<img src="https://i.imgur.com/XE57PBE.png" alt="" />
+在本文的实际组网中，采用的是微服务架构，Controller节点和Compute节点合一，直接使用了Host网络，所以如上图中的红框所示，br-int和br-tun实际均只有一个。虚机与外网的通信只涉及br-int和br-ex，不涉及br-tun。PS：br-int负责在节点本地的网段内通信，br-tun则负责节点间的网段内通信（vxlan），br-ex负责与外网通信(flat)。</p>
+
+<p><a name="section2"></a></p>
+
+<h2 id="二-ovs基本命令分类">二、OVS基本命令分类</h2>
+
+<p>Open vSwitch中有多个命令，分别有不同的作用，大致如下：</p>
+
+<ul>
+<li>ovs-vsctl用于控制ovs db</li>
+<li>ovs-ofctl用于管理OpenFlow switch 的 flow</li>
+<li>ovs-dpctl用于管理ovs的datapath</li>
+<li>ovs-appctl用于查询和管理ovs daemon</li>
+</ul>
+
+<p>需要了解详细命令，可以通过执行ovs-vsctl &ndash;help查看命令帮助</p>
+
+<p><a name="section3"></a></p>
+
+<h2 id="三-初始状态ovs流表分析">三、初始状态OVS流表分析</h2>
+
+<p>假设从外网过来一个报文，先从br-ex开始看起</p>
+
+<pre><code class="language-shell">[root]# ovs-ofctl show br-ex（ovs-ofctl dump-ports-desc br-ex）
+OFPT_FEATURES_REPLY (xid=0x2): dpid:00000cc47ab12f79
+n_tables:254, n_buffers:256
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP
+actions: OUTPUT SET_VLAN_VID SET_VLAN_PCP STRIP_VLAN SET_DL_SRC SET_DL_DST SET_NW_SRC SET_NW_DST SET_NW_TOS SET_TP_SRC SET_TP_DST ENQUEUE
+1(enp4s0f1): addr:0c:c4:7a:b1:2f:79
+config: 0
+state: 0
+current: 1GB-FD COPPER AUTO_NEG
+advertised: 10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG AUTO_PAUSE
+supported: 10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG AUTO_PAUSE
+speed: 1000 Mbps now, 1000 Mbps max
+2(phy-br-ex): addr:e6:54:8a:f2:2e:b5
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+LOCAL(br-ex): addr:0c:c4:7a:b1:2f:79
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0
+[root]# ovs-ofctl dump-flows br-ex
+NXST_FLOW reply (xid=0x4):
+cookie=0xbeb308002c7a72ac, duration=513183.493s, table=0, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=resubmit(,3)
+cookie=0xbeb308002c7a72ac, duration=513184.183s, table=0, n_packets=1, n_bytes=60, idle_age=65534, hard_age=65534, priority=0 actions=NORMAL
+cookie=0xbeb308002c7a72ac, duration=174989.748s, table=0, n_packets=95, n_bytes=4378, idle_age=87, hard_age=65534, priority=4,in_port=2,dl_vlan=2 actions=strip_vlan,NORMAL
+cookie=0xbeb308002c7a72ac, duration=513183.509s, table=0, n_packets=39, n_bytes=3322, idle_age=65534, hard_age=65534, priority=2,in_port=2 actions=resubmit(,1)
+cookie=0xbeb308002c7a72ac, duration=513183.478s, table=1, n_packets=39, n_bytes=3322, idle_age=65534, hard_age=65534, priority=0 actions=resubmit(,2)
+cookie=0xbeb308002c7a72ac, duration=513183.462s, table=2, n_packets=39, n_bytes=3322, idle_age=65534, hard_age=65534, priority=2,in_port=2 actions=drop
+cookie=0xbeb308002c7a72ac, duration=513183.447s, table=3, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=NORMAL
+cookie=0xbeb308002c7a72ac, duration=513182.518s, table=3, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=2,dl_src=fa:16:3f:58:ba:cf actions=output:2
+cookie=0xbeb308002c7a72ac, duration=513182.455s, table=3, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=2,dl_src=fa:16:3f:29:19:ab actions=output:2
+</code></pre>
+
+<p>根据上面的流表规则报文从table=0入口</p>
+
+<pre><code class="language-shell">cookie=0xbeb308002c7a72ac, duration=513183.493s, table=0, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=resubmit(,3)
+</code></pre>
+
+<p>然后源MAC不可能是fa:16:3f:58:ba:cf或fa:16:3f:29:19:ab（从虚机出来的包才是），所以匹配到</p>
+
+<pre><code class="language-shell">cookie=0xbeb308002c7a72ac, duration=513183.447s, table=3, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=NORMAL
+</code></pre>
+
+<p>之后正常转发</p>
+
+<p>接着看 ovs-vsctl show，发现phy-br-ex有个peer=int-br-ex，说明流继续往br-int走（后面继续说）</p>
+
+<pre><code class="language-shell">[root]# ovs-vsctl show
+c499917e-fe06-4d6d-a5d3-ca0bbaaefdff
+Bridge br-tun
+fail_mode: secure
+Port &quot;vxlan-ac10aa82&quot;
+Interface &quot;vxlan-ac10aa82&quot;
+type: vxlan
+options: {df_default=&quot;true&quot;, in_key=flow, local_ip=&quot;172.16.170.131&quot;, out_key=flow, remote_ip=&quot;172.16.170.130&quot;}
+Port patch-int
+Interface patch-int
+type: patch
+options: {peer=patch-tun}
+Port br-tun
+Interface br-tun
+type: internal
+Port &quot;vxlan-ac10aa84&quot;
+Interface &quot;vxlan-ac10aa84&quot;
+type: vxlan
+options: {df_default=&quot;true&quot;, in_key=flow, local_ip=&quot;172.16.170.131&quot;, out_key=flow, remote_ip=&quot;172.16.170.132&quot;}
+Bridge br-int
+fail_mode: secure
+Port &quot;tap293c4a9f-81&quot;
+tag: 2
+Interface &quot;tap293c4a9f-81&quot;
+type: internal
+Port &quot;tap8e0ffc9b-fb&quot;
+tag: 1
+Interface &quot;tap8e0ffc9b-fb&quot;
+type: internal
+Port patch-tun
+Interface patch-tun
+type: patch
+options: {peer=patch-int}
+Port br-int
+Interface br-int
+type: internal
+Port &quot;qr-62bd4b1d-38&quot;
+tag: 1
+Interface &quot;qr-62bd4b1d-38&quot;
+type: internal
+Port &quot;sg-133ac380-bc&quot;
+tag: 1
+Interface &quot;sg-133ac380-bc&quot;
+type: internal
+Port &quot;qg-9a365846-0d&quot;
+tag: 2
+Interface &quot;qg-9a365846-0d&quot;
+type: internal
+Port int-br-ex
+Interface int-br-ex
+type: patch
+options: {peer=phy-br-ex}
+Bridge br-ex
+Port br-ex
+Interface br-ex
+type: internal
+Port &quot;enp4s0f1&quot;
+Interface &quot;enp4s0f1&quot;
+Port phy-br-ex
+Interface phy-br-ex
+type: patch
+options: {peer=int-br-ex}
+ovs_version: &quot;2.3.2&quot;
+[root]# ovs-ofctl show br-int （ovs-ofctl dump-ports-desc br-int）
+OFPT_FEATURES_REPLY (xid=0x2): dpid:00005a91ad84984d
+n_tables:254, n_buffers:256
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP
+actions: OUTPUT SET_VLAN_VID SET_VLAN_PCP STRIP_VLAN SET_DL_SRC SET_DL_DST SET_NW_SRC SET_NW_DST SET_NW_TOS SET_TP_SRC SET_TP_DST ENQUEUE
+1(int-br-ex): addr:fe:b7:c6:2f:41:07
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+2(patch-tun): addr:0a:a0:b1:1d:b3:4e
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+3(tap8e0ffc9b-fb): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+4(tap293c4a9f-81): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+5(qg-9a365846-0d): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+6(qr-62bd4b1d-38): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+7(sg-133ac380-bc): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+LOCAL(br-int): addr:5a:91:ad:84:98:4d
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0
+[root]# ovs-ofctl dump-flows br-int
+NXST_FLOW reply (xid=0x4):
+cookie=0xaf14bb29ca551fa7, duration=513383.693s, table=0, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,in_port=1,dl_src=fa:16:3f:29:19:ab actions=resubmit(,2)
+cookie=0xaf14bb29ca551fa7, duration=513383.726s, table=0, n_packets=4, n_bytes=440, idle_age=65534, hard_age=65534, priority=2,in_port=2,dl_src=fa:16:3f:58:ba:cf actions=resubmit(,1)
+cookie=0xaf14bb29ca551fa7, duration=513383.663s, table=0, n_packets=1, n_bytes=130, idle_age=65534, hard_age=65534, priority=2,in_port=2,dl_src=fa:16:3f:29:19:ab actions=resubmit(,1)
+cookie=0xaf14bb29ca551fa7, duration=513383.767s, table=0, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,in_port=1,dl_src=fa:16:3f:58:ba:cf actions=resubmit(,2)
+cookie=0xaf14bb29ca551fa7, duration=513384.808s, table=0, n_packets=134, n_bytes=7700, idle_age=289, hard_age=65534, priority=1 actions=NORMAL
+cookie=0xaf14bb29ca551fa7, duration=513385.542s, table=0, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=0 actions=NORMAL
+cookie=0xaf14bb29ca551fa7, duration=513384.793s, table=0, n_packets=329269, n_bytes=56743305, idle_age=65534, hard_age=65534, priority=2,in_port=1 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=175190.953s, table=0, n_packets=170292, n_bytes=29327670, idle_age=2, hard_age=65534, priority=3,in_port=1,vlan_tci=0x0000 actions=mod_vlan_vid:2,NORMAL
+cookie=0xaf14bb29ca551fa7, duration=513384.840s, table=1, n_packets=5, n_bytes=570, idle_age=65534, hard_age=65534, priority=1 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=175158.855s, table=1, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,dl_vlan=1,dl_dst=fa:16:3e:4c:16:fa actions=strip_vlan,mod_dl_src:fa:16:3e:4e:0e:58,output:3
+cookie=0xaf14bb29ca551fa7, duration=175155.033s, table=1, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,dl_vlan=1,dl_dst=fa:16:3e:81:7e:ea actions=strip_vlan,mod_dl_src:fa:16:3e:4e:0e:58,output:7
+cookie=0xaf14bb29ca551fa7, duration=513384.824s, table=2, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=1 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=513384.856s, table=23, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=0 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=513385.512s, table=24, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=0 actions=drop
+</code></pre>
+
+<p>依然是继续正常转发</p>
+
+<pre><code class="language-shell">cookie=0xaf14bb29ca551fa7, duration=182323.183s, table=0, n_packets=174858, n_bytes=30441746, idle_age=2, hard_age=65534, priority=3,in_port=1,vlan_tci=0x0000 actions=mod_vlan_vid:2,NORMAL
+</code></pre>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-创建虚机后ovs流表分析">四、创建虚机后OVS流表分析</h2>
+
+<p>接着在Compute上创建了一台虚机（flat网络），然后br-ex流表无变化，br-int流表有更新，br-int的port也有更新</p>
+
+<pre><code class="language-shell">[root]# ovs-ofctl dump-ports-desc br-int
+…………
+8(qvod745905f-4b): addr:fe:c3:39:da:cf:98
+config: 0
+state: 0
+current: 10GB-FD COPPER
+speed: 10000 Mbps now, 0 Mbps max
+[root]# ovs-ofctl dump-flows br-int（多出来的）
+cookie=0xaf14bb29ca551fa7, duration=9.133s, table=0, n_packets=2, n_bytes=140, idle_age=1, priority=9,in_port=8 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=9.069s, table=0, n_packets=0, n_bytes=0, idle_age=9, priority=10,arp,in_port=8 actions=resubmit(,24)
+cookie=0xaf14bb29ca551fa7, duration=9.100s, table=0, n_packets=0, n_bytes=0, idle_age=9, priority=10,icmp6,in_port=8,icmp_type=136 actions=resubmit(,24)
+cookie=0xaf14bb29ca551fa7, duration=304.180s, table=24, n_packets=3, n_bytes=126, idle_age=279, priority=2,arp,in_port=8,arp_spa=172.16.54.196 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=304.211s, table=24, n_packets=0, n_bytes=0, idle_age=304, priority=2,icmp6,in_port=8,icmp_type=136,nd_target=fe80::f816:3eff:fe2d:e7c actions=NORMAL
+cookie=0xaf14bb29ca551fa7, duration=304.259s, table=25, n_packets=241, n_bytes=23025, idle_age=278, priority=2,in_port=8,dl_src=fa:16:3e:2d:0e:7c actions=NORMAL
+</code></pre>
+
+<p>测试从外网ping包，物理网卡抓包如下：</p>
+
+<pre><code class="language-shell">17:43:07.941669 54:39:df:2b:56:ba (oui Unknown) &gt; fa:16:3e:2d:0e:7c (oui Unknown), ethertype IPv4 (0x0800), length 74: 172.16.16.136 &gt; 172.16.54.196: ICMP echo request, id 1, seq 1533, length 40
+</code></pre>
+
+<p>目的MAC是fa:16:3e:2d:0e:7c，虚机的MAC
+br-ex处理同上，转发时看br-ex的MAC（br-ex可以理解为一台switch，我们现在看的是switch记录的MAC）</p>
+
+<pre><code class="language-shell">[root]# ovs-appctl fdb/show br-ex
+port VLAN MAC Age
+1 0 6c:92:bf:0c:26:08 248
+1 0 fa:16:3e:2e:00:f1 117
+2 0 fa:16:3e:2d:0e:7c 68
+1 0 54:39:df:2b:56:ba 68
+1 0 6c:92:bf:0c:27:aa 15
+1 0 6c:92:bf:0c:26:0a 8
+1 0 0c:c4:7a:18:f5:c7 8
+</code></pre>
+
+<p>所以br-ex把包往port2（phy-br-ex）上丢，之后br-int也同上（转发时从ovs-appctl fdb/show br-int看，往port8丢）</p>
+
+<pre><code class="language-shell">[root]# ovs-appctl fdb/show br-int  #br上的MAC表
+port VLAN MAC Age
+1 2 6c:92:bf:0c:26:08 219
+1 2 fa:16:3e:2e:00:f1 88
+1 2 0c:c4:7a:18:f5:c7 45
+8 2 fa:16:3e:2d:0e:7c 39
+1 2 54:39:df:2b:56:ba 39
+1 2 6c:92:bf:0c:27:aa 15
+1 2 6c:92:bf:0c:26:0a 8
+</code></pre>
+
+<p>接着包的顺序应该是从顺序是Switch(qvod745905f-4b) -&gt; (qvbd745905f-4b) -&gt; Bridge（qbrd745905f-4b），经过安全组的iptables，</p>
+
+<pre><code class="language-shell">[root]# iptables -t filter -S   #安全组里面没有规则
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+-N CATTLE_FORWARD
+-N DOCKER
+-N DOCKER-ISOLATION
+-N neutron-filter-top
+-N neutron-openvswi-FORWARD
+-N neutron-openvswi-INPUT
+-N neutron-openvswi-OUTPUT
+-N neutron-openvswi-id745905f-4
+-N neutron-openvswi-local
+-N neutron-openvswi-od745905f-4
+-N neutron-openvswi-scope
+-N neutron-openvswi-sd745905f-4
+-N neutron-openvswi-sg-chain
+-N neutron-openvswi-sg-fallback
+-N nova-api-FORWARD
+-N nova-api-INPUT
+-N nova-api-OUTPUT
+-N nova-api-local
+-N nova-filter-top
+-A INPUT -j neutron-openvswi-INPUT
+-A INPUT -j nova-api-INPUT
+-A INPUT -p tcp -m tcp --dport 37032 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 37031 -j ACCEPT
+-A INPUT -p tcp -m multiport --dports 10050,10051 -m comment --comment &quot;$commment&quot; -j ACCEPT
+-A FORWARD -j neutron-filter-top
+-A FORWARD -j neutron-openvswi-FORWARD
+-A FORWARD -j nova-filter-top
+-A FORWARD -j nova-api-FORWARD
+-A FORWARD -j CATTLE_FORWARD
+-A FORWARD -j DOCKER-ISOLATION
+-A FORWARD -o docker0 -j DOCKER
+-A FORWARD -o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i docker0 ! -o docker0 -j ACCEPT
+-A FORWARD -i docker0 -o docker0 -j ACCEPT
+-A FORWARD -o server0 -j DOCKER
+-A FORWARD -o server0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i server0 ! -o server0 -j ACCEPT
+-A FORWARD -i server0 -o server0 -j ACCEPT
+-A OUTPUT -j neutron-filter-top
+-A OUTPUT -j neutron-openvswi-OUTPUT
+-A OUTPUT -j nova-filter-top
+-A OUTPUT -j nova-api-OUTPUT
+-A CATTLE_FORWARD -m mark --mark 0x1068 -j ACCEPT
+-A CATTLE_FORWARD -m mark --mark 0x4000 -j ACCEPT
+-A DOCKER -d 172.17.0.3/32 ! -i docker0 -o docker0 -p tcp -m tcp --dport 9418 -j ACCEPT
+-A DOCKER -d 172.17.0.4/32 ! -i docker0 -o docker0 -p tcp -m tcp --dport 9418 -j ACCEPT
+-A DOCKER -d 172.17.0.2/32 ! -i docker0 -o docker0 -p tcp -m tcp --dport 5000 -j ACCEPT
+-A DOCKER -d 10.45.1.2/32 ! -i server0 -o server0 -p tcp -m tcp --dport 8080 -j ACCEPT
+-A DOCKER -d 10.45.1.2/32 ! -i server0 -o server0 -p tcp -m tcp --dport 3306 -j ACCEPT
+-A DOCKER-ISOLATION -i server0 -o docker0 -j DROP
+-A DOCKER-ISOLATION -i docker0 -o server0 -j DROP
+-A DOCKER-ISOLATION -j RETURN
+-A neutron-filter-top -j neutron-openvswi-local
+-A neutron-openvswi-FORWARD -j neutron-openvswi-scope
+-A neutron-openvswi-FORWARD -m physdev --physdev-out tapd745905f-4b --physdev-is-bridged -m comment --comment &quot;Direct traffic from the VM interface to the security group chain.&quot; -j neutron-openvswi-sg-chain
+-A neutron-openvswi-FORWARD -m physdev --physdev-in tapd745905f-4b --physdev-is-bridged -m comment --comment &quot;Direct traffic from the VM interface to the security group chain.&quot; -j neutron-openvswi-sg-chain
+-A neutron-openvswi-INPUT -m physdev --physdev-in tapd745905f-4b --physdev-is-bridged -m comment --comment &quot;Direct incoming traffic from VM to the security group chain.&quot; -j neutron-openvswi-od745905f-4
+-A neutron-openvswi-id745905f-4 -m state --state RELATED,ESTABLISHED -m comment --comment &quot;Direct packets associated with a known session to the RETURN chain.&quot; -j RETURN
+-A neutron-openvswi-id745905f-4 -s 172.16.54.194/32 -p udp -m udp --sport 67 -m udp --dport 68 -j RETURN
+-A neutron-openvswi-id745905f-4 -s 172.16.54.193/32 -p udp -m udp --sport 67 -m udp --dport 68 -j RETURN
+-A neutron-openvswi-id745905f-4 -m state --state INVALID -m comment --comment &quot;Drop packets that appear related to an existing connection (e.g. TCP ACK/FIN) but do not have an entry in conntrack.&quot; -j DROP
+-A neutron-openvswi-id745905f-4 -m comment --comment &quot;Send unmatched traffic to the fallback chain.&quot; -j neutron-openvswi-sg-fallback
+-A neutron-openvswi-od745905f-4 -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m udp --sport 68 --dport 67 -m comment --comment &quot;Allow DHCP client traffic.&quot; -j RETURN
+-A neutron-openvswi-od745905f-4 -j neutron-openvswi-sd745905f-4
+-A neutron-openvswi-od745905f-4 -p udp -m udp --sport 68 --dport 67 -m comment --comment &quot;Allow DHCP client traffic.&quot; -j RETURN
+-A neutron-openvswi-od745905f-4 -p udp -m udp --sport 67 -m udp --dport 68 -m comment --comment &quot;Prevent DHCP Spoofing by VM.&quot; -j DROP
+-A neutron-openvswi-od745905f-4 -m state --state RELATED,ESTABLISHED -m comment --comment &quot;Direct packets associated with a known session to the RETURN chain.&quot; -j RETURN
+-A neutron-openvswi-od745905f-4 -m state --state INVALID -m comment --comment &quot;Drop packets that appear related to an existing connection (e.g. TCP ACK/FIN) but do not have an entry in conntrack.&quot; -j DROP
+-A neutron-openvswi-od745905f-4 -m comment --comment &quot;Send unmatched traffic to the fallback chain.&quot; -j neutron-openvswi-sg-fallback
+-A neutron-openvswi-sd745905f-4 -s 172.16.54.196/32 -m mac --mac-source FA:16:3E:2D:0E:7C -m comment --comment &quot;Allow traffic from defined IP/MAC pairs.&quot; -j RETURN
+-A neutron-openvswi-sd745905f-4 -m comment --comment &quot;Drop traffic without an IP/MAC allow rule.&quot; -j DROP
+-A neutron-openvswi-sg-chain -m physdev --physdev-out tapd745905f-4b --physdev-is-bridged -m comment --comment &quot;Jump to the VM specific chain.&quot; -j neutron-openvswi-id745905f-4
+-A neutron-openvswi-sg-chain -m physdev --physdev-in tapd745905f-4b --physdev-is-bridged -m comment --comment &quot;Jump to the VM specific chain.&quot; -j neutron-openvswi-od745905f-4
+-A neutron-openvswi-sg-chain -j ACCEPT
+-A neutron-openvswi-sg-fallback -m comment --comment &quot;Default drop rule for unmatched traffic.&quot; -j DROP
+-A nova-api-INPUT -d 172.16.170.131/32 -p tcp -m tcp --dport 8775 -j ACCEPT
+-A nova-filter-top -j nova-api-local
+</code></pre>
+
+<p>找不到允许规则，被丢弃
+修改安全组规则，把默认安全组改成了ICMP全部允许，br-ex流表不变，br-int流表也不变
+安全组多了2条规则</p>
+
+<pre><code class="language-shell">-A neutron-openvswi-id745905f-4 -p icmp -j RETURN
+-A neutron-openvswi-od745905f-4 -p icmp -j RETURN
+</code></pre>
+
+<p>之后包就可以从Bridge（qbrd745905f-4b）发给虚机的网卡（tapd745905f-4b）</p>
+
+<p><a name="section5"></a></p>
+
+<h2 id="五-虚机发包ovs流表分析">五、虚机发包OVS流表分析</h2>
+
+<p>分析从虚机发出的icmp包。先看ovs-ofctl dump-ports-desc br-int，上面多出来的port（qvod745905f-4b），可以理解为openvswitch这台交换机上面8号口新插了根网线，网线的标签是qvod745905f-4b，那么这个网线其他接口也有745905f类似的标签。</p>
+
+<pre><code class="language-shell">[root]# ifconfig | grep 745
+qbrd745905f-4b: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt; mtu 1500
+qvbd745905f-4b: flags=4419&lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&gt; mtu 1500
+qvod745905f-4b: flags=4419&lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&gt; mtu 1500
+tapd745905f-4b: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt; mtu 1500
+</code></pre>
+
+<p>顺序是虚机（tapd745905f-4b）-&gt; Bridge（qbrd745905f-4b）-&gt; (qvbd745905f-4b)-&gt; Switch(qvod745905f-4b)
+之后Switch的处理（br-int）</p>
+
+<pre><code class="language-shell">cookie=0xaf14bb29ca551fa7, duration=2971.648s, table=0, n_packets=1047, n_bytes=102125, idle_age=46, priority=9,in_port=8 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=2971.679s, table=25, n_packets=1050, n_bytes=102195, idle_age=46, priority=2,in_port=8,dl_src=fa:16:3e:2d:0e:7c actions=NORMAL
+</code></pre>
+
+<p>抓包看源mac是fa:16:3e:2d:0e:7c，没错。</p>
+
+<pre><code class="language-shell">[root]# tcpdump -i enp4s0f1 icmp -e 
+15:54:54.639046 fa:16:3e:2d:0e:7c (oui Unknown) &gt; 54:39:df:2b:56:ba (oui Unknown), ethertype IPv4 (0x0800), length 98: 172.16.54.196 &gt; 172.16.33.1: ICMP echo request, id 2381, seq 287, length 64
+</code></pre>
+
+<p>虚机发3个包之后，n_packets=1050 变成了n_packets=1053 确认是从这个规则出去的</p>
+
+<pre><code class="language-shell">cookie=0xaf14bb29ca551fa7, duration=2980.176s, table=0, n_packets=1050, n_bytes=102419, idle_age=3, priority=9,in_port=8 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=2980.207s, table=25, n_packets=1053, n_bytes=102489, idle_age=3, priority=2,in_port=8,dl_src=fa:16:3e:2d:0e:7c actions=NORMAL
+</code></pre>
+
+<p>再观察br-ex ，直接从table=0，剥掉vlan tag后转发出去了（测试了4个包）</p>
+
+<pre><code class="language-shell">cookie=0xbeb308002c7a72ac, duration=178829.516s, table=0, n_packets=968, n_bytes=90561, idle_age=171, hard_age=65534, priority=4,in_port=2,dl_vlan=2 actions=strip_vlan,NORMAL
+cookie=0xbeb308002c7a72ac, duration=178843.780s, table=0, n_packets=972, n_bytes=90953, idle_age=6, hard_age=65534, priority=4,in_port=2,dl_vlan=2 actions=strip_vlan,NORMAL
+</code></pre>
+
+<p><a name="section12"></a></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+<li><a id="ref01"><a href="https://www.sdnlab.com/16414.html">OVS流表分析</a></a></li>
+<li><a id="ref02"><a href="http://www.aboutyun.com/thread-13027-1-1.html">深入理解 Neutron</a></a></li>
+</ol>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content"><a href="https://laozhu.me" rel="noopener" target="_blank">Zhanggq</a></span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-04-04</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/markdown/">Markdown</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/even-preview/">
+            <span class="next-text nav-default">Markdown Cases Preview</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'zgq-sdn-ovs-flow.md',
+    title: 'Ovs流表分析',
+    link: decodeURI(location.href),
+    desc: '前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本',
+    owner: 'zhanggq',
+    repo: 'comments',
+    oauth: {
+      client_id: 'b88e78d6f966f0edea6e',
+      client_secret: '75fea1f9e7412b4a35b1d54dbd217f4e26414499'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+
+
+
+
+</body>
+</html>

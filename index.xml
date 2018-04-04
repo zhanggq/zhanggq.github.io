@@ -6,10 +6,742 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Apr 2018 19:38:52 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Apr 2018 13:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ovs流表分析</title>
+      <link>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</link>
+      <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本文结合实际分析一下br-ex的流，即外部访问的包是怎么一步步经过流表间的跳转最后发送给虚机的，以及虚机的回包处理过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#section0&#34;&gt;&lt;font color=blue&gt;前言&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section1&#34;&gt;&lt;font color=blue&gt;Neutron底层网络模型&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section2&#34;&gt;&lt;font color=blue&gt;OVS基本命令&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section3&#34;&gt;&lt;font color=blue&gt;初始状态OVS流表分析&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section4&#34;&gt;&lt;font color=blue&gt;创建虚机后OVS流表分析&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section5&#34;&gt;&lt;font color=blue&gt;虚机发包OVS流表分析&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section12&#34;&gt;&lt;font color=peru&gt;参考资料&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-neutron底层网络模型&#34;&gt;一、Neutron底层网络模型&lt;/h2&gt;
+
+&lt;p&gt;Neutron中底层网络的实现千差万别：有的agent本地是真正处理数据流的网络设备（OVS，Router，LoadBalancer等），而有的agent本地是SDN控制器（如ODL、ONOS、OpenContrail、NSX等）。上述Neutron底层网络的两种模型示意如下
+&lt;img src=&#34;https://i.imgur.com/3JEtVZf.png&#34; alt=&#34;&#34; /&gt;
+第一种模型中Neutron相当于SDN控制器，plugin与agent间的通信机制（如rpc）就相当于简单的南向协议。第二种模型中Neutron作为SDN应用，将业务需求告知SDN控制器，SDN控制器再通过五花八门的南向协议远程控制网络设备。当然，第二种模型中也可以把Neutron看做超级控制器或者网络编排器，去完成OpenStack中网络业务的集中分发。&lt;/p&gt;
+
+&lt;p&gt;以下我们讲的是第一种模型中OVS处理数据流的工作机制。后一种模型中，SDN控制器也可以通过OpenFlow或者OVSDB来控制OVS处理数据流，对此暂时不进行讨论。&lt;/p&gt;
+
+&lt;p&gt;VXLAN组网下，虚机到公网的网络模型如下图所示：
+&lt;img src=&#34;https://i.imgur.com/XE57PBE.png&#34; alt=&#34;&#34; /&gt;
+在本文的实际组网中，采用的是微服务架构，Controller节点和Compute节点合一，直接使用了Host网络，所以如上图中的红框所示，br-int和br-tun实际均只有一个。虚机与外网的通信只涉及br-int和br-ex，不涉及br-tun。PS：br-int负责在节点本地的网段内通信，br-tun则负责节点间的网段内通信（vxlan），br-ex负责与外网通信(flat)。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-ovs基本命令分类&#34;&gt;二、OVS基本命令分类&lt;/h2&gt;
+
+&lt;p&gt;Open vSwitch中有多个命令，分别有不同的作用，大致如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ovs-vsctl用于控制ovs db&lt;/li&gt;
+&lt;li&gt;ovs-ofctl用于管理OpenFlow switch 的 flow&lt;/li&gt;
+&lt;li&gt;ovs-dpctl用于管理ovs的datapath&lt;/li&gt;
+&lt;li&gt;ovs-appctl用于查询和管理ovs daemon&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;需要了解详细命令，可以通过执行ovs-vsctl &amp;ndash;help查看命令帮助&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-初始状态ovs流表分析&#34;&gt;三、初始状态OVS流表分析&lt;/h2&gt;
+
+&lt;p&gt;假设从外网过来一个报文，先从br-ex开始看起&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# ovs-ofctl show br-ex（ovs-ofctl dump-ports-desc br-ex）
+OFPT_FEATURES_REPLY (xid=0x2): dpid:00000cc47ab12f79
+n_tables:254, n_buffers:256
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP
+actions: OUTPUT SET_VLAN_VID SET_VLAN_PCP STRIP_VLAN SET_DL_SRC SET_DL_DST SET_NW_SRC SET_NW_DST SET_NW_TOS SET_TP_SRC SET_TP_DST ENQUEUE
+1(enp4s0f1): addr:0c:c4:7a:b1:2f:79
+config: 0
+state: 0
+current: 1GB-FD COPPER AUTO_NEG
+advertised: 10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG AUTO_PAUSE
+supported: 10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG AUTO_PAUSE
+speed: 1000 Mbps now, 1000 Mbps max
+2(phy-br-ex): addr:e6:54:8a:f2:2e:b5
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+LOCAL(br-ex): addr:0c:c4:7a:b1:2f:79
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0
+[root]# ovs-ofctl dump-flows br-ex
+NXST_FLOW reply (xid=0x4):
+cookie=0xbeb308002c7a72ac, duration=513183.493s, table=0, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=resubmit(,3)
+cookie=0xbeb308002c7a72ac, duration=513184.183s, table=0, n_packets=1, n_bytes=60, idle_age=65534, hard_age=65534, priority=0 actions=NORMAL
+cookie=0xbeb308002c7a72ac, duration=174989.748s, table=0, n_packets=95, n_bytes=4378, idle_age=87, hard_age=65534, priority=4,in_port=2,dl_vlan=2 actions=strip_vlan,NORMAL
+cookie=0xbeb308002c7a72ac, duration=513183.509s, table=0, n_packets=39, n_bytes=3322, idle_age=65534, hard_age=65534, priority=2,in_port=2 actions=resubmit(,1)
+cookie=0xbeb308002c7a72ac, duration=513183.478s, table=1, n_packets=39, n_bytes=3322, idle_age=65534, hard_age=65534, priority=0 actions=resubmit(,2)
+cookie=0xbeb308002c7a72ac, duration=513183.462s, table=2, n_packets=39, n_bytes=3322, idle_age=65534, hard_age=65534, priority=2,in_port=2 actions=drop
+cookie=0xbeb308002c7a72ac, duration=513183.447s, table=3, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=NORMAL
+cookie=0xbeb308002c7a72ac, duration=513182.518s, table=3, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=2,dl_src=fa:16:3f:58:ba:cf actions=output:2
+cookie=0xbeb308002c7a72ac, duration=513182.455s, table=3, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=2,dl_src=fa:16:3f:29:19:ab actions=output:2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;根据上面的流表规则报文从table=0入口&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cookie=0xbeb308002c7a72ac, duration=513183.493s, table=0, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=resubmit(,3)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后源MAC不可能是fa:16:3f:58:ba:cf或fa:16:3f:29:19:ab（从虚机出来的包才是），所以匹配到&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cookie=0xbeb308002c7a72ac, duration=513183.447s, table=3, n_packets=772182, n_bytes=124865242, idle_age=0, hard_age=65534, priority=1 actions=NORMAL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后正常转发&lt;/p&gt;
+
+&lt;p&gt;接着看 ovs-vsctl show，发现phy-br-ex有个peer=int-br-ex，说明流继续往br-int走（后面继续说）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# ovs-vsctl show
+c499917e-fe06-4d6d-a5d3-ca0bbaaefdff
+Bridge br-tun
+fail_mode: secure
+Port &amp;quot;vxlan-ac10aa82&amp;quot;
+Interface &amp;quot;vxlan-ac10aa82&amp;quot;
+type: vxlan
+options: {df_default=&amp;quot;true&amp;quot;, in_key=flow, local_ip=&amp;quot;172.16.170.131&amp;quot;, out_key=flow, remote_ip=&amp;quot;172.16.170.130&amp;quot;}
+Port patch-int
+Interface patch-int
+type: patch
+options: {peer=patch-tun}
+Port br-tun
+Interface br-tun
+type: internal
+Port &amp;quot;vxlan-ac10aa84&amp;quot;
+Interface &amp;quot;vxlan-ac10aa84&amp;quot;
+type: vxlan
+options: {df_default=&amp;quot;true&amp;quot;, in_key=flow, local_ip=&amp;quot;172.16.170.131&amp;quot;, out_key=flow, remote_ip=&amp;quot;172.16.170.132&amp;quot;}
+Bridge br-int
+fail_mode: secure
+Port &amp;quot;tap293c4a9f-81&amp;quot;
+tag: 2
+Interface &amp;quot;tap293c4a9f-81&amp;quot;
+type: internal
+Port &amp;quot;tap8e0ffc9b-fb&amp;quot;
+tag: 1
+Interface &amp;quot;tap8e0ffc9b-fb&amp;quot;
+type: internal
+Port patch-tun
+Interface patch-tun
+type: patch
+options: {peer=patch-int}
+Port br-int
+Interface br-int
+type: internal
+Port &amp;quot;qr-62bd4b1d-38&amp;quot;
+tag: 1
+Interface &amp;quot;qr-62bd4b1d-38&amp;quot;
+type: internal
+Port &amp;quot;sg-133ac380-bc&amp;quot;
+tag: 1
+Interface &amp;quot;sg-133ac380-bc&amp;quot;
+type: internal
+Port &amp;quot;qg-9a365846-0d&amp;quot;
+tag: 2
+Interface &amp;quot;qg-9a365846-0d&amp;quot;
+type: internal
+Port int-br-ex
+Interface int-br-ex
+type: patch
+options: {peer=phy-br-ex}
+Bridge br-ex
+Port br-ex
+Interface br-ex
+type: internal
+Port &amp;quot;enp4s0f1&amp;quot;
+Interface &amp;quot;enp4s0f1&amp;quot;
+Port phy-br-ex
+Interface phy-br-ex
+type: patch
+options: {peer=int-br-ex}
+ovs_version: &amp;quot;2.3.2&amp;quot;
+[root]# ovs-ofctl show br-int （ovs-ofctl dump-ports-desc br-int）
+OFPT_FEATURES_REPLY (xid=0x2): dpid:00005a91ad84984d
+n_tables:254, n_buffers:256
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP
+actions: OUTPUT SET_VLAN_VID SET_VLAN_PCP STRIP_VLAN SET_DL_SRC SET_DL_DST SET_NW_SRC SET_NW_DST SET_NW_TOS SET_TP_SRC SET_TP_DST ENQUEUE
+1(int-br-ex): addr:fe:b7:c6:2f:41:07
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+2(patch-tun): addr:0a:a0:b1:1d:b3:4e
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+3(tap8e0ffc9b-fb): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+4(tap293c4a9f-81): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+5(qg-9a365846-0d): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+6(qr-62bd4b1d-38): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+7(sg-133ac380-bc): addr:00:00:00:00:00:00
+config: PORT_DOWN
+state: LINK_DOWN
+speed: 0 Mbps now, 0 Mbps max
+LOCAL(br-int): addr:5a:91:ad:84:98:4d
+config: 0
+state: 0
+speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0
+[root]# ovs-ofctl dump-flows br-int
+NXST_FLOW reply (xid=0x4):
+cookie=0xaf14bb29ca551fa7, duration=513383.693s, table=0, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,in_port=1,dl_src=fa:16:3f:29:19:ab actions=resubmit(,2)
+cookie=0xaf14bb29ca551fa7, duration=513383.726s, table=0, n_packets=4, n_bytes=440, idle_age=65534, hard_age=65534, priority=2,in_port=2,dl_src=fa:16:3f:58:ba:cf actions=resubmit(,1)
+cookie=0xaf14bb29ca551fa7, duration=513383.663s, table=0, n_packets=1, n_bytes=130, idle_age=65534, hard_age=65534, priority=2,in_port=2,dl_src=fa:16:3f:29:19:ab actions=resubmit(,1)
+cookie=0xaf14bb29ca551fa7, duration=513383.767s, table=0, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,in_port=1,dl_src=fa:16:3f:58:ba:cf actions=resubmit(,2)
+cookie=0xaf14bb29ca551fa7, duration=513384.808s, table=0, n_packets=134, n_bytes=7700, idle_age=289, hard_age=65534, priority=1 actions=NORMAL
+cookie=0xaf14bb29ca551fa7, duration=513385.542s, table=0, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=0 actions=NORMAL
+cookie=0xaf14bb29ca551fa7, duration=513384.793s, table=0, n_packets=329269, n_bytes=56743305, idle_age=65534, hard_age=65534, priority=2,in_port=1 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=175190.953s, table=0, n_packets=170292, n_bytes=29327670, idle_age=2, hard_age=65534, priority=3,in_port=1,vlan_tci=0x0000 actions=mod_vlan_vid:2,NORMAL
+cookie=0xaf14bb29ca551fa7, duration=513384.840s, table=1, n_packets=5, n_bytes=570, idle_age=65534, hard_age=65534, priority=1 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=175158.855s, table=1, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,dl_vlan=1,dl_dst=fa:16:3e:4c:16:fa actions=strip_vlan,mod_dl_src:fa:16:3e:4e:0e:58,output:3
+cookie=0xaf14bb29ca551fa7, duration=175155.033s, table=1, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=4,dl_vlan=1,dl_dst=fa:16:3e:81:7e:ea actions=strip_vlan,mod_dl_src:fa:16:3e:4e:0e:58,output:7
+cookie=0xaf14bb29ca551fa7, duration=513384.824s, table=2, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=1 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=513384.856s, table=23, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=0 actions=drop
+cookie=0xaf14bb29ca551fa7, duration=513385.512s, table=24, n_packets=0, n_bytes=0, idle_age=65534, hard_age=65534, priority=0 actions=drop
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;依然是继续正常转发&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cookie=0xaf14bb29ca551fa7, duration=182323.183s, table=0, n_packets=174858, n_bytes=30441746, idle_age=2, hard_age=65534, priority=3,in_port=1,vlan_tci=0x0000 actions=mod_vlan_vid:2,NORMAL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-创建虚机后ovs流表分析&#34;&gt;四、创建虚机后OVS流表分析&lt;/h2&gt;
+
+&lt;p&gt;接着在Compute上创建了一台虚机（flat网络），然后br-ex流表无变化，br-int流表有更新，br-int的port也有更新&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# ovs-ofctl dump-ports-desc br-int
+…………
+8(qvod745905f-4b): addr:fe:c3:39:da:cf:98
+config: 0
+state: 0
+current: 10GB-FD COPPER
+speed: 10000 Mbps now, 0 Mbps max
+[root]# ovs-ofctl dump-flows br-int（多出来的）
+cookie=0xaf14bb29ca551fa7, duration=9.133s, table=0, n_packets=2, n_bytes=140, idle_age=1, priority=9,in_port=8 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=9.069s, table=0, n_packets=0, n_bytes=0, idle_age=9, priority=10,arp,in_port=8 actions=resubmit(,24)
+cookie=0xaf14bb29ca551fa7, duration=9.100s, table=0, n_packets=0, n_bytes=0, idle_age=9, priority=10,icmp6,in_port=8,icmp_type=136 actions=resubmit(,24)
+cookie=0xaf14bb29ca551fa7, duration=304.180s, table=24, n_packets=3, n_bytes=126, idle_age=279, priority=2,arp,in_port=8,arp_spa=172.16.54.196 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=304.211s, table=24, n_packets=0, n_bytes=0, idle_age=304, priority=2,icmp6,in_port=8,icmp_type=136,nd_target=fe80::f816:3eff:fe2d:e7c actions=NORMAL
+cookie=0xaf14bb29ca551fa7, duration=304.259s, table=25, n_packets=241, n_bytes=23025, idle_age=278, priority=2,in_port=8,dl_src=fa:16:3e:2d:0e:7c actions=NORMAL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;测试从外网ping包，物理网卡抓包如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;17:43:07.941669 54:39:df:2b:56:ba (oui Unknown) &amp;gt; fa:16:3e:2d:0e:7c (oui Unknown), ethertype IPv4 (0x0800), length 74: 172.16.16.136 &amp;gt; 172.16.54.196: ICMP echo request, id 1, seq 1533, length 40
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;目的MAC是fa:16:3e:2d:0e:7c，虚机的MAC
+br-ex处理同上，转发时看br-ex的MAC（br-ex可以理解为一台switch，我们现在看的是switch记录的MAC）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# ovs-appctl fdb/show br-ex
+port VLAN MAC Age
+1 0 6c:92:bf:0c:26:08 248
+1 0 fa:16:3e:2e:00:f1 117
+2 0 fa:16:3e:2d:0e:7c 68
+1 0 54:39:df:2b:56:ba 68
+1 0 6c:92:bf:0c:27:aa 15
+1 0 6c:92:bf:0c:26:0a 8
+1 0 0c:c4:7a:18:f5:c7 8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以br-ex把包往port2（phy-br-ex）上丢，之后br-int也同上（转发时从ovs-appctl fdb/show br-int看，往port8丢）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# ovs-appctl fdb/show br-int  #br上的MAC表
+port VLAN MAC Age
+1 2 6c:92:bf:0c:26:08 219
+1 2 fa:16:3e:2e:00:f1 88
+1 2 0c:c4:7a:18:f5:c7 45
+8 2 fa:16:3e:2d:0e:7c 39
+1 2 54:39:df:2b:56:ba 39
+1 2 6c:92:bf:0c:27:aa 15
+1 2 6c:92:bf:0c:26:0a 8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接着包的顺序应该是从顺序是Switch(qvod745905f-4b) -&amp;gt; (qvbd745905f-4b) -&amp;gt; Bridge（qbrd745905f-4b），经过安全组的iptables，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# iptables -t filter -S   #安全组里面没有规则
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+-N CATTLE_FORWARD
+-N DOCKER
+-N DOCKER-ISOLATION
+-N neutron-filter-top
+-N neutron-openvswi-FORWARD
+-N neutron-openvswi-INPUT
+-N neutron-openvswi-OUTPUT
+-N neutron-openvswi-id745905f-4
+-N neutron-openvswi-local
+-N neutron-openvswi-od745905f-4
+-N neutron-openvswi-scope
+-N neutron-openvswi-sd745905f-4
+-N neutron-openvswi-sg-chain
+-N neutron-openvswi-sg-fallback
+-N nova-api-FORWARD
+-N nova-api-INPUT
+-N nova-api-OUTPUT
+-N nova-api-local
+-N nova-filter-top
+-A INPUT -j neutron-openvswi-INPUT
+-A INPUT -j nova-api-INPUT
+-A INPUT -p tcp -m tcp --dport 37032 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 37031 -j ACCEPT
+-A INPUT -p tcp -m multiport --dports 10050,10051 -m comment --comment &amp;quot;$commment&amp;quot; -j ACCEPT
+-A FORWARD -j neutron-filter-top
+-A FORWARD -j neutron-openvswi-FORWARD
+-A FORWARD -j nova-filter-top
+-A FORWARD -j nova-api-FORWARD
+-A FORWARD -j CATTLE_FORWARD
+-A FORWARD -j DOCKER-ISOLATION
+-A FORWARD -o docker0 -j DOCKER
+-A FORWARD -o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i docker0 ! -o docker0 -j ACCEPT
+-A FORWARD -i docker0 -o docker0 -j ACCEPT
+-A FORWARD -o server0 -j DOCKER
+-A FORWARD -o server0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i server0 ! -o server0 -j ACCEPT
+-A FORWARD -i server0 -o server0 -j ACCEPT
+-A OUTPUT -j neutron-filter-top
+-A OUTPUT -j neutron-openvswi-OUTPUT
+-A OUTPUT -j nova-filter-top
+-A OUTPUT -j nova-api-OUTPUT
+-A CATTLE_FORWARD -m mark --mark 0x1068 -j ACCEPT
+-A CATTLE_FORWARD -m mark --mark 0x4000 -j ACCEPT
+-A DOCKER -d 172.17.0.3/32 ! -i docker0 -o docker0 -p tcp -m tcp --dport 9418 -j ACCEPT
+-A DOCKER -d 172.17.0.4/32 ! -i docker0 -o docker0 -p tcp -m tcp --dport 9418 -j ACCEPT
+-A DOCKER -d 172.17.0.2/32 ! -i docker0 -o docker0 -p tcp -m tcp --dport 5000 -j ACCEPT
+-A DOCKER -d 10.45.1.2/32 ! -i server0 -o server0 -p tcp -m tcp --dport 8080 -j ACCEPT
+-A DOCKER -d 10.45.1.2/32 ! -i server0 -o server0 -p tcp -m tcp --dport 3306 -j ACCEPT
+-A DOCKER-ISOLATION -i server0 -o docker0 -j DROP
+-A DOCKER-ISOLATION -i docker0 -o server0 -j DROP
+-A DOCKER-ISOLATION -j RETURN
+-A neutron-filter-top -j neutron-openvswi-local
+-A neutron-openvswi-FORWARD -j neutron-openvswi-scope
+-A neutron-openvswi-FORWARD -m physdev --physdev-out tapd745905f-4b --physdev-is-bridged -m comment --comment &amp;quot;Direct traffic from the VM interface to the security group chain.&amp;quot; -j neutron-openvswi-sg-chain
+-A neutron-openvswi-FORWARD -m physdev --physdev-in tapd745905f-4b --physdev-is-bridged -m comment --comment &amp;quot;Direct traffic from the VM interface to the security group chain.&amp;quot; -j neutron-openvswi-sg-chain
+-A neutron-openvswi-INPUT -m physdev --physdev-in tapd745905f-4b --physdev-is-bridged -m comment --comment &amp;quot;Direct incoming traffic from VM to the security group chain.&amp;quot; -j neutron-openvswi-od745905f-4
+-A neutron-openvswi-id745905f-4 -m state --state RELATED,ESTABLISHED -m comment --comment &amp;quot;Direct packets associated with a known session to the RETURN chain.&amp;quot; -j RETURN
+-A neutron-openvswi-id745905f-4 -s 172.16.54.194/32 -p udp -m udp --sport 67 -m udp --dport 68 -j RETURN
+-A neutron-openvswi-id745905f-4 -s 172.16.54.193/32 -p udp -m udp --sport 67 -m udp --dport 68 -j RETURN
+-A neutron-openvswi-id745905f-4 -m state --state INVALID -m comment --comment &amp;quot;Drop packets that appear related to an existing connection (e.g. TCP ACK/FIN) but do not have an entry in conntrack.&amp;quot; -j DROP
+-A neutron-openvswi-id745905f-4 -m comment --comment &amp;quot;Send unmatched traffic to the fallback chain.&amp;quot; -j neutron-openvswi-sg-fallback
+-A neutron-openvswi-od745905f-4 -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m udp --sport 68 --dport 67 -m comment --comment &amp;quot;Allow DHCP client traffic.&amp;quot; -j RETURN
+-A neutron-openvswi-od745905f-4 -j neutron-openvswi-sd745905f-4
+-A neutron-openvswi-od745905f-4 -p udp -m udp --sport 68 --dport 67 -m comment --comment &amp;quot;Allow DHCP client traffic.&amp;quot; -j RETURN
+-A neutron-openvswi-od745905f-4 -p udp -m udp --sport 67 -m udp --dport 68 -m comment --comment &amp;quot;Prevent DHCP Spoofing by VM.&amp;quot; -j DROP
+-A neutron-openvswi-od745905f-4 -m state --state RELATED,ESTABLISHED -m comment --comment &amp;quot;Direct packets associated with a known session to the RETURN chain.&amp;quot; -j RETURN
+-A neutron-openvswi-od745905f-4 -m state --state INVALID -m comment --comment &amp;quot;Drop packets that appear related to an existing connection (e.g. TCP ACK/FIN) but do not have an entry in conntrack.&amp;quot; -j DROP
+-A neutron-openvswi-od745905f-4 -m comment --comment &amp;quot;Send unmatched traffic to the fallback chain.&amp;quot; -j neutron-openvswi-sg-fallback
+-A neutron-openvswi-sd745905f-4 -s 172.16.54.196/32 -m mac --mac-source FA:16:3E:2D:0E:7C -m comment --comment &amp;quot;Allow traffic from defined IP/MAC pairs.&amp;quot; -j RETURN
+-A neutron-openvswi-sd745905f-4 -m comment --comment &amp;quot;Drop traffic without an IP/MAC allow rule.&amp;quot; -j DROP
+-A neutron-openvswi-sg-chain -m physdev --physdev-out tapd745905f-4b --physdev-is-bridged -m comment --comment &amp;quot;Jump to the VM specific chain.&amp;quot; -j neutron-openvswi-id745905f-4
+-A neutron-openvswi-sg-chain -m physdev --physdev-in tapd745905f-4b --physdev-is-bridged -m comment --comment &amp;quot;Jump to the VM specific chain.&amp;quot; -j neutron-openvswi-od745905f-4
+-A neutron-openvswi-sg-chain -j ACCEPT
+-A neutron-openvswi-sg-fallback -m comment --comment &amp;quot;Default drop rule for unmatched traffic.&amp;quot; -j DROP
+-A nova-api-INPUT -d 172.16.170.131/32 -p tcp -m tcp --dport 8775 -j ACCEPT
+-A nova-filter-top -j nova-api-local
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;找不到允许规则，被丢弃
+修改安全组规则，把默认安全组改成了ICMP全部允许，br-ex流表不变，br-int流表也不变
+安全组多了2条规则&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;-A neutron-openvswi-id745905f-4 -p icmp -j RETURN
+-A neutron-openvswi-od745905f-4 -p icmp -j RETURN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后包就可以从Bridge（qbrd745905f-4b）发给虚机的网卡（tapd745905f-4b）&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-虚机发包ovs流表分析&#34;&gt;五、虚机发包OVS流表分析&lt;/h2&gt;
+
+&lt;p&gt;分析从虚机发出的icmp包。先看ovs-ofctl dump-ports-desc br-int，上面多出来的port（qvod745905f-4b），可以理解为openvswitch这台交换机上面8号口新插了根网线，网线的标签是qvod745905f-4b，那么这个网线其他接口也有745905f类似的标签。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# ifconfig | grep 745
+qbrd745905f-4b: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt; mtu 1500
+qvbd745905f-4b: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
+qvod745905f-4b: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
+tapd745905f-4b: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt; mtu 1500
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;顺序是虚机（tapd745905f-4b）-&amp;gt; Bridge（qbrd745905f-4b）-&amp;gt; (qvbd745905f-4b)-&amp;gt; Switch(qvod745905f-4b)
+之后Switch的处理（br-int）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cookie=0xaf14bb29ca551fa7, duration=2971.648s, table=0, n_packets=1047, n_bytes=102125, idle_age=46, priority=9,in_port=8 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=2971.679s, table=25, n_packets=1050, n_bytes=102195, idle_age=46, priority=2,in_port=8,dl_src=fa:16:3e:2d:0e:7c actions=NORMAL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;抓包看源mac是fa:16:3e:2d:0e:7c，没错。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root]# tcpdump -i enp4s0f1 icmp -e 
+15:54:54.639046 fa:16:3e:2d:0e:7c (oui Unknown) &amp;gt; 54:39:df:2b:56:ba (oui Unknown), ethertype IPv4 (0x0800), length 98: 172.16.54.196 &amp;gt; 172.16.33.1: ICMP echo request, id 2381, seq 287, length 64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;虚机发3个包之后，n_packets=1050 变成了n_packets=1053 确认是从这个规则出去的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cookie=0xaf14bb29ca551fa7, duration=2980.176s, table=0, n_packets=1050, n_bytes=102419, idle_age=3, priority=9,in_port=8 actions=resubmit(,25)
+cookie=0xaf14bb29ca551fa7, duration=2980.207s, table=25, n_packets=1053, n_bytes=102489, idle_age=3, priority=2,in_port=8,dl_src=fa:16:3e:2d:0e:7c actions=NORMAL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再观察br-ex ，直接从table=0，剥掉vlan tag后转发出去了（测试了4个包）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cookie=0xbeb308002c7a72ac, duration=178829.516s, table=0, n_packets=968, n_bytes=90561, idle_age=171, hard_age=65534, priority=4,in_port=2,dl_vlan=2 actions=strip_vlan,NORMAL
+cookie=0xbeb308002c7a72ac, duration=178843.780s, table=0, n_packets=972, n_bytes=90953, idle_age=6, hard_age=65534, priority=4,in_port=2,dl_vlan=2 actions=strip_vlan,NORMAL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section12&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a id=&#34;ref01&#34;&gt;&lt;a href=&#34;https://www.sdnlab.com/16414.html&#34;&gt;OVS流表分析&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id=&#34;ref02&#34;&gt;&lt;a href=&#34;http://www.aboutyun.com/thread-13027-1-1.html&#34;&gt;深入理解 Neutron&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>Markdown Cases Preview</title>
+      <link>https://zhanggq.github.io/post/even-preview/</link>
+      <pubDate>Wed, 04 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/even-preview/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;综合展示一下Markdown各种语法的实例，算是自己以后写Blog的模板吧。
+目前这个只能算是初级模板，还有其它很多高级的用法不在展示的范围内。
+PS.我用的是Markdownpad2，别人推荐用slackedit。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这篇文章集中说明主题所支持的 Markdown 语法和 Hugo Shortcodes 插件，你也可以在这里预览到他们的样子。如果你不喜欢某些样式，可以去修改 css/ 文件夹下的 .scss 文件。&lt;/p&gt;
+
+&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#section0&#34;&gt;&lt;font color=blue&gt;摘要&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section1&#34;&gt;&lt;font color=red&gt;标题&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section2&#34;&gt;&lt;font color=green&gt;段落&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section3&#34;&gt;&lt;font color=yellow&gt;列表&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section4&#34;&gt;&lt;font color=pink&gt;引用&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section5&#34;&gt;&lt;font color=orange&gt;代码&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section6&#34;&gt;&lt;font color=purple&gt;分割线&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section7&#34;&gt;&lt;font color=brown&gt;图片&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section8&#34;&gt;&lt;font color=grey&gt;表格&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section9&#34;&gt;&lt;font color=powderblue&gt;公式&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section10&#34;&gt;&lt;font color=khaki&gt;音乐&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section11&#34;&gt;&lt;font color=rubine&gt;视频&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section12&#34;&gt;&lt;font color=peru&gt;参考资料&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-标题&#34;&gt;1.标题&lt;/h2&gt;
+
+&lt;h1 id=&#34;h1&#34;&gt;H1&lt;/h1&gt;
+
+&lt;h2 id=&#34;h2&#34;&gt;H2&lt;/h2&gt;
+
+&lt;h3 id=&#34;h3&#34;&gt;H3&lt;/h3&gt;
+
+&lt;h4 id=&#34;h4&#34;&gt;H4&lt;/h4&gt;
+
+&lt;h5 id=&#34;h5&#34;&gt;H5&lt;/h5&gt;
+
+&lt;h6 id=&#34;h6&#34;&gt;H6&lt;/h6&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;2-段落&#34;&gt;2. 段落&lt;/h2&gt;
+
+&lt;p&gt;使用单引号 &lt;code&gt;*&lt;/code&gt; 或者单下划线 &lt;code&gt;_&lt;/code&gt; 标记 &lt;em&gt;斜体强调&lt;/em&gt; 或者 &lt;em&gt;斜体强调&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;使用两个引号 &lt;code&gt;**&lt;/code&gt; 或者两个下划线 &lt;code&gt;__&lt;/code&gt; 标记 &lt;strong&gt;加粗强调&lt;/strong&gt; 或者 &lt;strong&gt;加粗强调&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;引号和下划线可叠加使用 → &lt;strong&gt;只是加粗 &lt;em&gt;斜体并加粗&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;使用两个波浪线 &lt;code&gt;~~&lt;/code&gt; 标记 &lt;del&gt;已删除文字&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;插入文字暂无 &lt;code&gt;Markdown&lt;/code&gt; 标记，直接使用 &lt;code&gt;HTML&lt;/code&gt; 标签 &lt;code&gt;&amp;lt;ins&amp;gt;&lt;/code&gt; 标记 &lt;ins&gt;插入文字&lt;/ins&gt;&lt;/p&gt;
+
+&lt;p&gt;行内代码使用反引号标记 → &lt;code&gt;print(&amp;quot;hello world&amp;quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;上标 X&lt;sup&gt;2&lt;/sup&gt; / 下标 X&lt;sub&gt;2&lt;/sub&gt;&lt;/p&gt;
+
+&lt;p&gt;按键 &lt;kbd&gt;Ctrl&lt;/kbd&gt;&lt;/p&gt;
+
+&lt;p&gt;外链 &lt;a href=&#34;https://chekun.me&#34;&gt;chekun&amp;rsquo;s blog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;页面内段落 &lt;a href=&#34;#section-07&#34;&gt;图片&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;注意：你可以通过 &lt;code&gt;{#section-id}&lt;/code&gt; 方式自定义段落锚点&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;参考资料 &lt;sup&gt;&lt;a href=&#34;#ref01&#34;&gt;[1]&lt;/a&gt;&lt;/sup&gt;&lt;sup&gt;&lt;a href=&#34;#ref02&#34;&gt;[2]&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;3-列表&#34;&gt;3. 列表&lt;/h2&gt;
+
+&lt;p&gt;以下的无序、有序和任务列表均支持二级嵌套，不建议使用二级以上嵌套。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-1-无序列表&#34;&gt;3.1 无序列表&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;无序列表
+
+&lt;ul&gt;
+&lt;li&gt;嵌套的无序列表&lt;/li&gt;
+&lt;li&gt;嵌套的无序列表&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;无序列表
+
+&lt;ol&gt;
+&lt;li&gt;嵌套的有序列表&lt;/li&gt;
+&lt;li&gt;嵌套的有序列表&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;无序列表&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;3-2-有序列表&#34;&gt;3.2 有序列表&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;有序列表
+
+&lt;ol&gt;
+&lt;li&gt;嵌套的有序列表&lt;/li&gt;
+&lt;li&gt;嵌套的有序列表&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;有序列表
+
+&lt;ul&gt;
+&lt;li&gt;嵌套的无序列表&lt;/li&gt;
+&lt;li&gt;嵌套的无序列表&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;有序列表&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;3-3-定义列表&#34;&gt;3.3 定义列表&lt;/h3&gt;
+
+&lt;dl&gt;
+&lt;dt&gt;CSS&lt;/dt&gt;
+&lt;dd&gt;层叠样式表&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;h3 id=&#34;3-4-任务列表&#34;&gt;3.4 任务列表&lt;/h3&gt;
+
+&lt;ul class=&#34;task-list&#34;&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; Cmd Markdown 开发
+
+&lt;ul class=&#34;task-list&#34;&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; 改进 Cmd 渲染算法，使用局部渲染技术提高渲染效率&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; 支持以 PDF 格式导出文稿&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; 新增Todo列表功能 &lt;a href=&#34;https://github.com/blog/1375-task-lists-in-gfm-issues-pulls-comments&#34;&gt;语法参考&lt;/a&gt;&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; 改进 LaTex 功能&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; 修复 LaTex 公式渲染问题&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; 新增 LaTex 公式编号功能 &lt;a href=&#34;http://docs.mathjax.org/en/latest/tex.html#tex-eq-numbers&#34;&gt;语法参考&lt;/a&gt;&lt;/label&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; 七月旅行准备
+
+&lt;ul class=&#34;task-list&#34;&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; 准备邮轮上需要携带的物品&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; 浏览日本免税店的物品&lt;/label&gt;&lt;/li&gt;
+&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; 购买蓝宝石公主号七月一日的船票&lt;/label&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/label&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;4-引用&#34;&gt;4. 引用&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;野火烧不尽，春风吹又生。&lt;/p&gt;
+
+&lt;p&gt;&lt;cite&gt;&amp;ndash; 白居易《赋得古原草送别》&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;5-代码&#34;&gt;5. 代码&lt;/h2&gt;
+
+&lt;p&gt;以本站的一段 &lt;code&gt;JavaScript&lt;/code&gt; 代码做演示。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Initialize video.js player
+if (document.getElementById(&#39;my-player&#39;) !== null) {
+  /* eslint-disable no-undef */
+  videojs(&#39;#my-player&#39;, {
+    aspectRatio: &#39;16:9&#39;,
+    fluid: true,
+  });
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section6&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;6-分割线&#34;&gt;6. 分割线&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;中间能写字的分割线，如果你修改了分割线中字的内容，请配合修改 &lt;code&gt;CSS&lt;/code&gt; 样式。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section7&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;section-07&#34;&gt;7. 图片&lt;/h2&gt;
+
+&lt;p&gt;不带标题的图片，如下图👇&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/olOwOlo/hugo-theme-even/master/images/showcase.png&#34; alt=&#34;hugo even showcase&#34; title=&#34;showcase.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;带标题的图片，如下图👇&lt;/p&gt;
+
+
+&lt;figure class=&#34;center&#34;&gt;
+    
+        &lt;img src=&#34;https://raw.githubusercontent.com/olOwOlo/hugo-theme-even/master/images/showcase.png&#34; alt=&#34;hugo even showcase&#34; /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h4&gt;showcase.png&lt;/h4&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;a name=&#34;section8&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;8-表格&#34;&gt;8. 表格&lt;/h2&gt;
+
+&lt;p&gt;使用 &lt;code&gt;Markdown&lt;/code&gt; 画的表格，如下表👇&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Tables&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Are&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Cool&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;col 3 is&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;right-aligned&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;$1600&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;col 2 is&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;centered&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;$12&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;zebra stripes&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;are neat&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;$1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;a name=&#34;section9&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;9-数学公式&#34;&gt;9. 数学公式&lt;/h2&gt;
+
+&lt;p&gt;主题使用了 &lt;a href=&#34;https://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt; 开源库来实现对数学公式的支持，使用 &lt;code&gt;$$&lt;/code&gt; 标记。&lt;/p&gt;
+
+&lt;p&gt;$$ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $$&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section10&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;10-网易云音乐&#34;&gt;10. 网易云音乐&lt;/h2&gt;
+
+&lt;p&gt;主题文章中可以轻松插入 &lt;a href=&#34;https://music.163.com/&#34;&gt;网易云音乐&lt;/a&gt; 的指定音乐，你可以根据需要将音乐设置为自动播放，在主题目录 &lt;code&gt;layouts/shortcodes&lt;/code&gt; 文件夹下的 &lt;code&gt;music.html&lt;/code&gt; 对该标签进行定义。&lt;/p&gt;
+
+  &lt;iframe style=&#34;max-width: 100%&#34;
+      class=&#34;music163&#34;
+      frameborder=&#34;no&#34;
+      border=&#34;0&#34;
+      marginwidth=&#34;0&#34;
+      marginheight=&#34;0&#34;
+      width=&#34;330&#34;
+      height=&#34;86&#34;
+      src=&#34;//music.163.com/outchain/player?type=2&amp;id=28196554&amp;auto=0&amp;height=66&#34;&gt;
+    &lt;/iframe&gt;
+
+&lt;p&gt;&lt;a name=&#34;section11&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;11-youtube&#34;&gt;11. YouTube&lt;/h2&gt;
+
+&lt;p&gt;由于不明原因可能无法播放。&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/wC5pJm8RAu4&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34; title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;p&gt;&lt;a name=&#34;section12&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a id=&#34;ref01&#34;&gt;&lt;a href=&#34;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&#34;&gt;Markdown Cheatsheet&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id=&#34;ref02&#34;&gt;&lt;a href=&#34;https://www.zybuluo.com/EncyKe/note/120103&#34;&gt;Markdown 语法手册&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>About</title>
