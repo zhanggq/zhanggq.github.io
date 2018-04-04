@@ -329,7 +329,25 @@ https://0.0.0.0:2015
 
   
 
-  
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'zgq-web-caddy-test.md',
+    title: 'Caddy初探',
+    link: decodeURI(location.href),
+    desc: 'Caddy 类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器 代码 https:\/\/github.com\/mholt\/caddy 使用，先升级Go至1.9以上(https:\/\/my.oschi',
+    owner: 'zhanggq',
+    repo: 'comments',
+    oauth: {
+      client_id: 'b88e78d6f966f0edea6e',
+      client_secret: '75fea1f9e7412b4a35b1d54dbd217f4e26414499'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
   </article>
         </div>
       </div>

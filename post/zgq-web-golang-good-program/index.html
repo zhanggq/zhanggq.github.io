@@ -298,7 +298,25 @@ github.com/gohugoio/hugo</p>
 
   
 
-  
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'zgq-web-golang-good-program.md',
+    title: '关于Go----Golang的优秀组件整理',
+    link: decodeURI(location.href),
+    desc: '这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能',
+    owner: 'zhanggq',
+    repo: 'comments',
+    oauth: {
+      client_id: 'b88e78d6f966f0edea6e',
+      client_secret: '75fea1f9e7412b4a35b1d54dbd217f4e26414499'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
   </article>
         </div>
       </div>

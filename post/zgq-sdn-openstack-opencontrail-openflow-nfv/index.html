@@ -271,7 +271,25 @@
 
   
 
-  
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'zgq-sdn-openstack-opencontrail-openflow-nfv.md',
+    title: '浅谈Openstack、OpenContrail、OpenFlow、NFV',
+    link: decodeURI(location.href),
+    desc: '浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD',
+    owner: 'zhanggq',
+    repo: 'comments',
+    oauth: {
+      client_id: 'b88e78d6f966f0edea6e',
+      client_secret: '75fea1f9e7412b4a35b1d54dbd217f4e26414499'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
   </article>
         </div>
       </div>
