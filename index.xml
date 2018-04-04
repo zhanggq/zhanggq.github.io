@@ -6,10 +6,71 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Apr 2018 13:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Apr 2018 16:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</link>
+      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰k8s，如今再来看，发现变化太大了，有了各式的自动部署工具，有了容器，也有了墙…… 。按照新的方式重新搭建了一遍，参考的帖子放在前面，因为别人写的比我好多了，所以这里只总结经验。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#section0&#34;&gt;&lt;font color=blue&gt;摘要&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section1&#34;&gt;&lt;font color=blue&gt;手工搭建&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section2&#34;&gt;&lt;font color=blue&gt;Kubeadm&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#section3&#34;&gt;&lt;font color=blue&gt;Kubespray&lt;/font&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-手工搭建&#34;&gt;1.手工搭建&lt;/h2&gt;
+
+&lt;p&gt;参考&lt;a id=&#34;ref01&#34;&gt;&lt;a href=&#34;https://www.kubernetes.org.cn/3096.html&#34;&gt;Kubernetes 1.8.x 全手动安装教程&lt;/a&gt;&lt;/a&gt;
+这篇帖子写的很细，一步一步做证书，修改各个配置文件，纯手工部署。但这不是主流的部署方式，适合新手通过手工搭建去深入理解k8s各个组件。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;2-kubeadm&#34;&gt;2. Kubeadm&lt;/h2&gt;
+
+&lt;p&gt;参考&lt;a id=&#34;ref02&#34;&gt;&lt;a href=&#34;https://www.kubernetes.org.cn/3536.html&#34;&gt;Kubeadm 1.9 HA 高可用 集群 本地离线镜像部署&lt;/a&gt;&lt;/a&gt;
+Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时用过ansible，所以对kubespray感觉比较亲切，而对Kubeadm就没那么多兴趣了。另外一个有意思的是，写Kubeadm部署的帖子大部分是16年的，而kubespray的帖子大部分是17年的。github上kubespray的start也远高于Kubeadm，所以现在的主流是kubespray了？&lt;/p&gt;
+
+&lt;p&gt;言归正传，帖子的详细程度一般般，虽然是18年写的，但内容有点老。搭建的麻烦之处就是去搞kubeadm等rpm包和pause-amd64等镜像。我通过google虚机去搞到了相关的东东，但总的来说还是非常麻烦。毕竟不是主流，没仔细研究。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;3-kubespray&#34;&gt;3. Kubespray&lt;/h2&gt;
+
+&lt;p&gt;参考资料&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a id=&#34;ref03&#34;&gt;&lt;a href=&#34;https://www.jianshu.com/p/68925cb902e7&#34;&gt;ubuntu 国内环境部署 kubernetes 1.9.x 集群&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id=&#34;ref04&#34;&gt;&lt;a href=&#34;https://www.cnblogs.com/iiiiher/p/8128184.html&#34;&gt;kubespray(ansible)自动化安装k8s集群&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Kubespray的部署帖子写的比较全一些，镜像都被作者放到了阿里云仓库上，下载镜像也很方便。和帖子不太一样的地方是我装的docker-ce版本有点高，docker-ce-17.12.1.ce-1.el7.centos，而作者提供的kubespray里面要校验docker-engine-selinux（在docker-ce-17.12.1版本中已经没了）。所以改了kubespray/roles/docker/vars/redhat.yml配置文件，去掉了docker_selinux校验。其它的参考帖子，改改Ip什么的。总的来说搭建过程很顺利，从新建虚机装系统到部署完成，大概3个小时左右吧。&lt;/p&gt;
+
+&lt;p&gt;最后上个图，mark一下
+&lt;img src=&#34;https://i.imgur.com/t0R93ah.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Ovs流表分析</title>

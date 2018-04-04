@@ -39,6 +39,15 @@
     </item>
     
     <item>
+      <title>K8s</title>
+      <link>https://zhanggq.github.io/tags/k8s/</link>
+      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Linux</title>
       <link>https://zhanggq.github.io/tags/linux/</link>
       <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
@@ -107,6 +116,15 @@
       <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/ovs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Paas</title>
+      <link>https://zhanggq.github.io/tags/paas/</link>
+      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/paas/</guid>
       <description></description>
     </item>
     

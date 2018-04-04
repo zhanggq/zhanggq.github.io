@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paas on Zhanggq</title>
+    <link>https://zhanggq.github.io/categories/paas/</link>
+    <description>Recent content in Paas on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 04 Apr 2018 16:03:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/categories/paas/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</link>
+      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</guid>
+      <description>摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰</description>
+    </item>
+    
+  </channel>
+</rss>
