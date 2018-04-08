@@ -85,7 +85,7 @@
 
 <meta itemprop="datePublished" content="2018-04-04T16:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-04-04T16:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="902">
+<meta itemprop="wordCount" content="1143">
 
 
 
@@ -182,8 +182,8 @@
               <a href="/categories/paas/"> PaaS </a>
             
           </div>
-        <span class="more-meta"> 约 902 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span class="more-meta"> 约 1143 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
 
@@ -231,9 +231,9 @@
 <h2 id="2-kubeadm">2. Kubeadm</h2>
 
 <p>参考<a id="ref02"><a href="https://www.kubernetes.org.cn/3536.html">Kubeadm 1.9 HA 高可用 集群 本地离线镜像部署</a></a>
-Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时用过ansible，所以对kubespray感觉比较亲切，而对Kubeadm就没那么多兴趣了。另外一个有意思的是，写Kubeadm部署的帖子大部分是16年的，而kubespray的帖子大部分是17年的。github上kubespray的start也远高于Kubeadm，所以现在的主流是kubespray了？</p>
+Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时用过ansible，所以对kubespray感觉比较亲切，而对Kubeadm就没那么多兴趣了，所以观念可能会有点片面。Kubeadm的优势是，它是官方提供的。所以最新的kubernetes版本发布后，Kubeadm就立马可以支持，而kubespray相对会落后一些，比如现在kubernetes已经发布到v1.10.0，而kubespray只支持到v1.9.5。而Kubeadm的劣势是安装部署还是比kubespray麻烦一点，有一些手工操作，比如安装rpm，生成证书之类的。另外还有一点就是Kubeadm不是真正的微服务架构，比如etcd就不是容器化的。</p>
 
-<p>言归正传，帖子的详细程度一般般，虽然是18年写的，但内容有点老。搭建的麻烦之处就是去搞kubeadm等rpm包和pause-amd64等镜像。我通过google虚机去搞到了相关的东东，但总的来说还是非常麻烦。毕竟不是主流，没仔细研究。</p>
+<p>言归正传，该帖子的详细程度一般般，虽然是18年写的，但内容有点老。搭建的麻烦之处就是去搞kubeadm等rpm包和pause-amd64等镜像。我通过google虚机去搞到了相关的东东，但总的来说还是非常麻烦。尝试了一次，没搞定，就没再仔细研究。</p>
 
 <p><a name="section3"></a></p>
 
@@ -246,7 +246,7 @@ Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时�
 <li><a id="ref04"><a href="https://www.cnblogs.com/iiiiher/p/8128184.html">kubespray(ansible)自动化安装k8s集群</a></a></li>
 </ol>
 
-<p>Kubespray的部署帖子写的比较全一些，镜像都被作者放到了阿里云仓库上，下载镜像也很方便。和帖子不太一样的地方是我装的docker-ce版本有点高，docker-ce-17.12.1.ce-1.el7.centos，而作者提供的kubespray里面要校验docker-engine-selinux（在docker-ce-17.12.1版本中已经没了）。所以改了kubespray/roles/docker/vars/redhat.yml配置文件，去掉了docker_selinux校验。其它的参考帖子，改改Ip什么的。总的来说搭建过程很顺利，从新建虚机装系统到部署完成，大概3个小时左右吧。</p>
+<p>Kubespray的部署帖子写的比较全一些，镜像都被作者放到了阿里云仓库上，下载镜像也很方便。主要的镜像在roles/download/defaults/main.yml里面，插件在roles/kubernetes-apps/ansible/defaults/main.yml里面，对照着tag去<a href="https://dev.aliyun.com/search.html">阿里云仓库</a>查找下载 。和帖子不太一样的地方是我装的docker-ce版本有点高，docker-ce-17.12.1.ce-1.el7.centos，而作者提供的kubespray里面要校验docker-engine-selinux（在docker-ce-17.12.1版本中已经没了）。所以改了kubespray/roles/docker/vars/redhat.yml配置文件，去掉了docker_selinux校验。其它的参考帖子，改改Ip什么的。总的来说搭建过程很顺利，从新建虚机装系统到部署完成，大概3个小时左右吧。</p>
 
 <p>最后上个图，mark一下
 <img src="https://i.imgur.com/t0R93ah.png" alt="" /></p>
