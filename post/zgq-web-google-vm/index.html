@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3 - Zhanggq</title>
+  <title>一步一步创建Google虚机 - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰" />
+  <meta name="description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.37.1" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-google-vm/" />
 
 
 
@@ -58,20 +58,16 @@
 
 
 
-<meta property="og:title" content="Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3" />
-<meta property="og:description" content="摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰" />
+<meta property="og:title" content="一步一步创建Google虚机" />
+<meta property="og:description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-google-vm/" />
 
 
 
-<meta property="article:published_time" content="2018-04-04T16:03:09&#43;08:00"/>
+<meta property="article:published_time" content="2018-04-09T10:03:09&#43;08:00"/>
 
-<meta property="article:modified_time" content="2018-04-04T16:03:09&#43;08:00"/>
-
-
-
-
+<meta property="article:modified_time" content="2018-04-09T10:03:09&#43;08:00"/>
 
 
 
@@ -79,20 +75,24 @@
 
 
 
-<meta itemprop="name" content="Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3">
-<meta itemprop="description" content="摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰">
-
-
-<meta itemprop="datePublished" content="2018-04-04T16:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2018-04-04T16:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="1143">
 
 
 
-<meta itemprop="keywords" content="k8s,PaaS," />
+
+<meta itemprop="name" content="一步一步创建Google虚机">
+<meta itemprop="description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以">
+
+
+<meta itemprop="datePublished" content="2018-04-09T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-09T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="792">
+
+
+
+<meta itemprop="keywords" content="Google,VM," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3"/>
-<meta name="twitter:description" content="摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰"/>
+<meta name="twitter:title" content="一步一步创建Google虚机"/>
+<meta name="twitter:description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -173,17 +173,17 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</h1>
+      <h1 class="post-title">一步一步创建Google虚机</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2018-04-04 </span>
+        <span class="post-time"> 2018-04-09 </span>
         <div class="post-category">
             
-              <a href="/categories/paas/"> PaaS </a>
+              <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 1143 字 </span>
-        <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span class="more-meta"> 约 792 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
 
@@ -198,9 +198,9 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#1-手工搭建">1.手工搭建</a></li>
-<li><a href="#2-kubeadm">2. Kubeadm</a></li>
-<li><a href="#3-kubespray">3. Kubespray</a></li>
+<li><a href="#1-申请google账号">1.申请Google账号</a></li>
+<li><a href="#2-创建google虚机">2. 创建Google虚机</a></li>
+<li><a href="#3-虚机配置-centos7">3. 虚机配置（Centos7）</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -216,40 +216,61 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰k8s，如今再来看，发现变化太大了，有了各式的自动部署工具，有了容器，也有了墙…… 。按照新的方式重新搭建了一遍，参考的帖子放在前面，因为别人写的比我好多了，所以这里只总结经验。</p>
+<p>财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以尝试创建了一台Centos 7.1虚机。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="1-手工搭建">1.手工搭建</h2>
+<h2 id="1-申请google账号">1.申请Google账号</h2>
 
-<p>参考<a id="ref01"><a href="https://www.kubernetes.org.cn/3096.html">Kubernetes 1.8.x 全手动安装教程</a></a>
-这篇帖子写的很细，一步一步做证书，修改各个配置文件，纯手工部署。但这不是主流的部署方式，适合新手通过手工搭建去深入理解k8s各个组件。</p>
+<p>参考<a id="ref01"><a href="https://www.zhihu.com/question/36368291">注册谷歌账户时最后一步验证账户输入手机号说此电话号码无法用于进行验证，如何解决？</a></a>
+操作其实很简单，就是申请一个Gmail账号，填写一下个人信息，绑定国内的手机号，验证一下手机就行。但前提是你要先翻出去，否则上不了Gmail。</p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="2-kubeadm">2. Kubeadm</h2>
+<h2 id="2-创建google虚机">2. 创建Google虚机</h2>
 
-<p>参考<a id="ref02"><a href="https://www.kubernetes.org.cn/3536.html">Kubeadm 1.9 HA 高可用 集群 本地离线镜像部署</a></a>
-Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时用过ansible，所以对kubespray感觉比较亲切，而对Kubeadm就没那么多兴趣了，所以观念可能会有点片面。Kubeadm的优势是，它是官方提供的。所以最新的kubernetes版本发布后，Kubeadm就立马可以支持，而kubespray相对会落后一些，比如现在kubernetes已经发布到v1.10.0，而kubespray只支持到v1.9.5。而Kubeadm的劣势是安装部署还是比kubespray麻烦一点，有一些手工操作，比如安装rpm，生成证书之类的。另外还有一点就是Kubeadm不是真正的微服务架构，比如etcd就不是容器化的。</p>
+<p>同理，你得先翻出去，否则登不上Google。打开Chrome浏览器，输入www.google.com，右上角登入刚刚注册的Google账号。
+<img src="https://i.imgur.com/hR7G9Nq.png" alt="" />
+登入之后在地址栏输入<a href="https://console.cloud.google.com/">https://console.cloud.google.com/</a> 进入Google云控制台。选择申请试用，配置过程如图</p>
 
-<p>言归正传，该帖子的详细程度一般般，虽然是18年写的，但内容有点老。搭建的麻烦之处就是去搞kubeadm等rpm包和pause-amd64等镜像。我通过google虚机去搞到了相关的东东，但总的来说还是非常麻烦。尝试了一次，没搞定，就没再仔细研究。</p>
+<p><img src="https://i.imgur.com/AhJyDZO.png" alt="" />
+<img src="https://i.imgur.com/T0fYedw.png" alt="" /></p>
+
+<p>申请过程中需要绑定自己的信用卡。信用卡不支持银联。绑定成功后会先扣款1美金，扣款成功验证信用卡有效后才能绑定成功。成功之后会将1美金的扣款撤销，所以不用担心。</p>
+
+<p><img src="https://i.imgur.com/JwJvIzv.png" alt="" /></p>
+
+<p>之后开始选择虚机操作系统类型，系统配置等等。需要注意的是，Google赠送是300美金，而虚机根据你创建的规格不同，价格也不同。像我这台虚机，光配置就是52美金一个月，且Google往国内的流量是需要另外付费的，所以这种规格的虚机连半年都不够。</p>
+
+<p><img src="https://i.imgur.com/ehdNZ8k.png" alt="" />
+<img src="https://i.imgur.com/ndcLkGa.png" alt="" />
+<img src="https://i.imgur.com/eopmexb.png" alt="" />
+<img src="https://i.imgur.com/lLa48aq.png" alt="" />
+<img src="https://i.imgur.com/tDQ3DVX.png" alt="" />
+<img src="https://i.imgur.com/CB4S2Ix.png" alt="" /></p>
 
 <p><a name="section3"></a></p>
 
-<h2 id="3-kubespray">3. Kubespray</h2>
+<h2 id="3-虚机配置-centos7">3. 虚机配置（Centos7）</h2>
 
-<p>参考资料</p>
+<p>勾选自己刚刚创建的虚机，然后选择在浏览器打开控制台。此时的弹出窗会被浏览器给禁掉，手工允许一下。</p>
 
-<ol>
-<li><a id="ref03"><a href="https://www.jianshu.com/p/68925cb902e7">ubuntu 国内环境部署 kubernetes 1.9.x 集群</a></a></li>
-<li><a id="ref04"><a href="https://www.cnblogs.com/iiiiher/p/8128184.html">kubespray(ansible)自动化安装k8s集群</a></a></li>
-</ol>
+<p><img src="https://i.imgur.com/Fwm39vk.png" alt="" /></p>
 
-<p>Kubespray的部署帖子写的比较全一些，镜像都被作者放到了阿里云仓库上，下载镜像也很方便。主要的镜像在roles/download/defaults/main.yml里面，插件在roles/kubernetes-apps/ansible/defaults/main.yml里面，对照着tag去<a href="https://dev.aliyun.com/search.html">阿里云仓库</a>查找下载 。和帖子不太一样的地方是我装的docker-ce版本有点高，docker-ce-17.12.1.ce-1.el7.centos，而作者提供的kubespray里面要校验docker-engine-selinux（在docker-ce-17.12.1版本中已经没了）。所以改了kubespray/roles/docker/vars/redhat.yml配置文件，去掉了docker_selinux校验。其它的参考帖子，改改Ip什么的。总的来说搭建过程很顺利，从新建虚机装系统到部署完成，大概3个小时左右吧。</p>
+<p>使用sudo passwd改密码，如图</p>
 
-<p>最后上个图，mark一下
-<img src="https://i.imgur.com/t0R93ah.png" alt="" /></p>
+<p><img src="https://i.imgur.com/CuEgPuL.png" alt="" /></p>
+
+<p>然后su切到root账号，vi /etc/ssh/sshd_config 修改sshd配置的PermitRootLogin和PasswordAuthentication两个配置项，如图</p>
+
+<p><img src="https://i.imgur.com/6r238yJ.png" alt="" />
+<img src="https://i.imgur.com/FN9hLNg.png" alt="" /></p>
+
+<p>修改完成后通过命令service sshd restart重启sshd服务。之后就可以通过各种工具ssh远程你的虚机了。后面的事情请参考</p>
+
+<p><a id="ref03"><a href="https://teddysun.com/489.html">一键安装最新内核并开启 BBR 脚本</a></a>
+<a id="ref03"><a href="https://teddysun.com/486.html">Shadowsocks 一键安装脚本（四合一）</a></a></p>
 
     </div>
 
@@ -262,7 +283,7 @@ Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时�
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2018-04-04</span>
+    <span class="item-content">2018-04-09</span>
   </p>
   
   <p class="copyright-item">
@@ -277,23 +298,18 @@ Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时�
     <footer class="post-footer">
       <div class="post-tags">
           
-          <a href="/tags/k8s/">k8s</a>
+          <a href="/tags/google/">Google</a>
           
-          <a href="/tags/paas/">PaaS</a>
+          <a href="/tags/vm/">VM</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-web-google-vm/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">一步一步创建Google虚机</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-sdn-ovs-flow/">
-            <span class="next-text nav-default">Ovs流表分析</span>
+          <a class="next" href="/post/zgq-paas-k8s-kubespray-1.9.3/">
+            <span class="next-text nav-default">Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -310,10 +326,10 @@ Kubeadm和kubespray的优劣我没仔细研究过。可能是因为玩kolla时�
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-paas-k8s-Kubespray-1.9.3.md',
-    title: 'Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3',
+    id: 'zgq-web-google-vm.md',
+    title: '一步一步创建Google虚机',
     link: decodeURI(location.href),
-    desc: '摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰',
+    desc: '摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

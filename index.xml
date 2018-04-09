@@ -6,10 +6,83 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Apr 2018 16:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 09 Apr 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>一步一步创建Google虚机</title>
+      <link>https://zhanggq.github.io/post/zgq-web-google-vm/</link>
+      <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-google-vm/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以尝试创建了一台Centos 7.1虚机。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-申请google账号&#34;&gt;1.申请Google账号&lt;/h2&gt;
+
+&lt;p&gt;参考&lt;a id=&#34;ref01&#34;&gt;&lt;a href=&#34;https://www.zhihu.com/question/36368291&#34;&gt;注册谷歌账户时最后一步验证账户输入手机号说此电话号码无法用于进行验证，如何解决？&lt;/a&gt;&lt;/a&gt;
+操作其实很简单，就是申请一个Gmail账号，填写一下个人信息，绑定国内的手机号，验证一下手机就行。但前提是你要先翻出去，否则上不了Gmail。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;2-创建google虚机&#34;&gt;2. 创建Google虚机&lt;/h2&gt;
+
+&lt;p&gt;同理，你得先翻出去，否则登不上Google。打开Chrome浏览器，输入www.google.com，右上角登入刚刚注册的Google账号。
+&lt;img src=&#34;https://i.imgur.com/hR7G9Nq.png&#34; alt=&#34;&#34; /&gt;
+登入之后在地址栏输入&lt;a href=&#34;https://console.cloud.google.com/&#34;&gt;https://console.cloud.google.com/&lt;/a&gt; 进入Google云控制台。选择申请试用，配置过程如图&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/AhJyDZO.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/T0fYedw.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;申请过程中需要绑定自己的信用卡。信用卡不支持银联。绑定成功后会先扣款1美金，扣款成功验证信用卡有效后才能绑定成功。成功之后会将1美金的扣款撤销，所以不用担心。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/JwJvIzv.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后开始选择虚机操作系统类型，系统配置等等。需要注意的是，Google赠送是300美金，而虚机根据你创建的规格不同，价格也不同。像我这台虚机，光配置就是52美金一个月，且Google往国内的流量是需要另外付费的，所以这种规格的虚机连半年都不够。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/ehdNZ8k.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/ndcLkGa.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/eopmexb.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/lLa48aq.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/tDQ3DVX.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/CB4S2Ix.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;3-虚机配置-centos7&#34;&gt;3. 虚机配置（Centos7）&lt;/h2&gt;
+
+&lt;p&gt;勾选自己刚刚创建的虚机，然后选择在浏览器打开控制台。此时的弹出窗会被浏览器给禁掉，手工允许一下。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/Fwm39vk.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;使用sudo passwd改密码，如图&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/CuEgPuL.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后su切到root账号，vi /etc/ssh/sshd_config 修改sshd配置的PermitRootLogin和PasswordAuthentication两个配置项，如图&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/6r238yJ.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/FN9hLNg.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改完成后通过命令service sshd restart重启sshd服务。之后就可以通过各种工具ssh远程你的虚机了。后面的事情请参考&lt;/p&gt;
+
+&lt;p&gt;&lt;a id=&#34;ref03&#34;&gt;&lt;a href=&#34;https://teddysun.com/489.html&#34;&gt;一键安装最新内核并开启 BBR 脚本&lt;/a&gt;&lt;/a&gt;
+&lt;a id=&#34;ref03&#34;&gt;&lt;a href=&#34;https://teddysun.com/486.html&#34;&gt;Shadowsocks 一键安装脚本（四合一）&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</title>
