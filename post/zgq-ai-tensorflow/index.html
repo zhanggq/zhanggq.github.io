@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t" />
+  <meta name="description" content="摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -59,7 +59,7 @@
 
 
 <meta property="og:title" content="Window10安装tensorflow" />
-<meta property="og:description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t" />
+<meta property="og:description" content="摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://zhanggq.github.io/post/zgq-ai-tensorflow/" />
 
@@ -80,19 +80,19 @@
 
 
 <meta itemprop="name" content="Window10安装tensorflow">
-<meta itemprop="description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t">
+<meta itemprop="description" content="摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow">
 
 
 <meta itemprop="datePublished" content="2018-04-24T16:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-04-24T16:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="622">
+<meta itemprop="wordCount" content="974">
 
 
 
 <meta itemprop="keywords" content="Vue,MVC,MVVM,UI,Golang," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Window10安装tensorflow"/>
-<meta name="twitter:description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t"/>
+<meta name="twitter:description" content="摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -182,7 +182,7 @@
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 622 字 </span>
+        <span class="more-meta"> 约 974 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
@@ -201,6 +201,7 @@
 <li><a href="#一-安装python">一、安装Python</a></li>
 <li><a href="#二-安装jupyter-notebook">二、安装jupyter-notebook</a></li>
 <li><a href="#三-安装tensorflow">三、安装tensorflow</a></li>
+<li><a href="#四-anaconda">四、Anaconda</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -216,7 +217,7 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>总结一下自己的Window10安装tensorflow过程。</p>
+<p>总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow例子</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
@@ -224,30 +225,37 @@
 <h2 id="一-安装python">一、安装Python</h2>
 
 <p>先上<a href="https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python">https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python</a> 3.6.5版本
-安装Python时，手工选择一下安装目录，如C:\Python36。之后把该路径加到环境变量Path中
-<img src="https://i.imgur.com/cMPcY8z.png" alt="" /></p>
+安装Python时，手工选择一下安装目录，如C:\Python36。之后把该路径加到环境变量Path中</p>
 
-<p>以管理员身份打开cmd，进入到C:\Python36，先升级python.exe -m pip install &ndash;upgrade pip
-<img src="https://i.imgur.com/xCMHsDA.png" alt="" /></p>
+<p><img src="https://i.imgur.com/cMPcY8z.png" alt="" /></p>
+
+<p>以管理员身份打开cmd，进入到C:\Python36，先升级python.exe -m pip install &ndash;upgrade pip</p>
+
+<p><img src="https://i.imgur.com/xCMHsDA.png" alt="" /></p>
 
 <p><a name="section2"></a></p>
 
 <h2 id="二-安装jupyter-notebook">二、安装jupyter-notebook</h2>
 
-<p>以管理员身份打开cmd，进入到C:\Python36\Scripts，执行pip install jupyter安装
-<img src="https://i.imgur.com/rDrgpaF.png" alt="" /></p>
+<p>以管理员身份打开cmd，进入到C:\Python36\Scripts，执行pip install jupyter安装</p>
 
-<p>然后继续在C:\Python36\Scripts，执行jupyter notebook启动Jupyter Notebook
-<img src="https://i.imgur.com/aE24AAi.png" alt="" /></p>
+<p><img src="https://i.imgur.com/rDrgpaF.png" alt="" /></p>
 
-<p>执行初始化配置jupyter notebook &ndash;generate-config，按提示会生成一个默认配置文件在C:\Users\ZGQ.jupyter目录下
-<img src="https://i.imgur.com/wJWrhWE.png" alt="" /></p>
+<p>然后继续在C:\Python36\Scripts，执行jupyter notebook启动Jupyter Notebook</p>
 
-<p>修改jupyter_notebook_config.py的工作目录c.NotebookApp.notebook_dir = &rsquo;D:\jupyter&rsquo;，然后再次启动Jupyter Notebook，这时的根路径已经是刚刚修改的工作路径了。
-<img src="https://i.imgur.com/zolca8N.png" alt="" /></p>
+<p><img src="https://i.imgur.com/aE24AAi.png" alt="" /></p>
 
-<p>顺便再安装一个matplotlib，执行pip install matplotlibr安装，然后在Jupyter Notebook上写一个python测试一下
-<img src="https://i.imgur.com/rtAokDK.png" alt="" /></p>
+<p>执行初始化配置jupyter notebook &ndash;generate-config，按提示会生成一个默认配置文件在C:\Users\ZGQ.jupyter目录下</p>
+
+<p><img src="https://i.imgur.com/wJWrhWE.png" alt="" /></p>
+
+<p>修改jupyter_notebook_config.py的工作目录c.NotebookApp.notebook_dir = &rsquo;D:\jupyter&rsquo;，然后再次启动Jupyter Notebook，这时的根路径已经是刚刚修改的工作路径了。</p>
+
+<p><img src="https://i.imgur.com/zolca8N.png" alt="" /></p>
+
+<p>顺便再安装一个matplotlib，执行pip install matplotlibr安装，然后在Jupyter Notebook上写一个python测试一下</p>
+
+<p><img src="https://i.imgur.com/rtAokDK.png" alt="" /></p>
 
 <p><a name="section3"></a></p>
 
@@ -260,6 +268,12 @@
 
 <p>执行一个TensorFlow最简单的矩阵乘法
 <img src="https://i.imgur.com/ZWKu1yf.png" alt="" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-anaconda">四、Anaconda</h2>
+
+<p>安装tensorflow和jupyter-notebook可以通过<a href="https://www.anaconda.com/download/">Anaconda</a>来界面化安装。基于Python 3.6.5的是Anaconda3-5.1.0-Windows-x86_64.exe，下载后下一步下一步就可以装上了，建议一开始选择单用户，安装目录为C:\Anaconda3，之后通过Anaconda安装的执行程序都位于其Scripts目录下。最后一步选择自动配置环境变量，这里不再详细描述。</p>
 
     </div>
 
@@ -324,7 +338,7 @@
     id: 'zgq-ai-tensorflow.md',
     title: 'Window10安装tensorflow',
     link: decodeURI(location.href),
-    desc: '摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https:\/\/pypi.org\/project\/t',
+    desc: '摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

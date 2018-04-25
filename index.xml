@@ -25,7 +25,7 @@
 &lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;总结一下自己的Window10安装tensorflow过程。&lt;/p&gt;
+&lt;p&gt;总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow例子&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -33,30 +33,37 @@
 &lt;h2 id=&#34;一-安装python&#34;&gt;一、安装Python&lt;/h2&gt;
 
 &lt;p&gt;先上&lt;a href=&#34;https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python&#34;&gt;https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python&lt;/a&gt; 3.6.5版本
-安装Python时，手工选择一下安装目录，如C:\Python36。之后把该路径加到环境变量Path中
-&lt;img src=&#34;https://i.imgur.com/cMPcY8z.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+安装Python时，手工选择一下安装目录，如C:\Python36。之后把该路径加到环境变量Path中&lt;/p&gt;
 
-&lt;p&gt;以管理员身份打开cmd，进入到C:\Python36，先升级python.exe -m pip install &amp;ndash;upgrade pip
-&lt;img src=&#34;https://i.imgur.com/xCMHsDA.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cMPcY8z.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以管理员身份打开cmd，进入到C:\Python36，先升级python.exe -m pip install &amp;ndash;upgrade pip&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/xCMHsDA.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;二-安装jupyter-notebook&#34;&gt;二、安装jupyter-notebook&lt;/h2&gt;
 
-&lt;p&gt;以管理员身份打开cmd，进入到C:\Python36\Scripts，执行pip install jupyter安装
-&lt;img src=&#34;https://i.imgur.com/rDrgpaF.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;以管理员身份打开cmd，进入到C:\Python36\Scripts，执行pip install jupyter安装&lt;/p&gt;
 
-&lt;p&gt;然后继续在C:\Python36\Scripts，执行jupyter notebook启动Jupyter Notebook
-&lt;img src=&#34;https://i.imgur.com/aE24AAi.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/rDrgpaF.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;执行初始化配置jupyter notebook &amp;ndash;generate-config，按提示会生成一个默认配置文件在C:\Users\ZGQ.jupyter目录下
-&lt;img src=&#34;https://i.imgur.com/wJWrhWE.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;然后继续在C:\Python36\Scripts，执行jupyter notebook启动Jupyter Notebook&lt;/p&gt;
 
-&lt;p&gt;修改jupyter_notebook_config.py的工作目录c.NotebookApp.notebook_dir = &amp;rsquo;D:\jupyter&amp;rsquo;，然后再次启动Jupyter Notebook，这时的根路径已经是刚刚修改的工作路径了。
-&lt;img src=&#34;https://i.imgur.com/zolca8N.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/aE24AAi.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;顺便再安装一个matplotlib，执行pip install matplotlibr安装，然后在Jupyter Notebook上写一个python测试一下
-&lt;img src=&#34;https://i.imgur.com/rtAokDK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;执行初始化配置jupyter notebook &amp;ndash;generate-config，按提示会生成一个默认配置文件在C:\Users\ZGQ.jupyter目录下&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/wJWrhWE.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改jupyter_notebook_config.py的工作目录c.NotebookApp.notebook_dir = &amp;rsquo;D:\jupyter&amp;rsquo;，然后再次启动Jupyter Notebook，这时的根路径已经是刚刚修改的工作路径了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/zolca8N.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;顺便再安装一个matplotlib，执行pip install matplotlibr安装，然后在Jupyter Notebook上写一个python测试一下&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/rtAokDK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -69,6 +76,12 @@
 
 &lt;p&gt;执行一个TensorFlow最简单的矩阵乘法
 &lt;img src=&#34;https://i.imgur.com/ZWKu1yf.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-anaconda&#34;&gt;四、Anaconda&lt;/h2&gt;
+
+&lt;p&gt;安装tensorflow和jupyter-notebook可以通过&lt;a href=&#34;https://www.anaconda.com/download/&#34;&gt;Anaconda&lt;/a&gt;来界面化安装。基于Python 3.6.5的是Anaconda3-5.1.0-Windows-x86_64.exe，下载后下一步下一步就可以装上了，建议一开始选择单用户，安装目录为C:\Anaconda3，之后通过Anaconda安装的执行程序都位于其Scripts目录下。最后一步选择自动配置环境变量，这里不再详细描述。&lt;/p&gt;
 </description>
       
     </item>
