@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>一步一步创建Google虚机 - Zhanggq</title>
+  <title>Window10安装tensorflow - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以" />
+  <meta name="description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.37.1" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-google-vm/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-ai-tensorflow/" />
 
 
 
@@ -58,20 +58,16 @@
 
 
 
-<meta property="og:title" content="一步一步创建Google虚机" />
-<meta property="og:description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以" />
+<meta property="og:title" content="Window10安装tensorflow" />
+<meta property="og:description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-google-vm/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-ai-tensorflow/" />
 
 
 
-<meta property="article:published_time" content="2018-04-09T10:03:09&#43;08:00"/>
+<meta property="article:published_time" content="2018-04-24T16:03:09&#43;08:00"/>
 
-<meta property="article:modified_time" content="2018-04-09T10:03:09&#43;08:00"/>
-
-
-
-
+<meta property="article:modified_time" content="2018-04-24T16:03:09&#43;08:00"/>
 
 
 
@@ -79,20 +75,24 @@
 
 
 
-<meta itemprop="name" content="一步一步创建Google虚机">
-<meta itemprop="description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以">
-
-
-<meta itemprop="datePublished" content="2018-04-09T10:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2018-04-09T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="792">
 
 
 
-<meta itemprop="keywords" content="Google,VM," />
+
+<meta itemprop="name" content="Window10安装tensorflow">
+<meta itemprop="description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t">
+
+
+<meta itemprop="datePublished" content="2018-04-24T16:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-24T16:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="622">
+
+
+
+<meta itemprop="keywords" content="Vue,MVC,MVVM,UI,Golang," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="一步一步创建Google虚机"/>
-<meta name="twitter:description" content="摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以"/>
+<meta name="twitter:title" content="Window10安装tensorflow"/>
+<meta name="twitter:description" content="摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -173,16 +173,16 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">一步一步创建Google虚机</h1>
+      <h1 class="post-title">Window10安装tensorflow</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2018-04-09 </span>
+        <span class="post-time"> 2018-04-24 </span>
         <div class="post-category">
             
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 792 字 </span>
+        <span class="more-meta"> 约 622 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
@@ -198,9 +198,9 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#1-申请google账号">1.申请Google账号</a></li>
-<li><a href="#2-创建google虚机">2. 创建Google虚机</a></li>
-<li><a href="#3-虚机配置-centos7">3. 虚机配置（Centos7）</a></li>
+<li><a href="#一-安装python">一、安装Python</a></li>
+<li><a href="#二-安装jupyter-notebook">二、安装jupyter-notebook</a></li>
+<li><a href="#三-安装tensorflow">三、安装tensorflow</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -216,61 +216,50 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以尝试创建了一台Centos 7.1虚机。</p>
+<p>总结一下自己的Window10安装tensorflow过程。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="1-申请google账号">1.申请Google账号</h2>
+<h2 id="一-安装python">一、安装Python</h2>
 
-<p>参考<a id="ref01"><a href="https://www.zhihu.com/question/36368291">注册谷歌账户时最后一步验证账户输入手机号说此电话号码无法用于进行验证，如何解决？</a></a>
-操作其实很简单，就是申请一个Gmail账号，填写一下个人信息，绑定国内的手机号，验证一下手机就行。但前提是你要先翻出去，否则上不了Gmail。</p>
+<p>先上<a href="https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python">https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python</a> 3.6.5版本
+安装Python时，手工选择一下安装目录，如C:\Python36。之后把该路径加到环境变量Path中
+<img src="https://i.imgur.com/cMPcY8z.png" alt="" /></p>
+
+<p>以管理员身份打开cmd，进入到C:\Python36，先升级python.exe -m pip install &ndash;upgrade pip
+<img src="https://i.imgur.com/xCMHsDA.png" alt="" /></p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="2-创建google虚机">2. 创建Google虚机</h2>
+<h2 id="二-安装jupyter-notebook">二、安装jupyter-notebook</h2>
 
-<p>同理，你得先翻出去，否则登不上Google。打开Chrome浏览器，输入www.google.com，右上角登入刚刚注册的Google账号。
-<img src="https://i.imgur.com/hR7G9Nq.png" alt="" />
-登入之后在地址栏输入<a href="https://console.cloud.google.com/">https://console.cloud.google.com/</a> 进入Google云控制台。选择申请试用，配置过程如图</p>
+<p>以管理员身份打开cmd，进入到C:\Python36\Scripts，执行pip install jupyter安装
+<img src="https://i.imgur.com/rDrgpaF.png" alt="" /></p>
 
-<p><img src="https://i.imgur.com/AhJyDZO.png" alt="" />
-<img src="https://i.imgur.com/T0fYedw.png" alt="" /></p>
+<p>然后继续在C:\Python36\Scripts，执行jupyter notebook启动Jupyter Notebook
+<img src="https://i.imgur.com/aE24AAi.png" alt="" /></p>
 
-<p>申请过程中需要绑定自己的信用卡。信用卡不支持银联。绑定成功后会先扣款1美金，扣款成功验证信用卡有效后才能绑定成功。成功之后会将1美金的扣款撤销，所以不用担心。</p>
+<p>执行初始化配置jupyter notebook &ndash;generate-config，按提示会生成一个默认配置文件在C:\Users\ZGQ.jupyter目录下
+<img src="https://i.imgur.com/wJWrhWE.png" alt="" /></p>
 
-<p><img src="https://i.imgur.com/JwJvIzv.png" alt="" /></p>
+<p>修改jupyter_notebook_config.py的工作目录c.NotebookApp.notebook_dir = &rsquo;D:\jupyter&rsquo;，然后再次启动Jupyter Notebook，这时的根路径已经是刚刚修改的工作路径了。
+<img src="https://i.imgur.com/zolca8N.png" alt="" /></p>
 
-<p>之后开始选择虚机操作系统类型，系统配置等等。需要注意的是，Google赠送是300美金，而虚机根据你创建的规格不同，价格也不同。像我这台虚机，光配置就是52美金一个月，且Google往国内的流量是需要另外付费的，所以这种规格的虚机连半年都不够。</p>
-
-<p><img src="https://i.imgur.com/ehdNZ8k.png" alt="" />
-<img src="https://i.imgur.com/ndcLkGa.png" alt="" />
-<img src="https://i.imgur.com/eopmexb.png" alt="" />
-<img src="https://i.imgur.com/lLa48aq.png" alt="" />
-<img src="https://i.imgur.com/tDQ3DVX.png" alt="" />
-<img src="https://i.imgur.com/CB4S2Ix.png" alt="" /></p>
+<p>顺便再安装一个matplotlib，执行pip install matplotlibr安装，然后在Jupyter Notebook上写一个python测试一下
+<img src="https://i.imgur.com/rtAokDK.png" alt="" /></p>
 
 <p><a name="section3"></a></p>
 
-<h2 id="3-虚机配置-centos7">3. 虚机配置（Centos7）</h2>
+<h2 id="三-安装tensorflow">三、安装tensorflow</h2>
 
-<p>勾选自己刚刚创建的虚机，然后选择在浏览器打开控制台。此时的弹出窗会被浏览器给禁掉，手工允许一下。</p>
+<p>执行pip install tensorflow安装
+<img src="https://i.imgur.com/6LXEGV4.png" alt="" /></p>
 
-<p><img src="https://i.imgur.com/Fwm39vk.png" alt="" /></p>
+<p><img src="https://i.imgur.com/0k9BM6s.png" alt="" /></p>
 
-<p>使用sudo passwd改密码，如图</p>
-
-<p><img src="https://i.imgur.com/CuEgPuL.png" alt="" /></p>
-
-<p>然后su切到root账号，vi /etc/ssh/sshd_config 修改sshd配置的PermitRootLogin和PasswordAuthentication两个配置项，如图</p>
-
-<p><img src="https://i.imgur.com/6r238yJ.png" alt="" />
-<img src="https://i.imgur.com/FN9hLNg.png" alt="" /></p>
-
-<p>修改完成后通过命令service sshd restart重启sshd服务。之后就可以通过各种工具ssh远程你的虚机了。后面的事情请参考</p>
-
-<p><a id="ref03"><a href="https://teddysun.com/489.html">一键安装最新内核并开启 BBR 脚本</a></a>
-<a id="ref03"><a href="https://teddysun.com/486.html">Shadowsocks 一键安装脚本（四合一）</a></a></p>
+<p>执行一个TensorFlow最简单的矩阵乘法
+<img src="https://i.imgur.com/ZWKu1yf.png" alt="" /></p>
 
     </div>
 
@@ -283,7 +272,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2018-04-09</span>
+    <span class="item-content">2018-04-24</span>
   </p>
   
   <p class="copyright-item">
@@ -298,23 +287,24 @@
     <footer class="post-footer">
       <div class="post-tags">
           
-          <a href="/tags/google/">Google</a>
+          <a href="/tags/vue/">Vue</a>
           
-          <a href="/tags/vm/">VM</a>
+          <a href="/tags/mvc/">MVC</a>
+          
+          <a href="/tags/mvvm/">MVVM</a>
+          
+          <a href="/tags/ui/">UI</a>
+          
+          <a href="/tags/golang/">Golang</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-ai-tensorflow/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Window10安装tensorflow</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-paas-k8s-kubespray-1.9.3/">
-            <span class="next-text nav-default">Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</span>
+          <a class="next" href="/post/zgq-web-google-vm/">
+            <span class="next-text nav-default">一步一步创建Google虚机</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -331,10 +321,10 @@
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-web-google-vm.md',
-    title: '一步一步创建Google虚机',
+    id: 'zgq-ai-tensorflow.md',
+    title: 'Window10安装tensorflow',
     link: decodeURI(location.href),
-    desc: '摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以',
+    desc: '摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https:\/\/pypi.org\/project\/t',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

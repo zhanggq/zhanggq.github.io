@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mvvm on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/mvvm/</link>
+    <description>Recent content in Mvvm on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/tags/mvvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Window10安装tensorflow</title>
+      <link>https://zhanggq.github.io/post/zgq-ai-tensorflow/</link>
+      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-ai-tensorflow/</guid>
+      <description>摘要 总结一下自己的Window10安装tensorflow过程。 一、安装Python 先上https://pypi.org/project/t</description>
+    </item>
+    
+  </channel>
+</rss>

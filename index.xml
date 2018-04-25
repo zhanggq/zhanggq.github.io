@@ -6,10 +6,72 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 09 Apr 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Window10安装tensorflow</title>
+      <link>https://zhanggq.github.io/post/zgq-ai-tensorflow/</link>
+      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-ai-tensorflow/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;总结一下自己的Window10安装tensorflow过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-安装python&#34;&gt;一、安装Python&lt;/h2&gt;
+
+&lt;p&gt;先上&lt;a href=&#34;https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python&#34;&gt;https://pypi.org/project/tensorflow/#files检查一下支持的Python版本。到目前位置是支持到了3.6，所以从[Python官网](https://www.python.org/downloads/)下载了Python&lt;/a&gt; 3.6.5版本
+安装Python时，手工选择一下安装目录，如C:\Python36。之后把该路径加到环境变量Path中
+&lt;img src=&#34;https://i.imgur.com/cMPcY8z.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以管理员身份打开cmd，进入到C:\Python36，先升级python.exe -m pip install &amp;ndash;upgrade pip
+&lt;img src=&#34;https://i.imgur.com/xCMHsDA.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-安装jupyter-notebook&#34;&gt;二、安装jupyter-notebook&lt;/h2&gt;
+
+&lt;p&gt;以管理员身份打开cmd，进入到C:\Python36\Scripts，执行pip install jupyter安装
+&lt;img src=&#34;https://i.imgur.com/rDrgpaF.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后继续在C:\Python36\Scripts，执行jupyter notebook启动Jupyter Notebook
+&lt;img src=&#34;https://i.imgur.com/aE24AAi.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;执行初始化配置jupyter notebook &amp;ndash;generate-config，按提示会生成一个默认配置文件在C:\Users\ZGQ.jupyter目录下
+&lt;img src=&#34;https://i.imgur.com/wJWrhWE.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改jupyter_notebook_config.py的工作目录c.NotebookApp.notebook_dir = &amp;rsquo;D:\jupyter&amp;rsquo;，然后再次启动Jupyter Notebook，这时的根路径已经是刚刚修改的工作路径了。
+&lt;img src=&#34;https://i.imgur.com/zolca8N.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;顺便再安装一个matplotlib，执行pip install matplotlibr安装，然后在Jupyter Notebook上写一个python测试一下
+&lt;img src=&#34;https://i.imgur.com/rtAokDK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-安装tensorflow&#34;&gt;三、安装tensorflow&lt;/h2&gt;
+
+&lt;p&gt;执行pip install tensorflow安装
+&lt;img src=&#34;https://i.imgur.com/6LXEGV4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/0k9BM6s.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;执行一个TensorFlow最简单的矩阵乘法
+&lt;img src=&#34;https://i.imgur.com/ZWKu1yf.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>一步一步创建Google虚机</title>
