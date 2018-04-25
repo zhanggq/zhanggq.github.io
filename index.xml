@@ -6,10 +6,125 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Apr 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VS code使用教程</title>
+      <link>https://zhanggq.github.io/post/zgq-web-vscode/</link>
+      <pubDate>Wed, 25 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-vscode/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 ……&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-安装各种扩展&#34;&gt;一、安装各种扩展&lt;/h2&gt;
+
+&lt;p&gt;VS Code支持各种插件扩展，点击&amp;rdquo;查看&amp;rdquo; -&amp;gt; &amp;ldquo;扩展&amp;rdquo;进入，在商店中查找自己想要的扩展并安装&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/KTVxyEc.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-debug&#34;&gt;二、Debug&lt;/h2&gt;
+
+&lt;p&gt;进入调试界面，点击&amp;rdquo;添加配置 XXX&amp;rdquo;，之后选择&amp;rdquo;Chrome&amp;rdquo;，生成一个launch.json文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/geTs8vG.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/qZgMmp2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后在launch.json增加配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;&amp;quot;version&amp;quot;: &amp;quot;0.2.0&amp;quot;,
+&amp;quot;configurations&amp;quot;: [
+    {
+        &amp;quot;name&amp;quot;: &amp;quot;启动 Chrome 并打开 localhost&amp;quot;,
+        &amp;quot;type&amp;quot;: &amp;quot;chrome&amp;quot;,
+        &amp;quot;request&amp;quot;: &amp;quot;launch&amp;quot;,
+        &amp;quot;file&amp;quot;: &amp;quot;${workspaceFolder}/index.html&amp;quot;,
+        //&amp;quot;url&amp;quot;:&amp;quot;http://localhost:8080&amp;quot;,
+        //&amp;quot;runtimeExecutable&amp;quot;: &amp;quot;C:\\Users\\ZGQ\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe&amp;quot;,
+        &amp;quot;sourceMaps&amp;quot;: true,
+        &amp;quot;webRoot&amp;quot;: &amp;quot;${workspaceFolder}&amp;quot;,
+        //&amp;quot;preLaunchTask&amp;quot;: &amp;quot;build&amp;quot;,
+        //&amp;quot;userDataDir&amp;quot;: &amp;quot;${tmpdir}&amp;quot;,
+        &amp;quot;port&amp;quot;: 9222
+    }
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在代码中打好断点，就可以开始调试了&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-工作区&#34;&gt;三、工作区&lt;/h2&gt;
+
+&lt;p&gt;打开任意一个文件夹，然后在任意空白处，选择将文件夹添加到工作区，此时再选择另一个想加入该工作区的文件夹，确定之后就形成了一个包含两个JS工程的工作区。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/qIMz8vl.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/WcVjHYv.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最后选择&amp;rdquo;文件&amp;rdquo; -&amp;gt; &amp;ldquo;将工作区另存为&amp;rdquo;，给工作区起一个名字并保存。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/WRmnqJm.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-推荐插件&#34;&gt;四、推荐插件&lt;/h2&gt;
+
+&lt;p&gt;网上看到的，加上我个人的分类：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;代码规范
+
+&lt;ul&gt;
+&lt;li&gt;ESlint&lt;/li&gt;
+&lt;li&gt;HTMLHint&lt;/li&gt;
+&lt;li&gt;beautify&lt;/li&gt;
+&lt;li&gt;vetur&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;编码帮助
+
+&lt;ul&gt;
+&lt;li&gt;HTML Snippets&lt;/li&gt;
+&lt;li&gt;HTML CSS Support&lt;/li&gt;
+&lt;li&gt;jQuery Code Snippets&lt;/li&gt;
+&lt;li&gt;Bootstrap 3 Sinnpet&lt;/li&gt;
+&lt;li&gt;Path Intellisense&lt;/li&gt;
+&lt;li&gt;Npm Intellisense&lt;/li&gt;
+&lt;li&gt;Document this&lt;/li&gt;
+&lt;li&gt;Atuo Rename Tag&lt;/li&gt;
+&lt;li&gt;fileheader&lt;/li&gt;
+&lt;li&gt;filesize&lt;/li&gt;
+&lt;li&gt;VueHelper&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;调试帮助
+
+&lt;ul&gt;
+&lt;li&gt;Debugger for Chrome&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;界面优化
+
+&lt;ul&gt;
+&lt;li&gt;vscode-icon&lt;/li&gt;
+&lt;li&gt;各种主题&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Window10安装tensorflow</title>

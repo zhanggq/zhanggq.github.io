@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vscode on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/vscode/</link>
+    <description>Recent content in Vscode on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 25 Apr 2018 10:03:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/tags/vscode/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>VS code使用教程</title>
+      <link>https://zhanggq.github.io/post/zgq-web-vscode/</link>
+      <pubDate>Wed, 25 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-vscode/</guid>
+      <description>摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&amp;rdquo;查</description>
+    </item>
+    
+  </channel>
+</rss>

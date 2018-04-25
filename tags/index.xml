@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Apr 2018 15:43:48 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ai</title>
+      <link>https://zhanggq.github.io/tags/ai/</link>
+      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/ai/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Blog</title>
@@ -32,7 +41,7 @@
     <item>
       <title>Golang</title>
       <link>https://zhanggq.github.io/tags/golang/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/golang/</guid>
       <description></description>
@@ -71,24 +80,6 @@
       <pubDate>Wed, 04 Apr 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mvc</title>
-      <link>https://zhanggq.github.io/tags/mvc/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/mvc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mvvm</title>
-      <link>https://zhanggq.github.io/tags/mvvm/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/mvvm/</guid>
       <description></description>
     </item>
     
@@ -156,6 +147,15 @@
     </item>
     
     <item>
+      <title>Python</title>
+      <link>https://zhanggq.github.io/tags/python/</link>
+      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Sdn</title>
       <link>https://zhanggq.github.io/tags/sdn/</link>
       <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
@@ -174,20 +174,20 @@
     </item>
     
     <item>
-      <title>Ui</title>
-      <link>https://zhanggq.github.io/tags/ui/</link>
+      <title>Tensorflow</title>
+      <link>https://zhanggq.github.io/tags/tensorflow/</link>
       <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/ui/</guid>
+      <guid>https://zhanggq.github.io/tags/tensorflow/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Vm</title>
-      <link>https://zhanggq.github.io/tags/vm/</link>
-      <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
+      <title>Ui</title>
+      <link>https://zhanggq.github.io/tags/ui/</link>
+      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/vm/</guid>
+      <guid>https://zhanggq.github.io/tags/ui/</guid>
       <description></description>
     </item>
     

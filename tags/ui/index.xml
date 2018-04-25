@@ -6,19 +6,10 @@
     <description>Recent content in Ui on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Apr 2018 16:43:48 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/ui/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Window10安装tensorflow</title>
-      <link>https://zhanggq.github.io/post/zgq-ai-tensorflow/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-ai-tensorflow/</guid>
-      <description>摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow</description>
-    </item>
     
     <item>
       <title>我对网站开发的总结与思考</title>
