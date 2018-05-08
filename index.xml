@@ -6,10 +6,67 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Apr 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 May 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interllij IDEA使用教程</title>
+      <link>https://zhanggq.github.io/post/zgq-web-idea/</link>
+      <pubDate>Tue, 08 May 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-idea/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 ……&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-配置maven&#34;&gt;一、配置maven&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;官方下载maven包，解压至D:\java\apache-maven-3.5.3\conf&lt;/li&gt;
+&lt;li&gt;新建maven包存放路径D:\java\m2\repository&lt;/li&gt;
+&lt;li&gt;修改配置D:\java\apache-maven-3.5.3\conf\settings.xml&lt;/li&gt;
+&lt;li&gt;增加环境变量
+
+&lt;ul&gt;
+&lt;li&gt;M2_HOME D:\java\apache-maven-3.5.3&lt;/li&gt;
+&lt;li&gt;Path D:\java\apache-maven-3.5.3\bin&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Interllij IDEA的Maven配置&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/iLWAn0R.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-导入maven工程&#34;&gt;二、导入Maven工程&lt;/h2&gt;
+
+&lt;p&gt;选择Import工程&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/wVCookl.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择Maven&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/6YP2CSG.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;注意确认一下Maven的配置是否正确&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/CixDLXO.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其它的都是下一步即可&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>VS code使用教程</title>

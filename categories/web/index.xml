@@ -6,10 +6,19 @@
     <description>Recent content in Web on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Apr 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 May 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interllij IDEA使用教程</title>
+      <link>https://zhanggq.github.io/post/zgq-web-idea/</link>
+      <pubDate>Tue, 08 May 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-idea/</guid>
+      <description>摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:</description>
+    </item>
     
     <item>
       <title>VS code使用教程</title>

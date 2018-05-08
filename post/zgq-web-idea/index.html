@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>VS code使用教程 - Zhanggq</title>
+  <title>Interllij IDEA使用教程 - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&amp;rdquo;查" />
+  <meta name="description" content="摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.37.1" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-vscode/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-idea/" />
 
 
 
@@ -58,20 +58,16 @@
 
 
 
-<meta property="og:title" content="VS code使用教程" />
-<meta property="og:description" content="摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&rdquo;查" />
+<meta property="og:title" content="Interllij IDEA使用教程" />
+<meta property="og:description" content="摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-vscode/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-idea/" />
 
 
 
-<meta property="article:published_time" content="2018-04-25T10:03:09&#43;08:00"/>
+<meta property="article:published_time" content="2018-05-08T10:03:09&#43;08:00"/>
 
-<meta property="article:modified_time" content="2018-04-25T10:03:09&#43;08:00"/>
-
-
-
-
+<meta property="article:modified_time" content="2018-05-08T10:03:09&#43;08:00"/>
 
 
 
@@ -79,20 +75,24 @@
 
 
 
-<meta itemprop="name" content="VS code使用教程">
-<meta itemprop="description" content="摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&rdquo;查">
-
-
-<meta itemprop="datePublished" content="2018-04-25T10:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2018-04-25T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="471">
 
 
 
-<meta itemprop="keywords" content="VScode," />
+
+<meta itemprop="name" content="Interllij IDEA使用教程">
+<meta itemprop="description" content="摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:">
+
+
+<meta itemprop="datePublished" content="2018-05-08T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-05-08T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="230">
+
+
+
+<meta itemprop="keywords" content="Interllij IDEA," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="VS code使用教程"/>
-<meta name="twitter:description" content="摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&rdquo;查"/>
+<meta name="twitter:title" content="Interllij IDEA使用教程"/>
+<meta name="twitter:description" content="摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -173,16 +173,16 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">VS code使用教程</h1>
+      <h1 class="post-title">Interllij IDEA使用教程</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2018-04-25 </span>
+        <span class="post-time"> 2018-05-08 </span>
         <div class="post-category">
             
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 471 字 </span>
+        <span class="more-meta"> 约 230 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
       </div>
     </header>
@@ -198,10 +198,8 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#一-安装各种扩展">一、安装各种扩展</a></li>
-<li><a href="#二-debug">二、Debug</a></li>
-<li><a href="#三-工作区">三、工作区</a></li>
-<li><a href="#四-推荐插件">四、推荐插件</a></li>
+<li><a href="#一-配置maven">一、配置maven</a></li>
+<li><a href="#二-导入maven工程">二、导入Maven工程</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -217,103 +215,45 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 ……</p>
+<p>总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 ……</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-安装各种扩展">一、安装各种扩展</h2>
+<h2 id="一-配置maven">一、配置maven</h2>
 
-<p>VS Code支持各种插件扩展，点击&rdquo;查看&rdquo; -&gt; &ldquo;扩展&rdquo;进入，在商店中查找自己想要的扩展并安装</p>
+<ol>
+<li>官方下载maven包，解压至D:\java\apache-maven-3.5.3\conf</li>
+<li>新建maven包存放路径D:\java\m2\repository</li>
+<li>修改配置D:\java\apache-maven-3.5.3\conf\settings.xml</li>
+<li>增加环境变量
 
-<p><img src="https://i.imgur.com/KTVxyEc.png" alt="" /></p>
+<ul>
+<li>M2_HOME D:\java\apache-maven-3.5.3</li>
+<li>Path D:\java\apache-maven-3.5.3\bin</li>
+</ul></li>
+<li>Interllij IDEA的Maven配置</li>
+</ol>
+
+<p><img src="https://i.imgur.com/iLWAn0R.png" alt="" /></p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-debug">二、Debug</h2>
+<h2 id="二-导入maven工程">二、导入Maven工程</h2>
 
-<p>进入调试界面，点击&rdquo;添加配置 XXX&rdquo;，之后选择&rdquo;Chrome&rdquo;，生成一个launch.json文件</p>
+<p>选择Import工程</p>
 
-<p><img src="https://i.imgur.com/geTs8vG.png" alt="" />
-<img src="https://i.imgur.com/qZgMmp2.png" alt="" /></p>
+<p><img src="https://i.imgur.com/wVCookl.png" alt="" /></p>
 
-<p>然后在launch.json增加配置</p>
+<p>选择Maven</p>
 
-<pre><code class="language-json">&quot;version&quot;: &quot;0.2.0&quot;,
-&quot;configurations&quot;: [
-    {
-        &quot;name&quot;: &quot;启动 Chrome 并打开 localhost&quot;,
-        &quot;type&quot;: &quot;chrome&quot;,
-        &quot;request&quot;: &quot;launch&quot;,
-        &quot;file&quot;: &quot;${workspaceFolder}/index.html&quot;,
-        //&quot;url&quot;:&quot;http://localhost:8080&quot;,
-        //&quot;runtimeExecutable&quot;: &quot;C:\\Users\\ZGQ\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe&quot;,
-        &quot;sourceMaps&quot;: true,
-        &quot;webRoot&quot;: &quot;${workspaceFolder}&quot;,
-        //&quot;preLaunchTask&quot;: &quot;build&quot;,
-        //&quot;userDataDir&quot;: &quot;${tmpdir}&quot;,
-        &quot;port&quot;: 9222
-    }
-]
-</code></pre>
+<p><img src="https://i.imgur.com/6YP2CSG.png" alt="" /></p>
 
-<p>之后在代码中打好断点，就可以开始调试了</p>
+<p>注意确认一下Maven的配置是否正确</p>
 
-<p><a name="section3"></a></p>
+<p><img src="https://i.imgur.com/CixDLXO.png" alt="" /></p>
 
-<h2 id="三-工作区">三、工作区</h2>
-
-<p>打开任意一个文件夹，然后在任意空白处，选择将文件夹添加到工作区，此时再选择另一个想加入该工作区的文件夹，确定之后就形成了一个包含两个JS工程的工作区。</p>
-
-<p><img src="https://i.imgur.com/qIMz8vl.png" alt="" />
-<img src="https://i.imgur.com/WcVjHYv.png" alt="" /></p>
-
-<p>最后选择&rdquo;文件&rdquo; -&gt; &ldquo;将工作区另存为&rdquo;，给工作区起一个名字并保存。</p>
-
-<p><img src="https://i.imgur.com/WRmnqJm.png" alt="" /></p>
-
-<p><a name="section4"></a></p>
-
-<h2 id="四-推荐插件">四、推荐插件</h2>
-
-<p>网上看到的，加上我个人的分类：</p>
-
-<ul>
-<li>代码规范
-
-<ul>
-<li>ESlint</li>
-<li>HTMLHint</li>
-<li>beautify</li>
-<li>vetur</li>
-</ul></li>
-<li>编码帮助
-
-<ul>
-<li>HTML Snippets</li>
-<li>HTML CSS Support</li>
-<li>jQuery Code Snippets</li>
-<li>Bootstrap 3 Sinnpet</li>
-<li>Path Intellisense</li>
-<li>Npm Intellisense</li>
-<li>Document this</li>
-<li>Atuo Rename Tag</li>
-<li>fileheader</li>
-<li>filesize</li>
-<li>VueHelper</li>
-</ul></li>
-<li>调试帮助
-
-<ul>
-<li>Debugger for Chrome</li>
-</ul></li>
-<li>界面优化
-
-<ul>
-<li>vscode-icon</li>
-<li>各种主题</li>
-</ul></li>
-</ul>
+<p>其它的都是下一步即可</p>
 
     </div>
 
@@ -326,7 +266,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2018-04-25</span>
+    <span class="item-content">2018-05-08</span>
   </p>
   
   <p class="copyright-item">
@@ -341,21 +281,16 @@
     <footer class="post-footer">
       <div class="post-tags">
           
-          <a href="/tags/vscode/">VScode</a>
+          <a href="/tags/interllij-idea/">Interllij IDEA</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-web-idea/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Interllij IDEA使用教程</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-ai-tensorflow/">
-            <span class="next-text nav-default">Window10安装tensorflow</span>
+          <a class="next" href="/post/zgq-web-vscode/">
+            <span class="next-text nav-default">VS code使用教程</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -372,10 +307,10 @@
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-web-vscode.md',
-    title: 'VS code使用教程',
+    id: 'zgq-web-idea.md',
+    title: 'Interllij IDEA使用教程',
     link: decodeURI(location.href),
-    desc: '摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击\x26rdquo;查',
+    desc: '摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {
