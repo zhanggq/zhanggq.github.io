@@ -64,6 +64,14 @@
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/CixDLXO.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;其它的都是下一步即可&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-启动工程&#34;&gt;三、启动工程&lt;/h2&gt;
+
+&lt;p&gt;增加一个Spring Boot的Run config，配置好Main class即可&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/x2Q6yjo.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>
