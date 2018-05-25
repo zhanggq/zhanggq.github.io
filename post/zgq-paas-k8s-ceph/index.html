@@ -85,7 +85,7 @@
 
 <meta itemprop="datePublished" content="2018-05-25T10:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-05-25T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="677">
+<meta itemprop="wordCount" content="848">
 
 
 
@@ -182,7 +182,7 @@
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 677 字 </span>
+        <span class="more-meta"> 约 848 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
@@ -201,6 +201,7 @@
 <li><a href="#一-环境准备">一、环境准备</a></li>
 <li><a href="#二-手工创建image">二、手工创建Image</a></li>
 <li><a href="#三-创建pod">三、创建Pod</a></li>
+<li><a href="#四-问题与思考">四、问题与思考</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -318,6 +319,21 @@ spec:
 <p>检查一下启动结果，大概要2分钟左右吧，取决于你前面创建的ceph块有多大，k8s会将这块盘格式化一遍，需要一些时间。</p>
 
 <p><img src="https://i.imgur.com/cQVlhso.png" alt="" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-问题与思考">四、问题与思考</h2>
+
+<p>上述的挂载方式还存在一个很大的问题，简单来试一下，新创建了一个centos的pod如图：</p>
+
+<p><img src="https://i.imgur.com/HjKyh02.png" alt="" />
+<img src="https://i.imgur.com/m1j3MRx.png" alt="" /></p>
+
+<p>然后再通过kubectl delete 删掉之后，我们检查一下设备，就会发现挂载到k8s2这个node上的盘已经被回收了</p>
+
+<p><img src="https://i.imgur.com/mK0107Y.png" alt="" /></p>
+
+<p>所以说这种对接场景下，Ceph RBD存储的生命周期和Pod是一致的，Pod被删了，数据也没了。所以在生产环境中需要有持久化的对接方式。</p>
 
     </div>
 

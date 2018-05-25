@@ -127,6 +127,21 @@ spec:
 &lt;p&gt;检查一下启动结果，大概要2分钟左右吧，取决于你前面创建的ceph块有多大，k8s会将这块盘格式化一遍，需要一些时间。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cQVlhso.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-问题与思考&#34;&gt;四、问题与思考&lt;/h2&gt;
+
+&lt;p&gt;上述的挂载方式还存在一个很大的问题，简单来试一下，新创建了一个centos的pod如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/HjKyh02.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/m1j3MRx.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后再通过kubectl delete 删掉之后，我们检查一下设备，就会发现挂载到k8s2这个node上的盘已经被回收了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/mK0107Y.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;所以说这种对接场景下，Ceph RBD存储的生命周期和Pod是一致的，Pod被删了，数据也没了。所以在生产环境中需要有持久化的对接方式。&lt;/p&gt;
 </description>
       
     </item>
