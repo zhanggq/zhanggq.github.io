@@ -6,10 +6,19 @@
     <description>Recent content in Vscode on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Apr 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 25 May 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/vscode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kubernetes对接Ceph</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</link>
+      <pubDate>Fri, 25 May 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</guid>
+      <description>摘要 总结一下kubernetes对接Ceph过程中遇到的问题，持续更新中 …… 一、环境准备 实验环境有点特殊，先部署了一套超融合环境，opens</description>
+    </item>
     
     <item>
       <title>VS code使用教程</title>

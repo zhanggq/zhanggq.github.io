@@ -6,10 +6,130 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 08 May 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 25 May 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kubernetes对接Ceph</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</link>
+      <pubDate>Fri, 25 May 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;总结一下kubernetes对接Ceph过程中遇到的问题，持续更新中 ……&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-环境准备&#34;&gt;一、环境准备&lt;/h2&gt;
+
+&lt;p&gt;实验环境有点特殊，先部署了一套超融合环境，openstack(M版)+ceph(L版)，且全部容器化。之后在openstack平台上起了3台Centos7.1虚机，并在这3台虚机上部署了kubernete 1.9.3版本。
+&lt;img src=&#34;https://i.imgur.com/3yThBfx.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/kduoW6T.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-手工创建image&#34;&gt;二、手工创建Image&lt;/h2&gt;
+
+&lt;p&gt;找了一些资料，讲的都不是很全，所以这里先讲一下我的理解。这一步操作的目的是在ceph上创建一个块存储，然后通过内核将这个块存储映射给k8s所在的虚机，最后k8s将Pod建在这个块存储上。&lt;/p&gt;
+
+&lt;p&gt;所以第一步得把块存储创建出来，在ceph上执行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rbd create foo2 --size 1024
+rbd feature disable foo exclusive-lock, object-map, fast-diff, deep-flatten
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在物理机上加载内核（Pod将起在的那台物理机上，注意是物理机，不是Node，不是kvm，也不是docker）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo modprobe rbd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;进入Pod将起的Node（或者说kvm虚机），然后把ceph任意一个osd的/etc/ceph目录拷过来，并安装ceph（yum install ceph或其它方式），最后执行map映射&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rbd map foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;检查一下结果&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/ndGhzdF.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后执行一下格式化&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo mkfs.ext4 -m0 /dev/rbd0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-创建pod&#34;&gt;三、创建Pod&lt;/h2&gt;
+
+&lt;p&gt;上一步结束之后，等于已经在ceph上挂了一块盘给了k8s的某个Node节点，这一步就是要在该节点上创建Pod并mount这个盘。&lt;/p&gt;
+
+&lt;p&gt;先给这个Node打个tag&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kubectl label nodes k8s2 zone=k8s2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从github上下载官方测试用例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/kubernetes/examples.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;修改 xxxx/cephJoint/examples/staging/volumes/rbd/rbd.yaml文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: busybox
+  namespace: default
+spec:
+  nodeSelector:
+    zone: k8s2
+  containers:
+  - name: busybox
+    image: registry.cn-hangzhou.aliyuncs.com/yanfulei/busybox:latest
+    volumeMounts:
+      - name: rbdpd
+        mountPath: /mnt/rbd
+    command:
+      - sleep
+      - &amp;quot;3600&amp;quot;
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+  volumes:
+    - name: rbdpd
+      rbd:
+        monitors:
+        - &#39;172.16.170.130:6789&#39;
+        - &#39;172.16.170.131:6789&#39;
+        - &#39;172.16.170.132:6789&#39;
+        pool: rbd
+        image: foo
+        fsType: ext4
+        readOnly: true
+        user: admin
+        keyring: /etc/ceph/ceph.client.admin.keyring
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动Pod&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kubectl create -f rbd.yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;检查一下启动结果，大概要2分钟左右吧，取决于你前面创建的ceph块有多大，k8s会将这块盘格式化一遍，需要一些时间。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cQVlhso.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Interllij IDEA使用教程</title>
