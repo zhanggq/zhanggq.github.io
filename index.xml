@@ -150,6 +150,78 @@ spec:
 &lt;p&gt;具体过程不想发了，yaml到处都是，大致过程就是建一个PV，建一个PVC，最后Pod建在PVC上面。当Pod删掉之后，PV和PVC都在。重建Pod之后，容器里挂的盘依然不变，甚至容器从Centos换成ubuntu等，盘还是那个盘，盘里的东西还是原来的东西。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/wodmRYR.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section6&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;六-使用kubernetes-storageclass&#34;&gt;六、使用Kubernetes StorageClass&lt;/h2&gt;
+
+&lt;p&gt;解决了持久化问题之后，又有一个新的需要思考的问题，生产环境中不可能手工先在ceph上建一个RBD块，再通过内核mount给Node吧，那该怎么让k8s自动调度分配存储空间？这时候就需要使用k8s的StorageClass功能了。&lt;/p&gt;
+
+&lt;p&gt;先创建一个StorageClass&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@k8s1 rbd]# cat rbd-storage-class.yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: rbd
+provisioner: kubernetes.io/rbd
+parameters:
+  monitors: 172.16.170.130:6789
+  adminId: admin
+  adminSecretName: ceph-secret
+  adminSecretNamespace: default
+  pool: rbd
+  userId: admin
+  userSecretName: ceph-secret
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再创建一个PV&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@k8s1 rbd]# cat rbd-dyn-pv-claim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ceph-rbd-dyn-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: rbd
+  resources:
+    requests:
+      storage: 1Gi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后创建一个Pod&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@k8s1 rbd]# cat rbd-dyn-pvc-pod1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: rbd-dyn-pvc-pod
+  name: ceph-rbd-dyn-pv-pod1
+spec:
+  containers:
+  - name: ceph-rbd-dyn-pv-busybox1
+    image: registry.cn-hangzhou.aliyuncs.com/yanfulei/busybox
+    command: [&amp;quot;sleep&amp;quot;, &amp;quot;60000&amp;quot;]
+    volumeMounts:
+    - name: ceph-dyn-rbd-vol1
+      mountPath: /mnt/ceph-dyn-rbd-pvc/busybox
+      readOnly: false
+  volumes:
+  - name: ceph-dyn-rbd-vol1
+    persistentVolumeClaim:
+      claimName: ceph-rbd-dyn-pv-claim
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时候就不再依赖nodeSelector调度了，通过kubectl describe看到Pod已经被调度到了k8s3上&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/7omvLeD.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后登入k8s3节点看一下容器磁盘，发现已经成功挂了一块1G的盘给Pod&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/Lzz6s95.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>

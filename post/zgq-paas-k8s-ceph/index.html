@@ -85,7 +85,7 @@
 
 <meta itemprop="datePublished" content="2018-05-25T10:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-05-25T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="1014">
+<meta itemprop="wordCount" content="1358">
 
 
 
@@ -182,7 +182,7 @@
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 1014 字 </span>
+        <span class="more-meta"> 约 1358 字 </span>
         <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
@@ -203,6 +203,7 @@
 <li><a href="#三-创建pod">三、创建Pod</a></li>
 <li><a href="#四-问题与思考">四、问题与思考</a></li>
 <li><a href="#五-使用pv和pvc挂载pod">五、使用PV和PVC挂载Pod</a></li>
+<li><a href="#六-使用kubernetes-storageclass">六、使用Kubernetes StorageClass</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -343,6 +344,78 @@ spec:
 <p>具体过程不想发了，yaml到处都是，大致过程就是建一个PV，建一个PVC，最后Pod建在PVC上面。当Pod删掉之后，PV和PVC都在。重建Pod之后，容器里挂的盘依然不变，甚至容器从Centos换成ubuntu等，盘还是那个盘，盘里的东西还是原来的东西。</p>
 
 <p><img src="https://i.imgur.com/wodmRYR.png" alt="" /></p>
+
+<p><a name="section6"></a></p>
+
+<h2 id="六-使用kubernetes-storageclass">六、使用Kubernetes StorageClass</h2>
+
+<p>解决了持久化问题之后，又有一个新的需要思考的问题，生产环境中不可能手工先在ceph上建一个RBD块，再通过内核mount给Node吧，那该怎么让k8s自动调度分配存储空间？这时候就需要使用k8s的StorageClass功能了。</p>
+
+<p>先创建一个StorageClass</p>
+
+<pre><code>[root@k8s1 rbd]# cat rbd-storage-class.yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: rbd
+provisioner: kubernetes.io/rbd
+parameters:
+  monitors: 172.16.170.130:6789
+  adminId: admin
+  adminSecretName: ceph-secret
+  adminSecretNamespace: default
+  pool: rbd
+  userId: admin
+  userSecretName: ceph-secret
+</code></pre>
+
+<p>再创建一个PV</p>
+
+<pre><code>[root@k8s1 rbd]# cat rbd-dyn-pv-claim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ceph-rbd-dyn-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: rbd
+  resources:
+    requests:
+      storage: 1Gi
+</code></pre>
+
+<p>最后创建一个Pod</p>
+
+<pre><code>[root@k8s1 rbd]# cat rbd-dyn-pvc-pod1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: rbd-dyn-pvc-pod
+  name: ceph-rbd-dyn-pv-pod1
+spec:
+  containers:
+  - name: ceph-rbd-dyn-pv-busybox1
+    image: registry.cn-hangzhou.aliyuncs.com/yanfulei/busybox
+    command: [&quot;sleep&quot;, &quot;60000&quot;]
+    volumeMounts:
+    - name: ceph-dyn-rbd-vol1
+      mountPath: /mnt/ceph-dyn-rbd-pvc/busybox
+      readOnly: false
+  volumes:
+  - name: ceph-dyn-rbd-vol1
+    persistentVolumeClaim:
+      claimName: ceph-rbd-dyn-pv-claim
+</code></pre>
+
+<p>这时候就不再依赖nodeSelector调度了，通过kubectl describe看到Pod已经被调度到了k8s3上</p>
+
+<p><img src="https://i.imgur.com/7omvLeD.png" alt="" /></p>
+
+<p>之后登入k8s3节点看一下容器磁盘，发现已经成功挂了一块1G的盘给Pod</p>
+
+<p><img src="https://i.imgur.com/Lzz6s95.png" alt="" /></p>
 
     </div>
 
