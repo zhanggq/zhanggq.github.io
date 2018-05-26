@@ -137,11 +137,19 @@ spec:
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/HjKyh02.png&#34; alt=&#34;&#34; /&gt;
 &lt;img src=&#34;https://i.imgur.com/m1j3MRx.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;然后再通过kubectl delete 删掉之后，我们检查一下设备，就会发现挂载到k8s2这个node上的盘已经被回收了&lt;/p&gt;
+&lt;p&gt;然后再通过kubectl delete 删掉之后，我们检查一下设备，就会发现挂载到k8s2这个node上的盘已经被回收了。再次用相同的命令启动，会发现挂载失败的错误。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/mK0107Y.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;所以说这种对接场景下，Ceph RBD存储的生命周期和Pod是一致的，Pod被删了，数据也没了。所以在生产环境中需要有持久化的对接方式。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-使用pv和pvc挂载pod&#34;&gt;五、使用PV和PVC挂载Pod&lt;/h2&gt;
+
+&lt;p&gt;具体过程不想发了，yaml到处都是，大致过程就是建一个PV，建一个PVC，最后Pod建在PVC上面。当Pod删掉之后，PV和PVC都在。重建Pod之后，容器里挂的盘依然不变，甚至容器从Centos换成ubuntu等，盘还是那个盘，盘里的东西还是原来的东西。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/wodmRYR.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>
