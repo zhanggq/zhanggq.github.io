@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>大数据 on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+    <description>Recent content in 大数据 on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 13 Jun 2018 10:03:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【纯水贴】大数据分析应用于股票交易的尝试</title>
+      <link>https://zhanggq.github.io/post/zgq-finance-tushare/</link>
+      <pubDate>Wed, 13 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-finance-tushare/</guid>
+      <description>摘要 前不久写了一个大数据股票分析模型，筛了一些股票出来，然后挑了一个卖相好的，没想到中奖了，特此来水一贴 一、第一轮测试 于5月24日买入，于6</description>
+    </item>
+    
+  </channel>
+</rss>
