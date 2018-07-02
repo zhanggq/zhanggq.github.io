@@ -85,7 +85,7 @@
 
 <meta itemprop="datePublished" content="2018-06-29T10:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-06-29T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="1097">
+<meta itemprop="wordCount" content="1033">
 
 
 
@@ -182,7 +182,7 @@
               <a href="/categories/web/"> WEB </a>
             
           </div>
-        <span class="more-meta"> 约 1097 字 </span>
+        <span class="more-meta"> 约 1033 字 </span>
         <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
@@ -259,7 +259,7 @@
 
 <h2 id="三-accessdeniedhandler无法被调用">三、AccessDeniedHandler无法被调用</h2>
 
-<p>碰到的第二个问题是AccessDeniedHandler无法被调用，这个问题的来源于重启后端服务后，发现在前端点击任意连接，都会重定向到<a href="http://localhost:8082/login_p。之后尝试在AccessDecisionManager中抛出AccessDeniedException异常，并在AccessDeniedHandler加入Response消息中加上错误原因，但AccessDeniedHandler一直无法捕获到AccessDeniedException异常，在这篇文章[Spring">http://localhost:8082/login_p。之后尝试在AccessDecisionManager中抛出AccessDeniedException异常，并在AccessDeniedHandler加入Response消息中加上错误原因，但AccessDeniedHandler一直无法捕获到AccessDeniedException异常，在这篇文章[Spring</a> security AccessDeniedHandler 不被调用](<a href="https://blog.csdn.net/jmppok/article/details/44828829">https://blog.csdn.net/jmppok/article/details/44828829</a>)</a>中大概明白了原因，总之如果authentication是anonymous的场景，在ExceptionTranslationFilter会被直接重定向到login。</p>
+<p>碰到的第二个问题是AccessDeniedHandler无法被调用，这个问题的来源于重启后端服务后，发现在前端点击任意连接，都会重定向到localhost:8082/login_p。之后尝试在AccessDecisionManager中抛出AccessDeniedException异常，并在AccessDeniedHandler加入Response消息中加上错误原因，但AccessDeniedHandler一直无法捕获到AccessDeniedException异常，在这篇文章<a href="https://blog.csdn.net/jmppok/article/details/44828829">Spring security AccessDeniedHandler 不被调用</a></a>中大概明白了原因，总之如果authentication是anonymous的场景，在ExceptionTranslationFilter会被直接重定向到login。</p>
 
 <p><img src="https://i.imgur.com/G7XaeEr.jpg" alt="" />
 <img src="https://i.imgur.com/d26YGSe.png" alt="" /></p>
