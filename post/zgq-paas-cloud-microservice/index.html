@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Vue &#43; Springboot开发过程中遇到的坑 - Zhanggq</title>
+  <title>来聊聊云/平台/微服务吧 - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 最近在学习Vue&#43;Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇" />
+  <meta name="description" content="摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.37.1" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-web-vue-springboot/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-cloud-microservice/" />
 
 
 
@@ -58,20 +58,16 @@
 
 
 
-<meta property="og:title" content="Vue &#43; Springboot开发过程中遇到的坑" />
-<meta property="og:description" content="摘要 最近在学习Vue&#43;Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇" />
+<meta property="og:title" content="来聊聊云/平台/微服务吧" />
+<meta property="og:description" content="摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-web-vue-springboot/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-cloud-microservice/" />
 
 
 
-<meta property="article:published_time" content="2018-06-29T10:03:09&#43;08:00"/>
+<meta property="article:published_time" content="2018-07-02T10:03:09&#43;08:00"/>
 
-<meta property="article:modified_time" content="2018-06-29T10:03:09&#43;08:00"/>
-
-
-
-
+<meta property="article:modified_time" content="2018-07-02T10:03:09&#43;08:00"/>
 
 
 
@@ -79,20 +75,24 @@
 
 
 
-<meta itemprop="name" content="Vue &#43; Springboot开发过程中遇到的坑">
-<meta itemprop="description" content="摘要 最近在学习Vue&#43;Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇">
-
-
-<meta itemprop="datePublished" content="2018-06-29T10:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2018-06-29T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="1033">
 
 
 
-<meta itemprop="keywords" content="Vue,Springboot," />
+
+<meta itemprop="name" content="来聊聊云/平台/微服务吧">
+<meta itemprop="description" content="摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。">
+
+
+<meta itemprop="datePublished" content="2018-07-02T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-07-02T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="1210">
+
+
+
+<meta itemprop="keywords" content="cloud,paas,springcloud,istio," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Vue &#43; Springboot开发过程中遇到的坑"/>
-<meta name="twitter:description" content="摘要 最近在学习Vue&#43;Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇"/>
+<meta name="twitter:title" content="来聊聊云/平台/微服务吧"/>
+<meta name="twitter:description" content="摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -173,16 +173,16 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Vue &#43; Springboot开发过程中遇到的坑</h1>
+      <h1 class="post-title">来聊聊云/平台/微服务吧</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2018-06-29 </span>
+        <span class="post-time"> 2018-07-02 </span>
         <div class="post-category">
             
-              <a href="/categories/web/"> WEB </a>
+              <a href="/categories/paas/"> PAAS </a>
             
           </div>
-        <span class="more-meta"> 约 1033 字 </span>
+        <span class="more-meta"> 约 1210 字 </span>
         <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
@@ -198,9 +198,9 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#一-开发环境">一、开发环境</a></li>
-<li><a href="#二-跨域问题">二、跨域问题</a></li>
-<li><a href="#三-accessdeniedhandler无法被调用">三、AccessDeniedHandler无法被调用</a></li>
+<li><a href="#一-云">一、云</a></li>
+<li><a href="#二-平台">二、平台</a></li>
+<li><a href="#三-微服务">三、微服务</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -216,55 +216,36 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇到的坑，持续更新中 ……</p>
+<p>嗯~ o(<em>￣▽￣</em>)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-开发环境">一、开发环境</h2>
+<h2 id="一-云">一、云</h2>
 
-<p>开发环境或者说架构如图。首先Vue和Springboot是放在两个不同的工程里研发的，传说中的前后端分离。调试时可以分开调试，前端用Chrome调试，在Vue的data return里造好数据就行；而后端通过Postman调试Api接口及数据库。</p>
+<p>什么是云，我的理解云就是通过虚拟化的方式，把所有的资源整合起来统一管理调度使用。根据权威人士定义，云有三种服务模式：</p>
 
-<p><img src="https://i.imgur.com/prLjdEh.png" alt="" /></p>
+<ul>
+<li>SaaS 【software as a service】 软件即服务 – 用户通过网络租用基于Web的软件使用。（虚拟桌面，在线游戏等）</li>
+<li>PaaS 【platform as a service】 平台即服务 – 指将软件研发的平台作为一种服务。(数据库，开发工具，web服务器，软件运行环境等)</li>
+<li>IaaS 【infrastructure as a service】 基础架构即服务 – 用户通过网络直接访问底层的计算、存储和网络资源。(虚拟机，服务器，存储空间，网络带宽等)</li>
+</ul>
+
+<p>SaaS不熟，剩下两个可以举个例子，Openstack和SDN都属于IaaS，因为她们既能提供虚拟机，也能提供虚拟防火墙等；而Kubernets则属于PaaS，只提供容器化的虚机，不太关注网络服务。</p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-跨域问题">二、跨域问题</h2>
+<h2 id="二-平台">二、平台</h2>
 
-<p>上述架构中遇到的第一个问题就是前后端分离的问题，在上面的图中很清楚的看到，Vue在8080端口，而Springboot在8082端口，所以当Vue发送Rest消息给服务端时，会发生跨域。跨域问题有很多解决方面，我用过两种方式：</p>
-
-<p>第一种，Vue的config/prod.env.js和dev.env.js中配置如下，还是从8080端口将消息发往8082端口，如图</p>
-
-<p><img src="https://i.imgur.com/oibRZ2b.png" alt="" /></p>
-
-<p>然后在服务端增加以下代码：</p>
-
-<p><img src="https://i.imgur.com/xxw2OW7.png" alt="" /></p>
-
-<p>尝试登入界面，发现Login消息的交互已经正常了</p>
-
-<p><img src="https://i.imgur.com/7H3OQMc.png" alt="" /></p>
-
-<p>但这种方法得修改服务端代码，而且每个接口都得改，所以比较繁琐，所以推荐第二张方式。</p>
-
-<p>第二种，通过Vue的转发来解决跨域。先删除服务端增加的代码，同时将prod.env.js和dev.env.js的API_ROOT参数去掉，并在conf/index.js中增加转发配置</p>
-
-<p><img src="https://i.imgur.com/9GWb3ry.png" alt="" /></p>
-
-<p>尝试登入界面，发现Login消息的交互和之前不一样，发送接口变成了8080，所以也就没有跨域问题了。</p>
-
-<p><img src="https://i.imgur.com/B3RBrre.png" alt="" /></p>
+<p>接着来聊平台。从广义上来说，能提供服务的就是平台，比如我们可以说Openstack平台，k8s平台这样的。但平台与平台之前肯定是有区别的，或者说提供的服务的目标不太一样。Openstack/SDN这样的平台，其主要目的是为了给客户提供虚拟化的机器/虚拟化的网络等等，相比之下它们更加全面，也更加传统，所以主要作用于通信类或者其他传统使用windows公司。k8s相比之下内核不是独立的，不支持windows，但是容器话确实更加轻量，更快，所以主要用于互联网方向的公司。</p>
 
 <p><a name="section3"></a></p>
 
-<h2 id="三-accessdeniedhandler无法被调用">三、AccessDeniedHandler无法被调用</h2>
+<h2 id="三-微服务">三、微服务</h2>
 
-<p>碰到的第二个问题是AccessDeniedHandler无法被调用，这个问题的来源于重启后端服务后，发现在前端点击任意连接，都会重定向到localhost:8082/login_p。之后尝试在AccessDecisionManager中抛出AccessDeniedException异常，并在AccessDeniedHandler加入Response消息中加上错误原因，但AccessDeniedHandler一直无法捕获到AccessDeniedException异常，在这篇文章<a href="https://blog.csdn.net/jmppok/article/details/44828829">Spring security AccessDeniedHandler 不被调用</a></a>中大概明白了原因，总之如果authentication是anonymous的场景，在ExceptionTranslationFilter会被直接重定向到login。</p>
+<p>然后继续聊微服务。其实对传统公司来说，只需要云服务，有或者没有微服务，影响都不大。但容器化还是需要的，毕竟容器化之后在服务升级/扩展方面会有很大提升，所以甚至出现了k8s上再搭建Openstack/SDN这样的组合，既有容器化的优势，又有全面的虚拟化解决方案。对于互联网公司来说，微服务的好处和前后端分离一样，就是能够提升开发/运维效率。</p>
 
-<p><img src="https://i.imgur.com/G7XaeEr.jpg" alt="" />
-<img src="https://i.imgur.com/d26YGSe.png" alt="" /></p>
-
-<p>所以当前的做法是在Vue的res中判断，如果是401错误，则打印错误，并清掉Cookies，最后router push到/login页面。</p>
+<p>目前主流的三个微服务框架：Spring Cloud，Dubbo，Istio，前者是Java的，而Istio目前是基于K8s的。假象一下，如果单纯使用Spring Cloud，在某台服务器上部署应用，然后自动发现/自动路由/自动化运维/插件式管理等等，看上去很美好，但有个问题就是部署还是传统的方式：登上服务器，部署启动。按照微服务的设计，一般情况下需要启动的服务会有很多，这时候部署就成了一件很痛苦的时候。如果要解决这个问题，那么就又回到了容器化之路上来了，而走到了容器化之路上，不好意思，这里是k8s的地盘 …… 。所以，似乎还是一上来就与k8s绑定的Istio要强一丢丢。当然了，如果用k8s + 自己写compose来管理容器，这样也是可以的，毕竟据说Spring Cloud在纯java项目上，服务间的交换效率还是要比Istio高一些的。</p>
 
     </div>
 
@@ -277,7 +258,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2018-06-29</span>
+    <span class="item-content">2018-07-02</span>
   </p>
   
   <p class="copyright-item">
@@ -292,23 +273,22 @@
     <footer class="post-footer">
       <div class="post-tags">
           
-          <a href="/tags/vue/">Vue</a>
+          <a href="/tags/cloud/">cloud</a>
           
-          <a href="/tags/springboot/">Springboot</a>
+          <a href="/tags/paas/">paas</a>
+          
+          <a href="/tags/springcloud/">springcloud</a>
+          
+          <a href="/tags/istio/">istio</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-paas-cloud-microservice/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">来聊聊云/平台/微服务吧</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-finance-tushare/">
-            <span class="next-text nav-default">【纯水贴】大数据分析应用于股票交易的尝试</span>
+          <a class="next" href="/post/zgq-web-vue-springboot/">
+            <span class="next-text nav-default">Vue &#43; Springboot开发过程中遇到的坑</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -325,10 +305,10 @@
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-web-vue-springboot.md',
-    title: 'Vue \x2b Springboot开发过程中遇到的坑',
+    id: 'zgq-paas-cloud-microservice.md',
+    title: '来聊聊云\/平台\/微服务吧',
     link: decodeURI(location.href),
-    desc: '摘要 最近在学习Vue\x2bSpringboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇',
+    desc: '摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

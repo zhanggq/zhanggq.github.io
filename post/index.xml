@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 29 Jun 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 02 Jul 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>来聊聊云/平台/微服务吧</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-cloud-microservice/</link>
+      <pubDate>Mon, 02 Jul 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-cloud-microservice/</guid>
+      <description>摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。</description>
+    </item>
     
     <item>
       <title>Vue &#43; Springboot开发过程中遇到的坑</title>
