@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhanggq.github.io/post/zgq-web-vue-springboot/</loc>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/zgq-finance-tushare/</loc>
     <lastmod>2018-06-13T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -249,7 +256,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2018-06-13T10:03:09+08:00</lastmod>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -278,6 +285,13 @@
   <url>
     <loc>https://zhanggq.github.io/tags/segmentfault/</loc>
     <lastmod>2018-04-03T15:43:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/springboot/</loc>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -318,15 +332,22 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/tags/vue/</loc>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/categories/web/</loc>
-    <lastmod>2018-05-25T10:03:09+08:00</lastmod>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/</loc>
-    <lastmod>2018-06-13T10:03:09+08:00</lastmod>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

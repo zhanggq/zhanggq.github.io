@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 13 Jun 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Jun 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vue &#43; Springboot开发过程中遇到的坑</title>
+      <link>https://zhanggq.github.io/post/zgq-web-vue-springboot/</link>
+      <pubDate>Fri, 29 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-vue-springboot/</guid>
+      <description>摘要 最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇</description>
+    </item>
     
     <item>
       <title>【纯水贴】大数据分析应用于股票交易的尝试</title>

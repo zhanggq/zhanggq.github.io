@@ -6,10 +6,77 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 13 Jun 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Jun 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vue &#43; Springboot开发过程中遇到的坑</title>
+      <link>https://zhanggq.github.io/post/zgq-web-vue-springboot/</link>
+      <pubDate>Fri, 29 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-vue-springboot/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇到的坑，持续更新中 ……&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-开发环境&#34;&gt;一、开发环境&lt;/h2&gt;
+
+&lt;p&gt;开发环境或者说架构如图。首先Vue和Springboot是放在两个不同的工程里研发的，传说中的前后端分离。调试时可以分开调试，前端用Chrome调试，在Vue的data return里造好数据就行；而后端通过Postman调试Api接口及数据库。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/prLjdEh.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-跨域问题&#34;&gt;二、跨域问题&lt;/h2&gt;
+
+&lt;p&gt;上述架构中遇到的第一个问题就是前后端分离的问题，在上面的图中很清楚的看到，Vue在8080端口，而Springboot在8082端口，所以当Vue发送Rest消息给服务端时，会发生跨域。跨域问题有很多解决方面，我用过两种方式：&lt;/p&gt;
+
+&lt;p&gt;第一种，Vue的config/prod.env.js和dev.env.js中配置如下，还是从8080端口将消息发往8082端口，如图&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/oibRZ2b.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后在服务端增加以下代码：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/xxw2OW7.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;尝试登入界面，发现Login消息的交互已经正常了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/7H3OQMc.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但这种方法得修改服务端代码，而且每个接口都得改，所以比较繁琐，所以推荐第二张方式。&lt;/p&gt;
+
+&lt;p&gt;第二种，通过Vue的转发来解决跨域。先删除服务端增加的代码，同时将prod.env.js和dev.env.js的API_ROOT参数去掉，并在conf/index.js中增加转发配置&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/9GWb3ry.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;尝试登入界面，发现Login消息的交互和之前不一样，发送接口变成了8080，所以也就没有跨域问题了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/B3RBrre.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-accessdeniedhandler无法被调用&#34;&gt;三、AccessDeniedHandler无法被调用&lt;/h2&gt;
+
+&lt;p&gt;碰到的第二个问题是AccessDeniedHandler无法被调用，这个问题的来源于重启后端服务后，发现在前端点击任意连接，都会重定向到&lt;a href=&#34;http://localhost:8082/login_p。之后尝试在AccessDecisionManager中抛出AccessDeniedException异常，并在AccessDeniedHandler加入Response消息中加上错误原因，但AccessDeniedHandler一直无法捕获到AccessDeniedException异常，在这篇文章[Spring&#34;&gt;http://localhost:8082/login_p。之后尝试在AccessDecisionManager中抛出AccessDeniedException异常，并在AccessDeniedHandler加入Response消息中加上错误原因，但AccessDeniedHandler一直无法捕获到AccessDeniedException异常，在这篇文章[Spring&lt;/a&gt; security AccessDeniedHandler 不被调用](&lt;a href=&#34;https://blog.csdn.net/jmppok/article/details/44828829&#34;&gt;https://blog.csdn.net/jmppok/article/details/44828829&lt;/a&gt;)&lt;/a&gt;中大概明白了原因，总之如果authentication是anonymous的场景，在ExceptionTranslationFilter会被直接重定向到login。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/G7XaeEr.jpg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/d26YGSe.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;所以当前的做法是在Vue的res中判断，如果是401错误，则打印错误，并清掉Cookies，最后router push到/login页面。&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>【纯水贴】大数据分析应用于股票交易的尝试</title>
