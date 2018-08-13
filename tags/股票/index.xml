@@ -6,10 +6,19 @@
     <description>Recent content in 股票 on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 13 Jun 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 13 Aug 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/%E8%82%A1%E7%A5%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tushare金融大数据开放社区发布</title>
+      <link>https://zhanggq.github.io/post/zgq-finance-tushareblog/</link>
+      <pubDate>Mon, 13 Aug 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-finance-tushareblog/</guid>
+      <description>摘要 三个月前通过一个Tushare提供的API接口写了一个大数据股票分析模型小赚了一笔。现在Tushare pro版本已经发布，这里帮忙水一波</description>
+    </item>
     
     <item>
       <title>【纯水贴】大数据分析应用于股票交易的尝试</title>
