@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Cloud on Zhanggq</title>
-    <link>https://zhanggq.github.io/tags/cloud/</link>
-    <description>Recent content in Cloud on Zhanggq</description>
+    <title>Consul on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/consul/</link>
+    <description>Recent content in Consul on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 22 Oct 2018 10:03:09 +0800</lastBuildDate>
     
-	<atom:link href="https://zhanggq.github.io/tags/cloud/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhanggq.github.io/tags/consul/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-consul/</guid>
       <description>摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的</description>
-    </item>
-    
-    <item>
-      <title>来聊聊云/平台/微服务吧</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-cloud-microservice/</link>
-      <pubDate>Mon, 02 Jul 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-cloud-microservice/</guid>
-      <description>摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。</description>
     </item>
     
   </channel>

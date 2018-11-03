@@ -6,10 +6,148 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 13 Aug 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 22 Oct 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Consul的不专业用法介绍</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-consul/</link>
+      <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-consul/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的网卡检测。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-consul&#34;&gt;一、Consul&lt;/h2&gt;
+
+&lt;p&gt;什么是Consul，&lt;a href=&#34;https://www.consul.io/intro/index.html&#34;&gt;官网&lt;/a&gt;中介绍到，它是一个全功能的控制面，主要提供了以下几个功能：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Service Discovery 服务发现 – Consul通过DNS或者HTTP接口提供服务注册功能；&lt;/li&gt;
+&lt;li&gt;Health Checking 健康检查 – Consul可以通过配置制定监控检查规则；&lt;/li&gt;
+&lt;li&gt;KV Store key/value存储 – 上层应用可以将Consul的KV存储用于不同的使用场景，动态配置、特征标记等等；&lt;/li&gt;
+&lt;li&gt;Secure Service Communication 服务通信安全 – Consul可以生成和分发TLS证书，以建立相互的TLS连接，控制是否允许通信，用于代替复杂的防火墙策略；&lt;/li&gt;
+&lt;li&gt;Multi Datacenter 多数据中心 – Consul支持多数据中心，无需复杂的配置，即可支持任意数量的区域。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里，本文只介绍Consul一个偏门的用法，用它的Health Checking功能来做一个简单的网卡检测。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-环境&#34;&gt;二、环境&lt;/h2&gt;
+
+&lt;p&gt;本次模拟环境共五台服务机，服务器集群如下图所示，本次测试的目的是通过三个Consul集群来监控所有服务器的三个网卡状态。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/toMarEh.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;另外，为了防止各种意外问题，先把防火墙之类的都停掉&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl stop firewalld &amp;amp;&amp;amp; systemctl disable firewalld
+setenforce 0
+sed -i &amp;quot;s/^SELINUX=enforcing/SELINUX=disabled/g&amp;quot; /etc/sysconfig/selinux 
+sed -i &amp;quot;s/^SELINUX=enforcing/SELINUX=disabled/g&amp;quot; /etc/selinux/config 
+sed -i &amp;quot;s/^SELINUX=permissive/SELINUX=disabled/g&amp;quot; /etc/sysconfig/selinux 
+sed -i &amp;quot;s/^SELINUX=permissive/SELINUX=disabled/g&amp;quot; /etc/selinux/config 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-eth0集群配置&#34;&gt;三、eth0集群配置&lt;/h2&gt;
+
+&lt;p&gt;三台Server节点首先增加如下服务配置文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/RXJPPxg.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着在/etc/consul.d/目录下增加如下配置文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/e4KjVZI.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;三个节点配置完成后，启动consul-mgmt.service服务，之后检查集群状态，看到状态都是alive，且选举出来了Leader，那就说明集群正常了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/LLxnPnl.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;登入&lt;a href=&#34;http://172.16.54.148:8500/ui/mgmt/nodes检查&#34;&gt;http://172.16.54.148:8500/ui/mgmt/nodes检查&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/pa7gsgb.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-其它两个集群配置&#34;&gt;四、其它两个集群配置&lt;/h2&gt;
+
+&lt;p&gt;同理，三台Server节点增加如下服务配置文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/kRHYyVF.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在/etc/consul.d/目录下增加如下配置文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/Ns7K8hF.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/JITYctb.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;三个节点配置完成后，启动consul-data.service，consul-storage.service服务，之后检查集群状态&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/4leZL66.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/wC2YT3p.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/2S5e3Lh.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-agent配置&#34;&gt;五、Agent配置&lt;/h2&gt;
+
+&lt;p&gt;在Agent增加如下配置，将Agent加入节点&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/xyVrIgf.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/zrSwArN.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section6&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;六-down机测试&#34;&gt;六、Down机测试&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Down掉Server节点后如图
+&lt;img src=&#34;https://i.imgur.com/LPqqvWd.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Down掉Agent节点后如图
+&lt;img src=&#34;https://i.imgur.com/blXpdqg.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;section7&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;七-配合zabbix监控&#34;&gt;七、配合Zabbix监控&lt;/h2&gt;
+
+&lt;p&gt;Consul监控集群搭建完成后，如何将具体的告警展现出来呢？ 这里使用zabbix配合进行监控告警。具体zabbix集群搭建过程这里省略，简单讲一下zabbix监控项配置。&lt;/p&gt;
+
+&lt;p&gt;先创建discovery，用于检查consul的配置项，也就是说用来发现监控了那些网卡/IP&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/OlJ6dZ8.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;再创建三个Item prototypes，用于接收、存放Agent反馈回来的网卡信息&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/Jls1byz.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/AlcYeuK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;再创建三个Item，存放每个网卡的检查结果&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/e1EayZB.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/zqaHdcx.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section8&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;八-zabbix-agent多网段监控&#34;&gt;八、Zabbix Agent多网段监控&lt;/h2&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Tushare金融大数据开放社区发布</title>
@@ -1528,9 +1666,9 @@ if (document.getElementById(&#39;my-player&#39;) !== null) {
 &lt;p&gt;由于不明原因可能无法播放。&lt;/p&gt;
 
 
-&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
-  &lt;iframe src=&#34;//www.youtube.com/embed/wC5pJm8RAu4&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34; title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
- &lt;/div&gt;
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/wC5pJm8RAu4&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a name=&#34;section12&#34;&gt;&lt;/a&gt;&lt;/p&gt;

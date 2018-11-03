@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Consul的不专业用法介绍 - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-consul/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Consul的不专业用法介绍" />
+<meta property="og:description" content="摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-consul/" /><meta property="article:published_time" content="2018-10-22T10:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2018-10-22T10:03:09&#43;08:00"/>
+
+<meta itemprop="name" content="Consul的不专业用法介绍">
+<meta itemprop="description" content="摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的">
+
+
+<meta itemprop="datePublished" content="2018-10-22T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-10-22T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="1112">
+
+
+
+<meta itemprop="keywords" content="cloud,paas,consul," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Consul的不专业用法介绍"/>
+<meta name="twitter:description" content="摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Consul的不专业用法介绍</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-10-22 </span>
+        <div class="post-category">
+            
+              <a href="/categories/paas/"> PAAS </a>
+            
+          </div>
+        <span class="more-meta"> 约 1112 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#摘要">摘要</a></li>
+<li><a href="#一-consul">一、Consul</a></li>
+<li><a href="#二-环境">二、环境</a></li>
+<li><a href="#三-eth0集群配置">三、eth0集群配置</a></li>
+<li><a href="#四-其它两个集群配置">四、其它两个集群配置</a></li>
+<li><a href="#五-agent配置">五、Agent配置</a></li>
+<li><a href="#六-down机测试">六、Down机测试</a></li>
+<li><a href="#七-配合zabbix监控">七、配合Zabbix监控</a></li>
+<li><a href="#八-zabbix-agent多网段监控">八、Zabbix Agent多网段监控</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p><a name="section0"></a></p>
+
+<h2 id="摘要">摘要</h2>
+
+<blockquote>
+<p>Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的网卡检测。</p>
+</blockquote>
+
+<p><a name="section1"></a></p>
+
+<h2 id="一-consul">一、Consul</h2>
+
+<p>什么是Consul，<a href="https://www.consul.io/intro/index.html">官网</a>中介绍到，它是一个全功能的控制面，主要提供了以下几个功能：</p>
+
+<ul>
+<li>Service Discovery 服务发现 – Consul通过DNS或者HTTP接口提供服务注册功能；</li>
+<li>Health Checking 健康检查 – Consul可以通过配置制定监控检查规则；</li>
+<li>KV Store key/value存储 – 上层应用可以将Consul的KV存储用于不同的使用场景，动态配置、特征标记等等；</li>
+<li>Secure Service Communication 服务通信安全 – Consul可以生成和分发TLS证书，以建立相互的TLS连接，控制是否允许通信，用于代替复杂的防火墙策略；</li>
+<li>Multi Datacenter 多数据中心 – Consul支持多数据中心，无需复杂的配置，即可支持任意数量的区域。</li>
+</ul>
+
+<p>这里，本文只介绍Consul一个偏门的用法，用它的Health Checking功能来做一个简单的网卡检测。</p>
+
+<p><a name="section2"></a></p>
+
+<h2 id="二-环境">二、环境</h2>
+
+<p>本次模拟环境共五台服务机，服务器集群如下图所示，本次测试的目的是通过三个Consul集群来监控所有服务器的三个网卡状态。</p>
+
+<p><img src="https://i.imgur.com/toMarEh.png" alt="" /></p>
+
+<p>另外，为了防止各种意外问题，先把防火墙之类的都停掉</p>
+
+<pre><code>systemctl stop firewalld &amp;&amp; systemctl disable firewalld
+setenforce 0
+sed -i &quot;s/^SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/sysconfig/selinux 
+sed -i &quot;s/^SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config 
+sed -i &quot;s/^SELINUX=permissive/SELINUX=disabled/g&quot; /etc/sysconfig/selinux 
+sed -i &quot;s/^SELINUX=permissive/SELINUX=disabled/g&quot; /etc/selinux/config 
+</code></pre>
+
+<p><a name="section3"></a></p>
+
+<h2 id="三-eth0集群配置">三、eth0集群配置</h2>
+
+<p>三台Server节点首先增加如下服务配置文件</p>
+
+<p><img src="https://i.imgur.com/RXJPPxg.png" alt="" /></p>
+
+<p>接着在/etc/consul.d/目录下增加如下配置文件</p>
+
+<p><img src="https://i.imgur.com/e4KjVZI.png" alt="" /></p>
+
+<p>三个节点配置完成后，启动consul-mgmt.service服务，之后检查集群状态，看到状态都是alive，且选举出来了Leader，那就说明集群正常了</p>
+
+<p><img src="https://i.imgur.com/LLxnPnl.png" alt="" /></p>
+
+<p>登入<a href="http://172.16.54.148:8500/ui/mgmt/nodes检查">http://172.16.54.148:8500/ui/mgmt/nodes检查</a></p>
+
+<p><img src="https://i.imgur.com/pa7gsgb.png" alt="" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-其它两个集群配置">四、其它两个集群配置</h2>
+
+<p>同理，三台Server节点增加如下服务配置文件</p>
+
+<p><img src="https://i.imgur.com/kRHYyVF.png" alt="" /></p>
+
+<p>在/etc/consul.d/目录下增加如下配置文件</p>
+
+<p><img src="https://i.imgur.com/Ns7K8hF.png" alt="" />
+<img src="https://i.imgur.com/JITYctb.png" alt="" /></p>
+
+<p>三个节点配置完成后，启动consul-data.service，consul-storage.service服务，之后检查集群状态</p>
+
+<p><img src="https://i.imgur.com/4leZL66.png" alt="" />
+<img src="https://i.imgur.com/wC2YT3p.png" alt="" />
+<img src="https://i.imgur.com/2S5e3Lh.png" alt="" /></p>
+
+<p><a name="section5"></a></p>
+
+<h2 id="五-agent配置">五、Agent配置</h2>
+
+<p>在Agent增加如下配置，将Agent加入节点</p>
+
+<p><img src="https://i.imgur.com/xyVrIgf.png" alt="" />
+<img src="https://i.imgur.com/zrSwArN.png" alt="" /></p>
+
+<p><a name="section6"></a></p>
+
+<h2 id="六-down机测试">六、Down机测试</h2>
+
+<ul>
+<li><p>Down掉Server节点后如图
+<img src="https://i.imgur.com/LPqqvWd.png" alt="" /></p></li>
+
+<li><p>Down掉Agent节点后如图
+<img src="https://i.imgur.com/blXpdqg.png" alt="" /></p></li>
+</ul>
+
+<p><a name="section7"></a></p>
+
+<h2 id="七-配合zabbix监控">七、配合Zabbix监控</h2>
+
+<p>Consul监控集群搭建完成后，如何将具体的告警展现出来呢？ 这里使用zabbix配合进行监控告警。具体zabbix集群搭建过程这里省略，简单讲一下zabbix监控项配置。</p>
+
+<p>先创建discovery，用于检查consul的配置项，也就是说用来发现监控了那些网卡/IP</p>
+
+<p><img src="https://i.imgur.com/OlJ6dZ8.png" alt="" /></p>
+
+<p>再创建三个Item prototypes，用于接收、存放Agent反馈回来的网卡信息</p>
+
+<p><img src="https://i.imgur.com/Jls1byz.png" alt="" />
+<img src="https://i.imgur.com/AlcYeuK.png" alt="" /></p>
+
+<p>再创建三个Item，存放每个网卡的检查结果</p>
+
+<p><img src="https://i.imgur.com/e1EayZB.png" alt="" />
+<img src="https://i.imgur.com/zqaHdcx.png" alt="" /></p>
+
+<p><a name="section8"></a></p>
+
+<h2 id="八-zabbix-agent多网段监控">八、Zabbix Agent多网段监控</h2>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content"><a href="https://laozhu.me" rel="noopener" target="_blank">Zhanggq</a></span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-10-22</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/cloud/">cloud</a>
+          
+          <a href="/tags/paas/">paas</a>
+          
+          <a href="/tags/consul/">consul</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/zgq-finance-tushareblog/">
+            <span class="next-text nav-default">Tushare金融大数据开放社区发布</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+
+
+
+
+</body>
+</html>
