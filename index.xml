@@ -142,9 +142,9 @@ sed -i &amp;quot;s/^SELINUX=permissive/SELINUX=disabled/g&amp;quot; /etc/selinux
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/e1EayZB.png&#34; alt=&#34;&#34; /&gt;
 &lt;img src=&#34;https://i.imgur.com/zqaHdcx.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a name=&#34;section8&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;监控结果如图&lt;/p&gt;
 
-&lt;h2 id=&#34;八-zabbix-agent多网段监控&#34;&gt;八、Zabbix Agent多网段监控&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8jk3s3P.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>
