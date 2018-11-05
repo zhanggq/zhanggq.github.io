@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mysql on Zhanggq</title>
-    <link>https://zhanggq.github.io/tags/mysql/</link>
-    <description>Recent content in Mysql on Zhanggq</description>
+    <title>Contrail Cmon on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/contrail-cmon/</link>
+    <description>Recent content in Contrail Cmon on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 05 Nov 2018 10:03:09 +0800</lastBuildDate>
     
-	<atom:link href="https://zhanggq.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhanggq.github.io/tags/contrail-cmon/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-mysql/</guid>
       <description>摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完</description>
-    </item>
-    
-    <item>
-      <title>我对网站开发的总结与思考</title>
-      <link>https://zhanggq.github.io/post/zgq-ui-think/</link>
-      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-ui-think/</guid>
-      <description>一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成</description>
     </item>
     
   </channel>

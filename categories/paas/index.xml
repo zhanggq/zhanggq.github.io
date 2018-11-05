@@ -6,10 +6,19 @@
     <description>Recent content in Paas on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 22 Oct 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 05 Nov 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/categories/paas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mysql高可用集群搭建（上篇）</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-mysql/</link>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-mysql/</guid>
+      <description>摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完</description>
+    </item>
     
     <item>
       <title>Consul的不专业用法介绍</title>

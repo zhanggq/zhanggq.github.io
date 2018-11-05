@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>mysql高可用集群搭建（上篇） - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-mysql/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="mysql高可用集群搭建（上篇）" />
+<meta property="og:description" content="摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-mysql/" /><meta property="article:published_time" content="2018-11-05T10:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-05T10:03:09&#43;08:00"/>
+
+<meta itemprop="name" content="mysql高可用集群搭建（上篇）">
+<meta itemprop="description" content="摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完">
+
+
+<meta itemprop="datePublished" content="2018-11-05T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-05T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="1200">
+
+
+
+<meta itemprop="keywords" content="cloud,paas,mysql,contrail cmon," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mysql高可用集群搭建（上篇）"/>
+<meta name="twitter:description" content="摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">mysql高可用集群搭建（上篇）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-05 </span>
+        <div class="post-category">
+            
+              <a href="/categories/paas/"> PAAS </a>
+            
+          </div>
+        <span class="more-meta"> 约 1200 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#摘要">摘要</a></li>
+<li><a href="#一-前置准备">一、前置准备</a></li>
+<li><a href="#二-配置mysql">二、配置mysql</a></li>
+<li><a href="#三-配置zookeeper">三、配置zookeeper</a></li>
+<li><a href="#四-配置keepalived">四、配置keepalived</a></li>
+<li><a href="#五-配置haproxy">五、配置Haproxy</a></li>
+<li><a href="#六-服务启动">六、服务启动</a></li>
+<li><a href="#七-配置cmon服务">七、配置cmon服务</a></li>
+<li><a href="#八-数据库备份">八、数据库备份</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p><a name="section0"></a></p>
+
+<h2 id="摘要">摘要</h2>
+
+<blockquote>
+<p>众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完整的Mysql高可用方案。一个完整的高可用方案还要考虑VIP、备份、灾难恢复等。这里将介绍我自己搭建的Mysql+Haproxy+Keepalived+Zookeeper+contrail cmon的方案。</p>
+</blockquote>
+
+<p><a name="section1"></a></p>
+
+<h2 id="一-前置准备">一、前置准备</h2>
+
+<p>首先准备一个mysql的docker容器（或者裸金属服务器上直接安装），并且在容器中安装了Haproxy、Keepalived、Zookeeper、contrail cmon等服务。另外还需要单独挂载硬盘给mysql的/var/lib/mysql目录使用。</p>
+
+<p>其它前置条件
+1. 安装docker
+2. 下载好容器镜像
+3. 关闭防火墙等</p>
+
+<pre><code>systemctl stop firewalld &amp;&amp; systemctl disable firewalld
+setenforce 0
+sed -i &quot;s/^SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/sysconfig/selinux 
+sed -i &quot;s/^SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config 
+sed -i &quot;s/^SELINUX=permissive/SELINUX=disabled/g&quot; /etc/sysconfig/selinux 
+sed -i &quot;s/^SELINUX=permissive/SELINUX=disabled/g&quot; /etc/selinux/config
+</code></pre>
+
+<ol>
+<li><p>相关内核
+自己的内核加载脚本</p>
+
+<pre><code>./ebtables.modules 
+./iptables.modules 
+./ip6tables.modules
+</code></pre>
+
+<p><img src="https://i.imgur.com/KUKztx4.png" alt="" /></p></li>
+
+<li><p>三容器节点互信</p></li>
+</ol>
+
+<p>容器启动命令</p>
+
+<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h mysql1 --name=mysql --restart=always --net=host -p 10022:22 --stop-signal=RTMIN+3 docker-registry:5000/library/mysql:v1.3 /usr/sbin/init
+docker run --privileged -tid -e &quot;container=docker&quot; -h mysql2 --name=mysql --restart=always --net=host -p 10022:22 --stop-signal=RTMIN+3 docker-registry:5000/library/mysql:v1.3 /usr/sbin/init
+docker run --privileged -tid -e &quot;container=docker&quot; -h mysql3 --name=mysql --restart=always --net=host -p 10022:22 --stop-signal=RTMIN+3 docker-registry:5000/library/mysql:v1.3 /usr/sbin/init
+
+</code></pre>
+
+<p><a name="section2"></a></p>
+
+<h2 id="二-配置mysql">二、配置mysql</h2>
+
+<p>三台节点配置mysql.cnf</p>
+
+<p><img src="https://i.imgur.com/3afy8Y6.png" alt="" />
+<img src="https://i.imgur.com/Y19vjpp.png" alt="" /></p>
+
+<p><a name="section3"></a></p>
+
+<h2 id="三-配置zookeeper">三、配置zookeeper</h2>
+
+<p>三台Server节点配置zookeeper</p>
+
+<p><img src="https://i.imgur.com/STqgWv4.png" alt="" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-配置keepalived">四、配置keepalived</h2>
+
+<p>三台Server节点配置keepalived</p>
+
+<p><img src="https://i.imgur.com/XkRdhe9.png" alt="" />
+<img src="https://i.imgur.com/F8j7kTq.png" alt="" /></p>
+
+<p><a name="section5"></a></p>
+
+<h2 id="五-配置haproxy">五、配置Haproxy</h2>
+
+<p>三台Server节点配置Haproxy</p>
+
+<p><img src="https://i.imgur.com/vHMK73D.png" alt="" />
+<img src="https://i.imgur.com/yokHP8d.png" alt="" /></p>
+
+<p><a name="section6"></a></p>
+
+<h2 id="六-服务启动">六、服务启动</h2>
+
+<p>第一个节点启动</p>
+
+<pre><code>service mysql start --wsrep-new-cluster
+</code></pre>
+
+<p>其它两个节点启动及集群检查</p>
+
+<pre><code>service mysql start
+mysql -uroot -p123456 -e 'show status like &quot;wsrep%&quot;'
+</code></pre>
+
+<p>启动zookeeper</p>
+
+<pre><code>service zookeeper start
+service zookeeper status
+/sbin/chkconfig zookeeper on
+chkconfig --list
+</code></pre>
+
+<p>启动haproxy</p>
+
+<pre><code>systemctl start haproxy 
+systemctl status haproxy 
+systemctl enable haproxy 
+</code></pre>
+
+<p>启动keepalived</p>
+
+<pre><code>systemctl start keepalived 
+systemctl status keepalived 
+systemctl enable keepalived 
+</code></pre>
+
+<p>检查vip是否有效</p>
+
+<pre><code>mysql -uroot -p123456 -h 172.16.165.180 -P3306
+</code></pre>
+
+<p><a name="section7"></a></p>
+
+<h2 id="七-配置cmon服务">七、配置cmon服务</h2>
+
+<p>mysql集群启动正常之后，开始配置cmon。contrail-cmon作用是在重启后，通过contrail-cmon-monitor.sh和contrail-bootstrap-galera.sh脚本将mysql集群恢复。其过程首先是用“service mysql start &ndash;wsrep_recover”启动mysql，找出gitd最大的，也就是数据最新的mysql节点，启动。再依次拉起其它两个节点。</p>
+
+<p>首先创建cmon用户</p>
+
+<pre><code>mysql -uroot -p123456  -e &quot;create database cmon character set utf8 collate utf8_bin;&quot;
+mysql -uroot -p123456  -e &quot;CREATE SCHEMA IF NOT EXISTS cmon;&quot;
+mysql -uroot -p123456  -e &quot;grant all privileges on *.* to cmon@localhost identified by 'cmon' with grant option;&quot;
+mysql -uroot -p123456  -e &quot;grant all privileges on *.* to 'cmon'@'%' identified by 'cmon' with grant option;&quot;
+mysql -uroot -p123456  -e &quot;flush privileges;&quot;
+mysql -uroot -p123456 &lt; /usr/share/cmon/cmon_db.sql
+mysql -uroot -p123456 &lt; /usr/share/cmon/cmon_data.sql
+mysql -uroot -p123456 -e &quot;use cmon; insert into cluster(type) VALUES ('galera')&quot;
+mysql -ucmon -pcmon -h 172.16.165.180  cmon
+mysql -ucmon -pcmon -h 172.16.165.162 -p 3306 cmon
+</code></pre>
+
+<p>配置cmon</p>
+
+<p><img src="https://i.imgur.com/IryLvyJ.png" alt="" />
+<img src="https://i.imgur.com/jAWkgnv.png" alt="" /></p>
+
+<p>配置完成后手工修改一下contrail-cmon-monitor.sh和contrail-bootstrap-galera.sh脚本，由于篇幅问题，整理不再详述。之后启动cmon，观察日志。</p>
+
+<pre><code>systemctl status contrail-hamon.service
+systemctl restart contrail-hamon.service
+systemctl enable contrail-hamon.service
+systemctl stop contrail-hamon.service
+/opt/contrail/bin                                 (cmon 启动脚本)
+tail -f /var/log/contrail/ha/cmon-monitor.log     (cmon 日志)
+tail -f /var/log/galera-bootstrap.log             (cmon 启动mysql 日志)
+</code></pre>
+
+<p><a name="section8"></a></p>
+
+<h2 id="八-数据库备份">八、数据库备份</h2>
+
+<p>可以采用cron定时任务方式，定时执行dump脚本，并且通过目录映射方式，将备份的sql压缩文件存放在物理服务器上。</p>
+
+<p><img src="https://i.imgur.com/rqm7Txb.png" alt="" /></p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content"><a href="https://laozhu.me" rel="noopener" target="_blank">Zhanggq</a></span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-11-05</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/cloud/">cloud</a>
+          
+          <a href="/tags/paas/">paas</a>
+          
+          <a href="/tags/mysql/">mysql</a>
+          
+          <a href="/tags/contrail-cmon/">contrail cmon</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/zgq-paas-consul/">
+            <span class="next-text nav-default">Consul的不专业用法介绍</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+
+
+
+
+</body>
+</html>

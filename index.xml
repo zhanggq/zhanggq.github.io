@@ -6,10 +6,192 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 22 Oct 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 05 Nov 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mysql高可用集群搭建（上篇）</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-mysql/</link>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-mysql/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完整的Mysql高可用方案。一个完整的高可用方案还要考虑VIP、备份、灾难恢复等。这里将介绍我自己搭建的Mysql+Haproxy+Keepalived+Zookeeper+contrail cmon的方案。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-前置准备&#34;&gt;一、前置准备&lt;/h2&gt;
+
+&lt;p&gt;首先准备一个mysql的docker容器（或者裸金属服务器上直接安装），并且在容器中安装了Haproxy、Keepalived、Zookeeper、contrail cmon等服务。另外还需要单独挂载硬盘给mysql的/var/lib/mysql目录使用。&lt;/p&gt;
+
+&lt;p&gt;其它前置条件
+1. 安装docker
+2. 下载好容器镜像
+3. 关闭防火墙等&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl stop firewalld &amp;amp;&amp;amp; systemctl disable firewalld
+setenforce 0
+sed -i &amp;quot;s/^SELINUX=enforcing/SELINUX=disabled/g&amp;quot; /etc/sysconfig/selinux 
+sed -i &amp;quot;s/^SELINUX=enforcing/SELINUX=disabled/g&amp;quot; /etc/selinux/config 
+sed -i &amp;quot;s/^SELINUX=permissive/SELINUX=disabled/g&amp;quot; /etc/sysconfig/selinux 
+sed -i &amp;quot;s/^SELINUX=permissive/SELINUX=disabled/g&amp;quot; /etc/selinux/config
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;相关内核
+自己的内核加载脚本&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./ebtables.modules 
+./iptables.modules 
+./ip6tables.modules
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/KUKztx4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;三容器节点互信&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;容器启动命令&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h mysql1 --name=mysql --restart=always --net=host -p 10022:22 --stop-signal=RTMIN+3 docker-registry:5000/library/mysql:v1.3 /usr/sbin/init
+docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h mysql2 --name=mysql --restart=always --net=host -p 10022:22 --stop-signal=RTMIN+3 docker-registry:5000/library/mysql:v1.3 /usr/sbin/init
+docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h mysql3 --name=mysql --restart=always --net=host -p 10022:22 --stop-signal=RTMIN+3 docker-registry:5000/library/mysql:v1.3 /usr/sbin/init
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-配置mysql&#34;&gt;二、配置mysql&lt;/h2&gt;
+
+&lt;p&gt;三台节点配置mysql.cnf&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3afy8Y6.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/Y19vjpp.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-配置zookeeper&#34;&gt;三、配置zookeeper&lt;/h2&gt;
+
+&lt;p&gt;三台Server节点配置zookeeper&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/STqgWv4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-配置keepalived&#34;&gt;四、配置keepalived&lt;/h2&gt;
+
+&lt;p&gt;三台Server节点配置keepalived&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/XkRdhe9.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/F8j7kTq.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-配置haproxy&#34;&gt;五、配置Haproxy&lt;/h2&gt;
+
+&lt;p&gt;三台Server节点配置Haproxy&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/vHMK73D.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/yokHP8d.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section6&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;六-服务启动&#34;&gt;六、服务启动&lt;/h2&gt;
+
+&lt;p&gt;第一个节点启动&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;service mysql start --wsrep-new-cluster
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其它两个节点启动及集群检查&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;service mysql start
+mysql -uroot -p123456 -e &#39;show status like &amp;quot;wsrep%&amp;quot;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动zookeeper&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;service zookeeper start
+service zookeeper status
+/sbin/chkconfig zookeeper on
+chkconfig --list
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动haproxy&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl start haproxy 
+systemctl status haproxy 
+systemctl enable haproxy 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动keepalived&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl start keepalived 
+systemctl status keepalived 
+systemctl enable keepalived 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;检查vip是否有效&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysql -uroot -p123456 -h 172.16.165.180 -P3306
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section7&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;七-配置cmon服务&#34;&gt;七、配置cmon服务&lt;/h2&gt;
+
+&lt;p&gt;mysql集群启动正常之后，开始配置cmon。contrail-cmon作用是在重启后，通过contrail-cmon-monitor.sh和contrail-bootstrap-galera.sh脚本将mysql集群恢复。其过程首先是用“service mysql start &amp;ndash;wsrep_recover”启动mysql，找出gitd最大的，也就是数据最新的mysql节点，启动。再依次拉起其它两个节点。&lt;/p&gt;
+
+&lt;p&gt;首先创建cmon用户&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysql -uroot -p123456  -e &amp;quot;create database cmon character set utf8 collate utf8_bin;&amp;quot;
+mysql -uroot -p123456  -e &amp;quot;CREATE SCHEMA IF NOT EXISTS cmon;&amp;quot;
+mysql -uroot -p123456  -e &amp;quot;grant all privileges on *.* to cmon@localhost identified by &#39;cmon&#39; with grant option;&amp;quot;
+mysql -uroot -p123456  -e &amp;quot;grant all privileges on *.* to &#39;cmon&#39;@&#39;%&#39; identified by &#39;cmon&#39; with grant option;&amp;quot;
+mysql -uroot -p123456  -e &amp;quot;flush privileges;&amp;quot;
+mysql -uroot -p123456 &amp;lt; /usr/share/cmon/cmon_db.sql
+mysql -uroot -p123456 &amp;lt; /usr/share/cmon/cmon_data.sql
+mysql -uroot -p123456 -e &amp;quot;use cmon; insert into cluster(type) VALUES (&#39;galera&#39;)&amp;quot;
+mysql -ucmon -pcmon -h 172.16.165.180  cmon
+mysql -ucmon -pcmon -h 172.16.165.162 -p 3306 cmon
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配置cmon&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/IryLvyJ.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/jAWkgnv.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;配置完成后手工修改一下contrail-cmon-monitor.sh和contrail-bootstrap-galera.sh脚本，由于篇幅问题，整理不再详述。之后启动cmon，观察日志。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl status contrail-hamon.service
+systemctl restart contrail-hamon.service
+systemctl enable contrail-hamon.service
+systemctl stop contrail-hamon.service
+/opt/contrail/bin                                 (cmon 启动脚本)
+tail -f /var/log/contrail/ha/cmon-monitor.log     (cmon 日志)
+tail -f /var/log/galera-bootstrap.log             (cmon 启动mysql 日志)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section8&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;八-数据库备份&#34;&gt;八、数据库备份&lt;/h2&gt;
+
+&lt;p&gt;可以采用cron定时任务方式，定时执行dump脚本，并且通过目录映射方式，将备份的sql压缩文件存放在物理服务器上。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/rqm7Txb.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Consul的不专业用法介绍</title>

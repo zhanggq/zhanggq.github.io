@@ -41,7 +41,7 @@
     <item>
       <title>Cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
-      <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/cloud/</guid>
       <description></description>
@@ -53,6 +53,15 @@
       <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/consul/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Contrail Cmon</title>
+      <link>https://zhanggq.github.io/tags/contrail-cmon/</link>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/contrail-cmon/</guid>
       <description></description>
     </item>
     
@@ -122,7 +131,7 @@
     <item>
       <title>Mysql</title>
       <link>https://zhanggq.github.io/tags/mysql/</link>
-      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/mysql/</guid>
       <description></description>
@@ -176,18 +185,9 @@
     <item>
       <title>Paas</title>
       <link>https://zhanggq.github.io/tags/paas/</link>
-      <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/paas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://zhanggq.github.io/tags/python/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/python/</guid>
       <description></description>
     </item>
     
