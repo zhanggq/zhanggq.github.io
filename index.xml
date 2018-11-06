@@ -135,6 +135,10 @@ runserver installdeps: -r/home/zgq/python/horizon/requirements.txt, -r/home/zgq/
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3FrUeVB.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;之后重启tox后再次登入dashboard，新增的界面已经加上了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/QhsVgX0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
 </description>
       
     </item>
