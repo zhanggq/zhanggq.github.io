@@ -41,7 +41,7 @@
     <item>
       <title>Cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
-      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/cloud/</guid>
       <description></description>
@@ -66,6 +66,15 @@
     </item>
     
     <item>
+      <title>Django</title>
+      <link>https://zhanggq.github.io/tags/django/</link>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Golang</title>
       <link>https://zhanggq.github.io/tags/golang/</link>
       <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>
@@ -80,6 +89,15 @@
       <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/google/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Horizon</title>
+      <link>https://zhanggq.github.io/tags/horizon/</link>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/horizon/</guid>
       <description></description>
     </item>
     
@@ -167,27 +185,9 @@
     <item>
       <title>Openstack</title>
       <link>https://zhanggq.github.io/tags/openstack/</link>
-      <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/openstack/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ovs</title>
-      <link>https://zhanggq.github.io/tags/ovs/</link>
-      <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/ovs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Paas</title>
-      <link>https://zhanggq.github.io/tags/paas/</link>
-      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/paas/</guid>
       <description></description>
     </item>
     

@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</loc>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/zgq-paas-mysql/</loc>
     <lastmod>2018-11-05T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -179,7 +186,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/cloud/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -194,6 +201,13 @@
   <url>
     <loc>https://zhanggq.github.io/tags/contrail-cmon/</loc>
     <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/django/</loc>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -215,6 +229,13 @@
   <url>
     <loc>https://zhanggq.github.io/tags/google/</loc>
     <lastmod>2018-04-09T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/horizon/</loc>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -284,7 +305,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/openstack/</loc>
-    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -298,21 +319,21 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/paas/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/paas/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -410,7 +431,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

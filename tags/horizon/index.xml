@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Horizon on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/horizon/</link>
+    <description>Recent content in Horizon on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 06 Nov 2018 10:03:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/tags/horizon/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Openstack Horizon二次开发</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</link>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</guid>
+      <description>摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori</description>
+    </item>
+    
+  </channel>
+</rss>

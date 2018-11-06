@@ -6,10 +6,138 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 05 Nov 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 06 Nov 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Openstack Horizon二次开发</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</link>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-horizon介绍&#34;&gt;一、Horizon介绍&lt;/h2&gt;
+
+&lt;p&gt;Horizon是基于django webframework开发的标准的Python wsgi程序，django的设计专注于代码的高度可重用，信奉DRY原则，一切面向对象，而Horizon可以说高度match了django的设计风格。网站程序基本有三部分组成，业务逻辑代码(Python)，静态文件(js/css)，模板(Python中的jinja,mako,nodejs中有jade)， 用户向webserver发起请求之后，server程序找到当前url对应的模板，填充模板变量(输出成字符串形式的html源码),返回给浏览器，浏览器渲染页面。一般模板语言都有继承(extend),插入(include)等特性，来提高页面的复用率。&lt;/p&gt;
+
+&lt;p&gt;Horizon做得就更彻底一些，它将页面上所有元素模块化，网页中一些常见元素，表单，表格，标签页，全部封装成Python类，每个组件有自己对应的一小块html模板(templates)。当渲染整个页面的时候,Horizon先找到当前页面有多少组件，将各个组件分别进行渲染变成一段html片段，最后拼装成一 个完整的html页面，返回浏览器。&lt;/p&gt;
+
+&lt;p&gt;一个Dashboard（在django里称为app）通常情况下由四个组件组成，分别为panel、tab、table和view。其中，panel、tab和table用于导航的，真正展示数据的在view里面。它们之间的关系是panel包含tab，tab包含table，view包含table或者tab。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-研发环境搭建&#34;&gt;二、研发环境搭建&lt;/h2&gt;
+
+&lt;p&gt;可以在已经部署好的openstack环境中直接修改/usr/lib/python2.7/site-packages/openstack_dashboard/目录下的代码，之后重启httpd服务调试，也可以通过&lt;a href=&#34;https://docs.openstack.org/horizon/latest/contributor/quickstart.html&#34;&gt;官网Quick start&lt;/a&gt;中的方式，将源码下载到本地，然后通过tox工具进行调试。这里将描述一下第二种方式的操作过程：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@vultr ~]# yum -y install epel-release
+[root@vultr ~]# yum install gcc git-core python-devel python-virtualenv openssl-devel libffi-devel which
+[root@vultr ~]# yum -y install python-pip
+[root@vultr ~]# pip install django
+[root@vultr ~]# pip install tox
+[root@vultr ~]# mkdir /root/python; cd /root/python;
+[root@vultr python]# git clone https://github.com/openstack/horizon.git
+[root@vultr python]# cd horizon
+[root@vultr horizon]# git branch -r
+  origin/HEAD -&amp;gt; origin/master
+  origin/master
+  origin/stable/ocata
+  origin/stable/pike
+  origin/stable/queens
+  origin/stable/rocky
+[root@vultr horizon]# git checkout -b origin/stable/pike
+[root@vultr horizon]# cp openstack_dashboard/local/local_settings.py.example openstack_dashboard/local/local_settings.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后修改local_settings.py文件的下列参数，其中ALLOWED_HOSTS参数是为了能访问Dashboard而设置成*，其它4个参数目的是对接已有环境的Keystone，否则无法正常登入Dashboard。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ALLOWED_HOSTS = [&#39;*&#39;]
+SECRET_KEY=&#39;atUWYfUG0GOELk0aNS2a5fjQxVC3Rc8z7Qdl8LJc&#39;
+OPENSTACK_HOST = &amp;quot;172.16.170.129&amp;quot;
+OPENSTACK_KEYSTONE_URL = &amp;quot;http://%s:15000/v2.0&amp;quot; % OPENSTACK_HOST
+OPENSTACK_ENDPOINT_TYPE = &amp;quot;internalURL&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后通过tox启动Dashboard，期间会有较长的pip install过程，根据网络状况不同，安装时间也会不同，国内用户等待的时间会比较漫长。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@hcs1 horizon]# tox -e runserver -- 172.16.33.1:8000
+runserver create: /home/zgq/python/horizon/.tox/runserver
+runserver installdeps: -r/home/zgq/python/horizon/requirements.txt, -r/home/zgq/python/horizon/test-requirements.txt 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动完成之后可以通过浏览器登入Dashboard&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/9dDwR6P.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-创建自己的panel&#34;&gt;三、创建自己的Panel&lt;/h2&gt;
+
+&lt;p&gt;参考&lt;a href=&#34;https://docs.openstack.org/horizon/latest/contributor/tutorials/dashboard.html&#34;&gt;官网&lt;/a&gt;教程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@hcs1 horizon]# cd /home/zgq/python/horizon
+[root@hcs1 horizon]# mkdir -p openstack_dashboard/dashboards/mydashboard/mypanel
+[root@hcs1 horizon]# tox -e manage -- startdash mydashboard \
+  --target openstack_dashboard/dashboards/mydashboard
+[root@hcs1 horizon]# tox -e manage -- startpanel mypanel \
+  --dashboard=openstack_dashboard.dashboards.mydashboard \
+  --target=openstack_dashboard/dashboards/mydashboard/mypanel
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后删掉暂时用不上的，只留下需要的文件，目录结构如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/h2lZHw7.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改dashboard.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/i8996jn.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改mypanel/panel.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/V4BZ0lF.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改mypanel/tables.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/4E0yu7M.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改mypanel/tabs.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/j9RN3fk.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改mypanel/views.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/VXuO5C2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改mypanel/urls.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/TlmsZ2G.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改mypanel/templates/mypanel/index.html文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/oHimiJy.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最后创建并修改/home/zgq/python/horizon/openstack_dashboard/enabled/_50_mydashboard.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3FrUeVB.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后重启tox后再次登入dashboard，新增的界面已经加上了&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>mysql高可用集群搭建（上篇）</title>
@@ -2122,20 +2250,6 @@ https://0.0.0.0:2015
 
 &lt;li&gt;&lt;p&gt;其它：CDN技术、反向代理、SOA、RAM Caching、Http压缩、Http加速等等。不会的还有很多，Mark一下，慢慢来。&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>第一篇Blog，顺便吐槽一下segmentfault</title>
-      <link>https://zhanggq.github.io/post/zgq-ui-segmentfault/</link>
-      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-ui-segmentfault/</guid>
-      
-        <description>&lt;p&gt;第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blog。没想到，还没写几篇文章，就各种审核不通过。各种商业小白文倒是火得很。无语无奈之下，自己动手丰衣足食吧。&lt;/p&gt;
-
-&lt;p&gt;截止到目前，只是搭了一个架子出来，顺便学学Markdown怎么写。后面有空再把评论功能加上，以及去&lt;a href=&#34;https://themes.gohugo.io/找找其它顺眼的主题。Hugo确实强大，可以去学习一下源码。&#34;&gt;https://themes.gohugo.io/找找其它顺眼的主题。Hugo确实强大，可以去学习一下源码。&lt;/a&gt;&lt;/p&gt;
 </description>
       
     </item>

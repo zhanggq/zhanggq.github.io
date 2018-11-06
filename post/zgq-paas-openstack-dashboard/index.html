@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Openstack Horizon二次开发 - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Openstack Horizon二次开发" />
+<meta property="og:description" content="摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/" /><meta property="article:published_time" content="2018-11-06T10:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-06T10:03:09&#43;08:00"/>
+
+<meta itemprop="name" content="Openstack Horizon二次开发">
+<meta itemprop="description" content="摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori">
+
+
+<meta itemprop="datePublished" content="2018-11-06T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-06T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="1519">
+
+
+
+<meta itemprop="keywords" content="cloud,paas,openstack,horizon,django," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Openstack Horizon二次开发"/>
+<meta name="twitter:description" content="摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Openstack Horizon二次开发</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-06 </span>
+        <div class="post-category">
+            
+              <a href="/categories/paas/"> PAAS </a>
+            
+          </div>
+        <span class="more-meta"> 约 1519 字 </span>
+        <span class="more-meta"> 预计阅读 4 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#摘要">摘要</a></li>
+<li><a href="#一-horizon介绍">一、Horizon介绍</a></li>
+<li><a href="#二-研发环境搭建">二、研发环境搭建</a></li>
+<li><a href="#三-创建自己的panel">三、创建自己的Panel</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p><a name="section0"></a></p>
+
+<h2 id="摘要">摘要</h2>
+
+<blockquote>
+<p>最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。</p>
+</blockquote>
+
+<p><a name="section1"></a></p>
+
+<h2 id="一-horizon介绍">一、Horizon介绍</h2>
+
+<p>Horizon是基于django webframework开发的标准的Python wsgi程序，django的设计专注于代码的高度可重用，信奉DRY原则，一切面向对象，而Horizon可以说高度match了django的设计风格。网站程序基本有三部分组成，业务逻辑代码(Python)，静态文件(js/css)，模板(Python中的jinja,mako,nodejs中有jade)， 用户向webserver发起请求之后，server程序找到当前url对应的模板，填充模板变量(输出成字符串形式的html源码),返回给浏览器，浏览器渲染页面。一般模板语言都有继承(extend),插入(include)等特性，来提高页面的复用率。</p>
+
+<p>Horizon做得就更彻底一些，它将页面上所有元素模块化，网页中一些常见元素，表单，表格，标签页，全部封装成Python类，每个组件有自己对应的一小块html模板(templates)。当渲染整个页面的时候,Horizon先找到当前页面有多少组件，将各个组件分别进行渲染变成一段html片段，最后拼装成一 个完整的html页面，返回浏览器。</p>
+
+<p>一个Dashboard（在django里称为app）通常情况下由四个组件组成，分别为panel、tab、table和view。其中，panel、tab和table用于导航的，真正展示数据的在view里面。它们之间的关系是panel包含tab，tab包含table，view包含table或者tab。</p>
+
+<p><a name="section2"></a></p>
+
+<h2 id="二-研发环境搭建">二、研发环境搭建</h2>
+
+<p>可以在已经部署好的openstack环境中直接修改/usr/lib/python2.7/site-packages/openstack_dashboard/目录下的代码，之后重启httpd服务调试，也可以通过<a href="https://docs.openstack.org/horizon/latest/contributor/quickstart.html">官网Quick start</a>中的方式，将源码下载到本地，然后通过tox工具进行调试。这里将描述一下第二种方式的操作过程：</p>
+
+<pre><code>[root@vultr ~]# yum -y install epel-release
+[root@vultr ~]# yum install gcc git-core python-devel python-virtualenv openssl-devel libffi-devel which
+[root@vultr ~]# yum -y install python-pip
+[root@vultr ~]# pip install django
+[root@vultr ~]# pip install tox
+[root@vultr ~]# mkdir /root/python; cd /root/python;
+[root@vultr python]# git clone https://github.com/openstack/horizon.git
+[root@vultr python]# cd horizon
+[root@vultr horizon]# git branch -r
+  origin/HEAD -&gt; origin/master
+  origin/master
+  origin/stable/ocata
+  origin/stable/pike
+  origin/stable/queens
+  origin/stable/rocky
+[root@vultr horizon]# git checkout -b origin/stable/pike
+[root@vultr horizon]# cp openstack_dashboard/local/local_settings.py.example openstack_dashboard/local/local_settings.py
+</code></pre>
+
+<p>之后修改local_settings.py文件的下列参数，其中ALLOWED_HOSTS参数是为了能访问Dashboard而设置成*，其它4个参数目的是对接已有环境的Keystone，否则无法正常登入Dashboard。</p>
+
+<pre><code>ALLOWED_HOSTS = ['*']
+SECRET_KEY='atUWYfUG0GOELk0aNS2a5fjQxVC3Rc8z7Qdl8LJc'
+OPENSTACK_HOST = &quot;172.16.170.129&quot;
+OPENSTACK_KEYSTONE_URL = &quot;http://%s:15000/v2.0&quot; % OPENSTACK_HOST
+OPENSTACK_ENDPOINT_TYPE = &quot;internalURL&quot;
+</code></pre>
+
+<p>之后通过tox启动Dashboard，期间会有较长的pip install过程，根据网络状况不同，安装时间也会不同，国内用户等待的时间会比较漫长。</p>
+
+<pre><code>[root@hcs1 horizon]# tox -e runserver -- 172.16.33.1:8000
+runserver create: /home/zgq/python/horizon/.tox/runserver
+runserver installdeps: -r/home/zgq/python/horizon/requirements.txt, -r/home/zgq/python/horizon/test-requirements.txt 
+</code></pre>
+
+<p>启动完成之后可以通过浏览器登入Dashboard</p>
+
+<p><img src="https://i.imgur.com/9dDwR6P.png" alt="" /></p>
+
+<p><a name="section3"></a></p>
+
+<h2 id="三-创建自己的panel">三、创建自己的Panel</h2>
+
+<p>参考<a href="https://docs.openstack.org/horizon/latest/contributor/tutorials/dashboard.html">官网</a>教程</p>
+
+<pre><code>[root@hcs1 horizon]# cd /home/zgq/python/horizon
+[root@hcs1 horizon]# mkdir -p openstack_dashboard/dashboards/mydashboard/mypanel
+[root@hcs1 horizon]# tox -e manage -- startdash mydashboard \
+  --target openstack_dashboard/dashboards/mydashboard
+[root@hcs1 horizon]# tox -e manage -- startpanel mypanel \
+  --dashboard=openstack_dashboard.dashboards.mydashboard \
+  --target=openstack_dashboard/dashboards/mydashboard/mypanel
+</code></pre>
+
+<p>之后删掉暂时用不上的，只留下需要的文件，目录结构如图：</p>
+
+<p><img src="https://i.imgur.com/h2lZHw7.png" alt="" /></p>
+
+<p>修改dashboard.py文件</p>
+
+<p><img src="https://i.imgur.com/i8996jn.png" alt="" /></p>
+
+<p>修改mypanel/panel.py文件</p>
+
+<p><img src="https://i.imgur.com/V4BZ0lF.png" alt="" /></p>
+
+<p>修改mypanel/tables.py文件</p>
+
+<p><img src="https://i.imgur.com/4E0yu7M.png" alt="" /></p>
+
+<p>修改mypanel/tabs.py文件</p>
+
+<p><img src="https://i.imgur.com/j9RN3fk.png" alt="" /></p>
+
+<p>修改mypanel/views.py文件</p>
+
+<p><img src="https://i.imgur.com/VXuO5C2.png" alt="" /></p>
+
+<p>修改mypanel/urls.py文件</p>
+
+<p><img src="https://i.imgur.com/TlmsZ2G.png" alt="" /></p>
+
+<p>修改mypanel/templates/mypanel/index.html文件</p>
+
+<p><img src="https://i.imgur.com/oHimiJy.png" alt="" /></p>
+
+<p>最后创建并修改/home/zgq/python/horizon/openstack_dashboard/enabled/_50_mydashboard.py文件</p>
+
+<p><img src="https://i.imgur.com/3FrUeVB.png" alt="" /></p>
+
+<p>之后重启tox后再次登入dashboard，新增的界面已经加上了</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content"><a href="https://laozhu.me" rel="noopener" target="_blank">Zhanggq</a></span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-11-06</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/cloud/">cloud</a>
+          
+          <a href="/tags/paas/">paas</a>
+          
+          <a href="/tags/openstack/">openstack</a>
+          
+          <a href="/tags/horizon/">horizon</a>
+          
+          <a href="/tags/django/">django</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/zgq-paas-mysql/">
+            <span class="next-text nav-default">mysql高可用集群搭建（上篇）</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+
+
+
+
+</body>
+</html>
