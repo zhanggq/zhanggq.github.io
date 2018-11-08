@@ -138,6 +138,32 @@ runserver installdeps: -r/home/zgq/python/horizon/requirements.txt, -r/home/zgq/
 
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/QhsVgX0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-创建一个复杂的动作&#34;&gt;四、创建一个复杂的动作&lt;/h2&gt;
+
+&lt;p&gt;参考&lt;a href=&#34;https://docs.openstack.org/horizon/latest/contributor/tutorials/table_actions.html&#34;&gt;官网&lt;/a&gt;教程&lt;/p&gt;
+
+&lt;p&gt;因为是在上一步新增的界面上增加Action，所以不需要修改dashboard.py和panel.py文件。新增form.py文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/2UjtGvZ.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后修改table.py文件，增加Action&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/C3QRjv2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改views.py文件，为Action创建views视图&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/p0wk9VY.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改url.py文件，添加url链接&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/kqb07PK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最近添加Action所用的html&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/RIvZtFB.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
 &lt;p&gt;以上&lt;/p&gt;
 </description>
       

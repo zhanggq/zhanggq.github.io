@@ -70,7 +70,7 @@
 
 <meta itemprop="datePublished" content="2018-11-06T10:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-11-06T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="1521">
+<meta itemprop="wordCount" content="1689">
 
 
 
@@ -167,7 +167,7 @@
               <a href="/categories/paas/"> PAAS </a>
             
           </div>
-        <span class="more-meta"> 约 1521 字 </span>
+        <span class="more-meta"> 约 1689 字 </span>
         <span class="more-meta"> 预计阅读 4 分钟 </span>
       </div>
     </header>
@@ -186,6 +186,7 @@
 <li><a href="#一-horizon介绍">一、Horizon介绍</a></li>
 <li><a href="#二-研发环境搭建">二、研发环境搭建</a></li>
 <li><a href="#三-创建自己的panel">三、创建自己的Panel</a></li>
+<li><a href="#四-创建一个复杂的动作">四、创建一个复杂的动作</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -313,6 +314,32 @@ runserver installdeps: -r/home/zgq/python/horizon/requirements.txt, -r/home/zgq/
 <p>之后重启tox后再次登入dashboard，新增的界面已经加上了</p>
 
 <p><img src="https://i.imgur.com/QhsVgX0.png" alt="" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-创建一个复杂的动作">四、创建一个复杂的动作</h2>
+
+<p>参考<a href="https://docs.openstack.org/horizon/latest/contributor/tutorials/table_actions.html">官网</a>教程</p>
+
+<p>因为是在上一步新增的界面上增加Action，所以不需要修改dashboard.py和panel.py文件。新增form.py文件</p>
+
+<p><img src="https://i.imgur.com/2UjtGvZ.png" alt="" /></p>
+
+<p>之后修改table.py文件，增加Action</p>
+
+<p><img src="https://i.imgur.com/C3QRjv2.png" alt="" /></p>
+
+<p>修改views.py文件，为Action创建views视图</p>
+
+<p><img src="https://i.imgur.com/p0wk9VY.png" alt="" /></p>
+
+<p>修改url.py文件，添加url链接</p>
+
+<p><img src="https://i.imgur.com/kqb07PK.png" alt="" /></p>
+
+<p>最近添加Action所用的html</p>
+
+<p><img src="https://i.imgur.com/RIvZtFB.png" alt="" /></p>
 
 <p>以上</p>
 
