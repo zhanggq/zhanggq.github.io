@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 06 Nov 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 26 Nov 2018 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>重新梳理一下我自己的两个web工程</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</guid>
+      <description>摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My</description>
+    </item>
     
     <item>
       <title>Openstack Horizon二次开发</title>
@@ -180,15 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-ui-think/</guid>
       <description>一、前言 2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成</description>
-    </item>
-    
-    <item>
-      <title>第一篇Blog，顺便吐槽一下segmentfault</title>
-      <link>https://zhanggq.github.io/post/zgq-ui-segmentfault/</link>
-      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-ui-segmentfault/</guid>
-      <description>第一篇Blog，顺便吐槽一下segmentfault，之前虽然觉得segmentfault之类的虽然low，但一直怕麻烦，没有自己搞个Blo</description>
     </item>
     
   </channel>

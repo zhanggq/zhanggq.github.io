@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Amaze</title>
+      <link>https://zhanggq.github.io/tags/amaze/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/amaze/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Blog</title>
       <link>https://zhanggq.github.io/tags/blog/</link>
       <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
@@ -41,7 +50,7 @@
     <item>
       <title>Cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
-      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/cloud/</guid>
       <description></description>
@@ -71,6 +80,15 @@
       <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://zhanggq.github.io/tags/go/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/go/</guid>
       <description></description>
     </item>
     
@@ -170,24 +188,6 @@
       <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/opencontrail/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Openflow</title>
-      <link>https://zhanggq.github.io/tags/openflow/</link>
-      <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/openflow/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Openstack</title>
-      <link>https://zhanggq.github.io/tags/openstack/</link>
-      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/openstack/</guid>
       <description></description>
     </item>
     

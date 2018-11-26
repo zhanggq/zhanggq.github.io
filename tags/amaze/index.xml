@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Springboot on Zhanggq</title>
-    <link>https://zhanggq.github.io/tags/springboot/</link>
-    <description>Recent content in Springboot on Zhanggq</description>
+    <title>Amaze on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/amaze/</link>
+    <description>Recent content in Amaze on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 26 Nov 2018 10:03:09 +0800</lastBuildDate>
     
-	<atom:link href="https://zhanggq.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhanggq.github.io/tags/amaze/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</guid>
       <description>摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My</description>
-    </item>
-    
-    <item>
-      <title>Vue &#43; Springboot开发过程中遇到的坑</title>
-      <link>https://zhanggq.github.io/post/zgq-web-vue-springboot/</link>
-      <pubDate>Fri, 29 Jun 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-vue-springboot/</guid>
-      <description>摘要 最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇</description>
     </item>
     
   </channel>

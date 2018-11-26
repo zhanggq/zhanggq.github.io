@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>重新梳理一下我自己的两个web工程 - Zhanggq</title>
+  <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="Zhanggq" />
+  <meta name="description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="重新梳理一下我自己的两个web工程" />
+<meta property="og:description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" /><meta property="article:published_time" content="2018-11-26T10:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-26T10:03:09&#43;08:00"/>
+
+<meta itemprop="name" content="重新梳理一下我自己的两个web工程">
+<meta itemprop="description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My">
+
+
+<meta itemprop="datePublished" content="2018-11-26T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-26T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="685">
+
+
+
+<meta itemprop="keywords" content="cloud,paas,amaze,go,vue,springboot," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="重新梳理一下我自己的两个web工程"/>
+<meta name="twitter:description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jane</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">Jane</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">重新梳理一下我自己的两个web工程</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-26 </span>
+        <div class="post-category">
+            
+              <a href="/categories/paas/"> PAAS </a>
+            
+          </div>
+        <span class="more-meta"> 约 685 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#摘要">摘要</a></li>
+<li><a href="#一-mysql">一、Mysql</a></li>
+<li><a href="#二-amaze-go">二、Amaze + Go</a></li>
+<li><a href="#三-vue-srping-boot">三、Vue + Srping boot</a></li>
+<li><a href="#四-关于前端框架">四、关于前端框架</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p><a name="section0"></a></p>
+
+<h2 id="摘要">摘要</h2>
+
+<blockquote>
+<p>起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。</p>
+</blockquote>
+
+<p><a name="section1"></a></p>
+
+<h2 id="一-mysql">一、Mysql</h2>
+
+<p>Mysql是我很多工程的起点，所以这里先讲一下我自己的Mysql。我习惯用自己打的Mysql Docker镜像来启动，镜像的<a href="https://github.com/zhanggq/mariadb/tree/amaze">Git路径</a>。基于ubuntu，改了时区之类的，通过Supervisor启动Mysql。之后通过下面的命令启动容器，mysql端口映射到本地的13306端口，也就是其他容器可以通过-h 127.0.0.1 -P13306访问。</p>
+
+<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h mysql --name=mysql --restart=always -v /home/zgq/lib/mysql:/var/lib/mysql -p 13306:3306 --stop-signal=RTMIN+3 mariadb.amaze:v10.1 /usr/bin/supervisord
+</code></pre>
+
+<p><a name="section2"></a></p>
+
+<h2 id="二-amaze-go">二、Amaze + Go</h2>
+
+<p>之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go。前后端通过Ajax交互，后端一个监控器定期从网易抓出各支股票收盘的数据，并写入Mysql。同样也是打了Docker镜像。</p>
+
+<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h amaze --name=amaze  --net=host --restart=always --stop-signal=RTMIN+3 amaze:v1.0 /usr/bin/supervisord
+</code></pre>
+
+<p><img src="https://i.imgur.com/2DaMcPH.jpg" alt="" /></p>
+
+<p><a name="section3"></a></p>
+
+<h2 id="三-vue-srping-boot">三、Vue + Srping boot</h2>
+
+<p>公司一个项目需要，做了一下调研，并写了个Demo。前端是iview，后端是Spring boot，前后端分离。部署的时候花了不少时间，后端很简单，java -jar跑起来就行。而前端有点麻烦，因为涉及到反向代理配置。先后尝试了三种静态页面的部署工具，Caddy、Apache、Nginx，最后发现还是Nginx好使。最后同上，也是打了Docker镜像。顺便提一下，这个镜像属于偷懒性质，正确的做法应该是From Nginx镜像去打前端的镜像，From JDK镜像去打后端的镜像。</p>
+
+<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h hrserver --name=hrserver --net=host --restart=always --stop-signal=RTMIN+3 hrserver:v1.0 /usr/sbin/init
+</code></pre>
+
+<p><img src="https://i.imgur.com/NFZB9jI.png" alt="" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-关于前端框架">四、关于前端框架</h2>
+
+<p>Githup上，评分高的还是中国人搞的框架，如下：</p>
+
+<p><a href="https://github.com/PanJiaChen/vue-element-admin">vue-element-admin 评分22.9k</a>
+<a href="https://admin.iviewui.com/home">iview 评分18.5k</a></p>
+
+<p>以上</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content"><a href="https://laozhu.me" rel="noopener" target="_blank">Zhanggq</a></span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-11-26</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a href="https://github.com/gohugoio/hugoBasicExample" rel="noopener" target="_blank">See origin</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/cloud/">cloud</a>
+          
+          <a href="/tags/paas/">paas</a>
+          
+          <a href="/tags/amaze/">amaze</a>
+          
+          <a href="/tags/go/">go</a>
+          
+          <a href="/tags/vue/">vue</a>
+          
+          <a href="/tags/springboot/">springboot</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/zgq-paas-openstack-dashboard/">
+            <span class="next-text nav-default">Openstack Horizon二次开发</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-email" title="email"></a>
+      <a href="zhang_gq@foxmail.com" rel="me" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanggq.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">zhanggq</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+
+
+
+
+</body>
+</html>

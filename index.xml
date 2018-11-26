@@ -6,10 +6,72 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 06 Nov 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 26 Nov 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>重新梳理一下我自己的两个web工程</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-mysql&#34;&gt;一、Mysql&lt;/h2&gt;
+
+&lt;p&gt;Mysql是我很多工程的起点，所以这里先讲一下我自己的Mysql。我习惯用自己打的Mysql Docker镜像来启动，镜像的&lt;a href=&#34;https://github.com/zhanggq/mariadb/tree/amaze&#34;&gt;Git路径&lt;/a&gt;。基于ubuntu，改了时区之类的，通过Supervisor启动Mysql。之后通过下面的命令启动容器，mysql端口映射到本地的13306端口，也就是其他容器可以通过-h 127.0.0.1 -P13306访问。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h mysql --name=mysql --restart=always -v /home/zgq/lib/mysql:/var/lib/mysql -p 13306:3306 --stop-signal=RTMIN+3 mariadb.amaze:v10.1 /usr/bin/supervisord
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-amaze-go&#34;&gt;二、Amaze + Go&lt;/h2&gt;
+
+&lt;p&gt;之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go。前后端通过Ajax交互，后端一个监控器定期从网易抓出各支股票收盘的数据，并写入Mysql。同样也是打了Docker镜像。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h amaze --name=amaze  --net=host --restart=always --stop-signal=RTMIN+3 amaze:v1.0 /usr/bin/supervisord
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/2DaMcPH.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-vue-srping-boot&#34;&gt;三、Vue + Srping boot&lt;/h2&gt;
+
+&lt;p&gt;公司一个项目需要，做了一下调研，并写了个Demo。前端是iview，后端是Spring boot，前后端分离。部署的时候花了不少时间，后端很简单，java -jar跑起来就行。而前端有点麻烦，因为涉及到反向代理配置。先后尝试了三种静态页面的部署工具，Caddy、Apache、Nginx，最后发现还是Nginx好使。最后同上，也是打了Docker镜像。顺便提一下，这个镜像属于偷懒性质，正确的做法应该是From Nginx镜像去打前端的镜像，From JDK镜像去打后端的镜像。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h hrserver --name=hrserver --net=host --restart=always --stop-signal=RTMIN+3 hrserver:v1.0 /usr/sbin/init
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/NFZB9jI.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-关于前端框架&#34;&gt;四、关于前端框架&lt;/h2&gt;
+
+&lt;p&gt;Githup上，评分高的还是中国人搞的框架，如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/PanJiaChen/vue-element-admin&#34;&gt;vue-element-admin 评分22.9k&lt;/a&gt;
+&lt;a href=&#34;https://admin.iviewui.com/home&#34;&gt;iview 评分18.5k&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Openstack Horizon二次开发</title>
@@ -2230,62 +2292,6 @@ https://0.0.0.0:2015
     }  
 } 
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>我对网站开发的总结与思考</title>
-      <link>https://zhanggq.github.io/post/zgq-ui-think/</link>
-      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-ui-think/</guid>
-      
-        <description>&lt;p&gt;&lt;strong&gt;一、前言&lt;/strong&gt;
-  2006年开始入坑至今，期间还进进出出几次，没怎么做过大项目，多是自学，自学和自学。有些时候回头想想，也算接触过不少东东，但没有形成一个完整的体系，所以在这里写点东西，写到哪算哪吧，是总结，也是思考。
-  2006年做的是CSS，powerbuilder + weblogic + Oracle。后来也用powerbuilder + access写了些单机小程序玩。不知道PB算不算上古时代的前端技术(≖ ‿ ≖)✧。大概到了08年，第一次接触了BSS，惊为天人，感觉用WEB比PB那玩意高大上了好多，从此开始一发不可收拾，入坑自学研究至今（虽然WEB开发从来不是我的工作内容）。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;二、总结&lt;/strong&gt;
-  最初学习WEB开发是从JAVA开始，《Think In Java》，然后开始Spring、Struts、Hibernate三大框架，以及Dreamweaver这种网页编辑器。但因为没有服务器，也不是本职工作，只能看看别人写的源码，自己没法上手，所以始终不得要领。
-  直到15年开始做云计算，16年开始用Go，突然发现以前百思不得其解的东西，如今变得非常简单。最初是用Go开始写WEB服务端，顺便在Go里面加了一些HTML代码，然后发现自己原来已经写出了一个简单的网站。接着在Git上找了套Go的框架Beego（因为有中文）和前端框架Layui，很轻松的就搭出了一个管理平台。恰逢阿里云打折，又买了台云主机，在自己的虚机上部署了应用，就算是发布了。
-    (￣▽￣)/
-&lt;img src=&#34;https://i.imgur.com/6DEkrP8.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;第一步踏出之后，发现后面的路就变得好走了，一方面继续学习，一方面自己思考。第二个WEB是自己写股票分析WEB。后端还是Beego+Mariadb，前端改成了Amaze UI（因为Layui不支持Echarts，或者说是我没搞起来，另一方面因为Amaze UI的实例多）。由于时间关系（毕竟只是空余时间自己学着玩的），很多功能还没搞起来，只做了自动同步数据（网易的API接口，爬出来写数据库），界面展示，股票查询这些。过程中知道了MVC(Model View Controller，是模型(model)－视图(view)－控制器(controller))，知道了网页动静分离，知道了大名鼎鼎的Ajax。因为都是自己在捣鼓，所以后端的开发工作也占用了比较多的时间，比如用Docker容器做了WEB服务和数据库的分离，Mariadb集群（实际上这P大点的东西搞个本地映射就完了，数据丢了从网易全部爬一遍也要不了多少时间），顺便把Docker镜像都传到自己的阿里云仓库了（不收费，真大气）。
-&lt;img src=&#34;https://i.imgur.com/oerBiK9.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;后面的路该怎么走？继续边走边琢磨吧，还有好多东西没玩过，比如说Vue最近很火；比如说Bootstrap虽然不如小鲜肉火，但也曾是业界标杆；比如说nodejs可以完美解决前后端分离；比如说MVC已经过气了，现在火的是MVP、MVVM。还可以再研究一下caddy，毕竟是go里面排第一的。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;三、思考&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;为什么用Go？ Java很牛逼，常年霸占开发语言榜首 &lt;a href=&#34;https://www.tiobe.com/tiobe-index/&#34;&gt;https://www.tiobe.com/tiobe-index/&lt;/a&gt; 。但就我个人而言，工作中用不着Java，只能看，不能摸，咋玩？Java体系太庞大，不适合我这样的匆匆过客。Python也很牛逼，工作中也用，但怎么说呢，性能不高，对第三方库依赖也太重，我自己用起来都觉得麻烦（Go编完了随便往一个容器里面一放就能跑，Python还得装一堆依赖）。&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;什么是MVC，它为什么会存在，又为什么被淘汰了？先声明一点，这个话题很大，而且我也不是圈内人士，我只能说点我自己的观念。MVC首先是个老古董，最初并没有流行开（我也不知道它是什么时候火起来的），我觉得人们最初的想法其实很简单，就是让网页的速度更快，而为了达到这个目的，出现了网页动静分离这样一个概念。MVC恰好又符合这一思想，model、view、controller各自做好自己的事情（View负责页面，Controller负责路由，Model负责逻辑和数据库），降低互相间的耦合程度，把一部分工作前移交给浏览器去做，静态页面由浏览器去缓存，动态页面需要的时候再去加载。那为什么现在它又被淘汰了？因为它有了两种演进方向：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;MVP（Model-View-Presenter），Presenter功能和Controller类似，但MVP与MVC有着一个重大的区别：在MVP中View并不直接使用Model，它们之间的通信是通过Presenter，所有的交互都发生在Presenter内部，而在MVC中View会直接从Model中读取数据而不是通过Controller。题外话：这两个一个是上世纪80年代的东东，一个上上世纪90年代的东东，完美的区分这两者有意义么，我觉得差不多理解其思想就行了，有兴趣的可以去看看一位Google Manager的文章&lt;a href=&#34;https://addyosmani.com/blog/understanding-mvc-and-mvp-for-javascript-and-backbone-developers/&#34;&gt;https://addyosmani.com/blog/understanding-mvc-and-mvp-for-javascript-and-backbone-developers/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;MVVM（Model-View-ViewModel），其实和MVC关系已经不大了，只是为了便于理解把他们放在了一起。ViewModel大致上就是MVP的Presenter和MVC的Controller了，而View和ViewModel间没有了MVP的界面接口，而是直接交互，用数据“绑定”的形式让数据更新的事件不需要开发人员手动去编写特殊用例，而是自动地双向同步，用一种统一的集中的方式实现频繁需要被实现的数据更新问题。例如用于股票这种数据需要被实时更新的场景。简单的总结一下就是，以前用过的Layui和Amaze UI属于MVC(MVP)，还没用过的Vue是MVVM(ElementUI还是iView容我再纠结一下)。Vue还是AngularJS？来张图：
-&lt;img src=&#34;https://i.imgur.com/Qnl91oD.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://i.imgur.com/TYTRYSg.png&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;数据库优化，这也是一个大的命题。做一个网站，撇开内容、美工之外，其他无非就是速度，并发、稳定性。其中数据库在这三个方面都有涉及，为何？速度，不管是都还是写，都和数据库的响应速度有关；并发，大量并发的场景下用户Session的存放，总不能都放内存里吧；稳定性，大量并发的情况下如何保持数据库不锁死。我个人觉得需要想明白的事情包括：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;先搞清楚网站的读写比例，再决定设计方向；&lt;/li&gt;
-&lt;li&gt;降低数据库的计算功能，让其把资源都放在存储上；&lt;/li&gt;
-&lt;li&gt;数据库进行读写分离；&lt;/li&gt;
-&lt;li&gt;数据库之间的数据同步；&lt;/li&gt;
-&lt;li&gt;引入缓存系统和搜索技术；&lt;/li&gt;
-&lt;li&gt;数据库拆分（垂直拆分&amp;ndash;&amp;gt;水平拆分）;&lt;/li&gt;
-&lt;li&gt;分布式事务&lt;/li&gt;
-&lt;li&gt;使用NoSql数据库,采用Key/Value这种简单的数据结构&lt;/li&gt;
-&lt;li&gt;剩下的就是多读读书，比如看看阿里是怎么做的&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;其它：CDN技术、反向代理、SOA、RAM Caching、Http压缩、Http加速等等。不会的还有很多，Mark一下，慢慢来。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
 </description>
       
     </item>
