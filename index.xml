@@ -6,10 +6,104 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 26 Nov 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Dec 2018 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Openstack GPU Passthrough</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的服务器上玩游戏）。这里将介绍一下我配置GPU透传的过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-万恶的nvidia&#34;&gt;一、万恶的Nvidia&lt;/h2&gt;
+
+&lt;p&gt;思来想去，还是把这段话放在最前面，以表示我对Nvidia的痛恨。要是用AMD显卡，这项工作我至少能省两天的工作量。在显卡行业处于垄断地位的Nvidia，不知是出于何种目的，在它的驱动中会禁止显卡在Kvm虚机中工作，所以Gpu Passthrough的很大一项工作就是寻找办法将Nvidia骗过去。顺便套用老外写的一句话，我自己花钱买的显卡，怎么用是我自己的事情，为毛不让我在Kvm虚机中使用？&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-显卡型号&#34;&gt;二、显卡型号&lt;/h2&gt;
+
+&lt;p&gt;不是所有的显卡都支持GPU透传，截至到2018年，Nvidia官方文档中，支持Gpu透传的显卡如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/H7Kb12H.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;除此之外，还需要考虑服务器能否支持这些类型的显卡。我这边测试使用的是M2000显卡，仅在浪潮NF5280M4和Dell R730上支持。另外还得注意显卡是全高还是半高。M2000是全高显卡，所以只能插在横向PCI扩展槽位上。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-物理机配置&#34;&gt;三、物理机配置&lt;/h2&gt;
+
+&lt;p&gt;如果显卡和服务器能匹配上，那么在服务器上通过lspci命令可以直接看到显卡（不需要安装驱动）。如果看不到，恭喜你，那就是服务器主板不支持该显卡。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/rNMcuVq.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后要做的事情：开启iommu，加载vfio内核，解绑nouveau驱动。至于VT-d什么的，都2018年了，服务器应该都默认开启了吧。网上的参考资料很多，我主要参考了这篇帖子&lt;a href=&#34;https://blog.csdn.net/u010845350/article/details/80599984&#34;&gt;OpenStack Pike版本+KVM+Passthrough+NVIDIA显卡1060透传&lt;/a&gt;。稍微有点不一样的地方在于，考虑到服务器重启后虚机要自动重新绑定显卡，所以得加上开机启动脚本，将显卡解绑的操作在开机后自动做掉。另外一个区别是我用的docker容器，有一些文件夹得做目录映射。这是一个见招拆招的过程，这里不再详述。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-openstack配置&#34;&gt;四、Openstack配置&lt;/h2&gt;
+
+&lt;p&gt;首先尽量使用P版本，我测试时使用的是M版本，有很多配置不支持，得手工从P版本反合M版本。&lt;/p&gt;
+
+&lt;p&gt;修改Controller的Nova配置如下：
+&lt;img src=&#34;https://i.imgur.com/JrQu626.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改Compute的Nova配置如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/Wi69WCI.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;尽量使用高版本的qemu，我测试时用的2.6.0和2.10.0。Libvirt版本是2.0.0。&lt;/p&gt;
+
+&lt;p&gt;Compute安装OVMF
+这里有个很傻的地方在于，最新的OVMF包安装之后，引导文件生成于/usr/share/edk2.git/ovmf-x64/目录。而M版本的Nova没有去调用libvirt的配置文件，而是写死了去读取/usr/share/OVMF/目录。所以得手工把文件拷贝到/usr/share/OVMF/目录下。&lt;/p&gt;
+
+&lt;p&gt;设置flavor&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;openstack flavor set m1.large --property &amp;quot;pci_passthrough:alias&amp;quot;=&amp;quot;M2000:1&amp;quot;
+openstack flavor set m1.large --property &amp;quot;capabilities:boot_mode&amp;quot;=&amp;quot;uefi&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;镜像打上标签：
+img_hide_hypervisor_id=true
+hw_firmware_type=uefi&lt;/p&gt;
+
+&lt;p&gt;UEFI镜像制作参考&lt;a href=&#34;http://ju.outofmemory.cn/entry/226516&#34;&gt;KVM 开启UEFI支持&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-虚机安装驱动&#34;&gt;五、虚机安装驱动&lt;/h2&gt;
+
+&lt;p&gt;虚机正确的打开方式如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/0LBaLpl.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后这个设备就是我们透传进去的显卡&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/WxDUkLE.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;安装驱动后跑分结果&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/T25LyWv.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>重新梳理一下我自己的两个web工程</title>
@@ -2206,92 +2300,6 @@ github.com/garyburd/redigo&lt;/p&gt;
 &lt;p&gt;12.静态网站生成器
 我的Blog就是靠它生成的，挺好用
 github.com/gohugoio/hugo&lt;/p&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>Caddy初探</title>
-      <link>https://zhanggq.github.io/post/zgq-web-caddy-test/</link>
-      <pubDate>Tue, 03 Apr 2018 18:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-caddy-test/</guid>
-      
-        <description>&lt;p&gt;Caddy
-类似于Apache，Nginx，是一个高性能的HTTP和反向代理服务器&lt;/p&gt;
-
-&lt;p&gt;代码
-&lt;a href=&#34;https://github.com/mholt/caddy&#34;&gt;https://github.com/mholt/caddy&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;使用，先升级Go至1.9以上(&lt;a href=&#34;https://my.oschina.net/u/2601623/blog/1785798)，然后&#34;&gt;https://my.oschina.net/u/2601623/blog/1785798)，然后&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;go get github.com/mholt/caddy/caddy
-go get github.com/caddyserver/builds
-cd $GOPATH/src/github.com/mholt/caddy/caddy
-go run build.go
-./caddy
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;初步尝试，在caddy同目录下创建Caddyfile文件，并写入配置，然后运行caddy&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# cat Caddyfile
-0.0.0.0:2015
-
-push
-browse
-websocket /echo cat
-ext    .html
-log    /var/log/access.log
-proxy  /api 127.0.0.1:7005
-header /api Access-Control-Allow-Origin *
-# 
-# ./caddy
-Activating privacy features... done.
-http://0.0.0.0:2015
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;效果如图，运行了一个简单的文件服务器
-&lt;img src=&#34;https://i.imgur.com/pZ8mOWy.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;开启https，需要加一行配置tls /root/ca.pem /root/ca-key.pem，如图：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# cat Caddyfile
-0.0.0.0:2015 {
-    gzip
-    tls /etc/ssl/caddy/ca.pem /etc/ssl/caddy/ca-key.pem
-    #tls xxxx@qq.com {
-    #    protocols tls1.0 tls1.2
-    #}
-    push
-    browse
-    websocket /echo cat
-    ext    .html
-    log    /var/log/access.log
-    proxy  /api 127.0.0.1:7005
-    header /api Access-Control-Allow-Origin *
-}
-# ./caddy
-Activating privacy features... done.
-https://0.0.0.0:2015
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cW0B0lb.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;看到有很多帖子说Caddy可以自动申请证书，但我尝试了多次都没有成功。墙外的虚机也不行……&lt;/p&gt;
-
-&lt;p&gt;反向代理，简单配置如下，给原来的web服务直接加了https，挺好。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;0.0.0.0:2015 {
-    gzip
-    tls /root/ca.pem /root/ca-key.pem
-    proxy / http://localhost:8080 {
-        header_upstream Host {host}
-        header_upstream X-Real-IP {remote}
-        header_upstream X-Forwarded-For {remote}
-        header_upstream X-Forwarded-Proto {scheme}
-    }  
-} 
-&lt;/code&gt;&lt;/pre&gt;
 </description>
       
     </item>

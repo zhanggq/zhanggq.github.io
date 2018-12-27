@@ -50,7 +50,7 @@
     <item>
       <title>Cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/cloud/</guid>
       <description></description>
@@ -107,6 +107,15 @@
       <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/google/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gpu</title>
+      <link>https://zhanggq.github.io/tags/gpu/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/gpu/</guid>
       <description></description>
     </item>
     
@@ -179,15 +188,6 @@
       <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/nfv/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Opencontrail</title>
-      <link>https://zhanggq.github.io/tags/opencontrail/</link>
-      <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/opencontrail/</guid>
       <description></description>
     </item>
     

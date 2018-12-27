@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>重新梳理一下我自己的两个web工程 - Zhanggq</title>
+  <title>Openstack GPU Passthrough - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My" />
+  <meta name="description" content="摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.49.2" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/" />
 
 
 
@@ -58,26 +58,26 @@
 
 
 
-<meta property="og:title" content="重新梳理一下我自己的两个web工程" />
-<meta property="og:description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My" />
+<meta property="og:title" content="Openstack GPU Passthrough" />
+<meta property="og:description" content="摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" /><meta property="article:published_time" content="2018-11-26T10:03:09&#43;08:00"/>
-<meta property="article:modified_time" content="2018-11-26T10:03:09&#43;08:00"/>
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/" /><meta property="article:published_time" content="2018-12-27T10:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-27T10:03:09&#43;08:00"/>
 
-<meta itemprop="name" content="重新梳理一下我自己的两个web工程">
-<meta itemprop="description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My">
-
-
-<meta itemprop="datePublished" content="2018-11-26T10:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2018-11-26T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="685">
+<meta itemprop="name" content="Openstack GPU Passthrough">
+<meta itemprop="description" content="摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的">
 
 
+<meta itemprop="datePublished" content="2018-12-27T10:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-27T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="1205">
 
-<meta itemprop="keywords" content="cloud,paas,amaze,go,vue,springboot," />
+
+
+<meta itemprop="keywords" content="cloud,paas,openstack,gpu,passthrough," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="重新梳理一下我自己的两个web工程"/>
-<meta name="twitter:description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My"/>
+<meta name="twitter:title" content="Openstack GPU Passthrough"/>
+<meta name="twitter:description" content="摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -158,17 +158,17 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">重新梳理一下我自己的两个web工程</h1>
+      <h1 class="post-title">Openstack GPU Passthrough</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2018-11-26 </span>
+        <span class="post-time"> 2018-12-27 </span>
         <div class="post-category">
             
               <a href="/categories/paas/"> PAAS </a>
             
           </div>
-        <span class="more-meta"> 约 685 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span class="more-meta"> 约 1205 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
 
@@ -183,10 +183,11 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#一-mysql">一、Mysql</a></li>
-<li><a href="#二-amaze-go">二、Amaze + Go</a></li>
-<li><a href="#三-vue-srping-boot">三、Vue + Srping boot</a></li>
-<li><a href="#四-关于前端框架">四、关于前端框架</a></li>
+<li><a href="#一-万恶的nvidia">一、万恶的Nvidia</a></li>
+<li><a href="#二-显卡型号">二、显卡型号</a></li>
+<li><a href="#三-物理机配置">三、物理机配置</a></li>
+<li><a href="#四-openstack配置">四、Openstack配置</a></li>
+<li><a href="#五-虚机安装驱动">五、虚机安装驱动</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -202,48 +203,80 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。</p>
+<p>随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的服务器上玩游戏）。这里将介绍一下我配置GPU透传的过程。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-mysql">一、Mysql</h2>
+<h2 id="一-万恶的nvidia">一、万恶的Nvidia</h2>
 
-<p>Mysql是我很多工程的起点，所以这里先讲一下我自己的Mysql。我习惯用自己打的Mysql Docker镜像来启动，镜像的<a href="https://github.com/zhanggq/mariadb/tree/amaze">Git路径</a>。基于ubuntu，改了时区之类的，通过Supervisor启动Mysql。之后通过下面的命令启动容器，mysql端口映射到本地的13306端口，也就是其他容器可以通过-h 127.0.0.1 -P13306访问。</p>
-
-<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h mysql --name=mysql --restart=always -v /home/zgq/lib/mysql:/var/lib/mysql -p 13306:3306 --stop-signal=RTMIN+3 mariadb.amaze:v10.1 /usr/bin/supervisord
-</code></pre>
+<p>思来想去，还是把这段话放在最前面，以表示我对Nvidia的痛恨。要是用AMD显卡，这项工作我至少能省两天的工作量。在显卡行业处于垄断地位的Nvidia，不知是出于何种目的，在它的驱动中会禁止显卡在Kvm虚机中工作，所以Gpu Passthrough的很大一项工作就是寻找办法将Nvidia骗过去。顺便套用老外写的一句话，我自己花钱买的显卡，怎么用是我自己的事情，为毛不让我在Kvm虚机中使用？</p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-amaze-go">二、Amaze + Go</h2>
+<h2 id="二-显卡型号">二、显卡型号</h2>
 
-<p>之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go。前后端通过Ajax交互，后端一个监控器定期从网易抓出各支股票收盘的数据，并写入Mysql。同样也是打了Docker镜像。</p>
+<p>不是所有的显卡都支持GPU透传，截至到2018年，Nvidia官方文档中，支持Gpu透传的显卡如下：</p>
 
-<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h amaze --name=amaze  --net=host --restart=always --stop-signal=RTMIN+3 amaze:v1.0 /usr/bin/supervisord
-</code></pre>
+<p><img src="https://i.imgur.com/H7Kb12H.png" alt="" /></p>
 
-<p><img src="https://i.imgur.com/2DaMcPH.jpg" alt="" /></p>
+<p>除此之外，还需要考虑服务器能否支持这些类型的显卡。我这边测试使用的是M2000显卡，仅在浪潮NF5280M4和Dell R730上支持。另外还得注意显卡是全高还是半高。M2000是全高显卡，所以只能插在横向PCI扩展槽位上。</p>
 
 <p><a name="section3"></a></p>
 
-<h2 id="三-vue-srping-boot">三、Vue + Srping boot</h2>
+<h2 id="三-物理机配置">三、物理机配置</h2>
 
-<p>公司一个项目需要，做了一下调研，并写了个Demo。前端是iview，后端是Spring boot，前后端分离。部署的时候花了不少时间，后端很简单，java -jar跑起来就行。而前端有点麻烦，因为涉及到反向代理配置。先后尝试了三种静态页面的部署工具，Caddy、Apache、Nginx，最后发现还是Nginx好使。最后同上，也是打了Docker镜像。顺便提一下，这个镜像属于偷懒性质，正确的做法应该是From Nginx镜像去打前端的镜像，From JDK镜像去打后端的镜像。</p>
+<p>如果显卡和服务器能匹配上，那么在服务器上通过lspci命令可以直接看到显卡（不需要安装驱动）。如果看不到，恭喜你，那就是服务器主板不支持该显卡。</p>
 
-<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h hrserver --name=hrserver --net=host --restart=always --stop-signal=RTMIN+3 hrserver:v1.0 /usr/sbin/init
-</code></pre>
+<p><img src="https://i.imgur.com/rNMcuVq.png" alt="" /></p>
 
-<p><img src="https://i.imgur.com/NFZB9jI.png" alt="" /></p>
+<p>之后要做的事情：开启iommu，加载vfio内核，解绑nouveau驱动。至于VT-d什么的，都2018年了，服务器应该都默认开启了吧。网上的参考资料很多，我主要参考了这篇帖子<a href="https://blog.csdn.net/u010845350/article/details/80599984">OpenStack Pike版本+KVM+Passthrough+NVIDIA显卡1060透传</a>。稍微有点不一样的地方在于，考虑到服务器重启后虚机要自动重新绑定显卡，所以得加上开机启动脚本，将显卡解绑的操作在开机后自动做掉。另外一个区别是我用的docker容器，有一些文件夹得做目录映射。这是一个见招拆招的过程，这里不再详述。</p>
 
 <p><a name="section4"></a></p>
 
-<h2 id="四-关于前端框架">四、关于前端框架</h2>
+<h2 id="四-openstack配置">四、Openstack配置</h2>
 
-<p>Githup上，评分高的还是中国人搞的框架，如下：</p>
+<p>首先尽量使用P版本，我测试时使用的是M版本，有很多配置不支持，得手工从P版本反合M版本。</p>
 
-<p><a href="https://github.com/PanJiaChen/vue-element-admin">vue-element-admin 评分22.9k</a>
-<a href="https://admin.iviewui.com/home">iview 评分18.5k</a></p>
+<p>修改Controller的Nova配置如下：
+<img src="https://i.imgur.com/JrQu626.jpg" alt="" /></p>
+
+<p>修改Compute的Nova配置如下：</p>
+
+<p><img src="https://i.imgur.com/Wi69WCI.png" alt="" /></p>
+
+<p>尽量使用高版本的qemu，我测试时用的2.6.0和2.10.0。Libvirt版本是2.0.0。</p>
+
+<p>Compute安装OVMF
+这里有个很傻的地方在于，最新的OVMF包安装之后，引导文件生成于/usr/share/edk2.git/ovmf-x64/目录。而M版本的Nova没有去调用libvirt的配置文件，而是写死了去读取/usr/share/OVMF/目录。所以得手工把文件拷贝到/usr/share/OVMF/目录下。</p>
+
+<p>设置flavor</p>
+
+<pre><code>openstack flavor set m1.large --property &quot;pci_passthrough:alias&quot;=&quot;M2000:1&quot;
+openstack flavor set m1.large --property &quot;capabilities:boot_mode&quot;=&quot;uefi&quot;
+</code></pre>
+
+<p>镜像打上标签：
+img_hide_hypervisor_id=true
+hw_firmware_type=uefi</p>
+
+<p>UEFI镜像制作参考<a href="http://ju.outofmemory.cn/entry/226516">KVM 开启UEFI支持</a></p>
+
+<p><a name="section5"></a></p>
+
+<h2 id="五-虚机安装驱动">五、虚机安装驱动</h2>
+
+<p>虚机正确的打开方式如图：</p>
+
+<p><img src="https://i.imgur.com/0LBaLpl.png" alt="" /></p>
+
+<p>然后这个设备就是我们透传进去的显卡</p>
+
+<p><img src="https://i.imgur.com/WxDUkLE.jpg" alt="" /></p>
+
+<p>安装驱动后跑分结果</p>
+
+<p><img src="https://i.imgur.com/T25LyWv.png" alt="" /></p>
 
 <p>以上</p>
 
@@ -258,7 +291,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2018-11-26</span>
+    <span class="item-content">2018-12-27</span>
   </p>
   
   <p class="copyright-item">
@@ -277,27 +310,20 @@
           
           <a href="/tags/paas/">paas</a>
           
-          <a href="/tags/amaze/">amaze</a>
+          <a href="/tags/openstack/">openstack</a>
           
-          <a href="/tags/go/">go</a>
+          <a href="/tags/gpu/">gpu</a>
           
-          <a href="/tags/vue/">vue</a>
-          
-          <a href="/tags/springboot/">springboot</a>
+          <a href="/tags/passthrough/">passthrough</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-paas-openstack-gpu-pass/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Openstack GPU Passthrough</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-paas-openstack-dashboard/">
-            <span class="next-text nav-default">Openstack Horizon二次开发</span>
+          <a class="next" href="/post/zgq-paas-vue-springboot2/">
+            <span class="next-text nav-default">重新梳理一下我自己的两个web工程</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>

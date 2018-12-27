@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Passthrough on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/passthrough/</link>
+    <description>Recent content in Passthrough on Zhanggq</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 27 Dec 2018 10:03:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanggq.github.io/tags/passthrough/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Openstack GPU Passthrough</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</guid>
+      <description>摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的</description>
+    </item>
+    
+  </channel>
+</rss>
