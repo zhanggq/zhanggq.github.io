@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -164,14 +164,14 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/ai/</loc>
+    <loc>https://zhanggq.github.io/categories/ai/</loc>
     <lastmod>2018-04-24T16:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/ai/</loc>
+    <loc>https://zhanggq.github.io/tags/ai/</loc>
     <lastmod>2018-04-24T16:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -207,7 +207,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/cloud/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -263,7 +263,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/gpu/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -340,7 +340,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/openstack/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -353,29 +353,29 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/paas/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <loc>https://zhanggq.github.io/categories/paas/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/paas/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/paas/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/tags/passthrough/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -388,14 +388,14 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/sdn/</loc>
+    <loc>https://zhanggq.github.io/categories/sdn/</loc>
     <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/sdn/</loc>
+    <loc>https://zhanggq.github.io/tags/sdn/</loc>
     <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -473,7 +473,7 @@
   
   <url>
     <loc>https://zhanggq.github.io/</loc>
-    <lastmod>2018-12-27T10:03:09+09:00</lastmod>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
