@@ -116,6 +116,18 @@ hw_firmware_type=uefi&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/9cCjh3x.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;&lt;a name=&#34;section7&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;七-过程中遇到的坑&#34;&gt;七、过程中遇到的坑&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;服务器不支持GPU卡&lt;/li&gt;
+&lt;li&gt;内核不支持GPU卡&lt;/li&gt;
+&lt;li&gt;Openstack版本低&lt;/li&gt;
+&lt;li&gt;Windows镜像驱动装不上&lt;/li&gt;
+&lt;li&gt;Centos镜像引导不起来&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;p&gt;以上&lt;/p&gt;
 </description>
       
