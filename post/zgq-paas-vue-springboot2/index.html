@@ -70,7 +70,7 @@
 
 <meta itemprop="datePublished" content="2018-11-26T10:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-11-26T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="685">
+<meta itemprop="wordCount" content="757">
 
 
 
@@ -167,7 +167,7 @@
               <a href="/categories/paas/"> PAAS </a>
             
           </div>
-        <span class="more-meta"> 约 685 字 </span>
+        <span class="more-meta"> 约 757 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
@@ -218,7 +218,7 @@
 
 <h2 id="二-amaze-go">二、Amaze + Go</h2>
 
-<p>之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go。前后端通过Ajax交互，后端一个监控器定期从网易抓出各支股票收盘的数据，并写入Mysql。同样也是打了Docker镜像。</p>
+<p>之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go，前后端通过Ajax交互。后端通过定时任务（凌晨执行）从网易抓出各支股票收盘的数据，并写入Mysql，写入完成后自动备份Mysql库。整个前后端放入了Docker容器内，通过-h 127.0.0.1 -P13306访问本机上的Mysql容器。目前还缺个Python的回测程序，待开发 ……</p>
 
 <pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h amaze --name=amaze  --net=host --restart=always --stop-signal=RTMIN+3 amaze:v1.0 /usr/bin/supervisord
 </code></pre>

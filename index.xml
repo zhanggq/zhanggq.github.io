@@ -163,7 +163,7 @@ hw_firmware_type=uefi&lt;/p&gt;
 
 &lt;h2 id=&#34;二-amaze-go&#34;&gt;二、Amaze + Go&lt;/h2&gt;
 
-&lt;p&gt;之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go。前后端通过Ajax交互，后端一个监控器定期从网易抓出各支股票收盘的数据，并写入Mysql。同样也是打了Docker镜像。&lt;/p&gt;
+&lt;p&gt;之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go，前后端通过Ajax交互。后端通过定时任务（凌晨执行）从网易抓出各支股票收盘的数据，并写入Mysql，写入完成后自动备份Mysql库。整个前后端放入了Docker容器内，通过-h 127.0.0.1 -P13306访问本机上的Mysql容器。目前还缺个Python的回测程序，待开发 ……&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;docker run --privileged -tid -e &amp;quot;container=docker&amp;quot; -h amaze --name=amaze  --net=host --restart=always --stop-signal=RTMIN+3 amaze:v1.0 /usr/bin/supervisord
 &lt;/code&gt;&lt;/pre&gt;
