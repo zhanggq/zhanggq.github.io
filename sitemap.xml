@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <?xml-stylesheet type="text/xsl" href="https://zhanggq.github.io/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/zgq-paas-python-django/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
   
   <url>
     <loc>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</loc>
@@ -33,13 +39,6 @@
   <url>
     <loc>https://zhanggq.github.io/post/zgq-paas-consul/</loc>
     <lastmod>2018-10-22T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-finance-tushareblog/</loc>
-    <lastmod>2018-08-13T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -129,10 +128,274 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/categories/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/paas/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/python/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/django/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/mvc/</loc>
+    <lastmod>2019-04-28T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/paas/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/cloud/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/gpu/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/openstack/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/passthrough/</loc>
+    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/amaze/</loc>
+    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/go/</loc>
+    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/pass/</loc>
+    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/springboot/</loc>
+    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/vue/</loc>
+    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/horizon/</loc>
+    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/contrail-cmon/</loc>
+    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/mysql/</loc>
+    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/consul/</loc>
+    <lastmod>2018-10-22T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/istio/</loc>
+    <lastmod>2018-07-02T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/springcloud/</loc>
+    <lastmod>2018-07-02T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/web/</loc>
+    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/finance/</loc>
+    <lastmod>2018-06-13T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
+    <lastmod>2018-06-13T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/%E8%82%A1%E7%A5%A8/</loc>
+    <lastmod>2018-06-13T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/vscode/</loc>
+    <lastmod>2018-05-25T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/interllij-idea/</loc>
+    <lastmod>2018-05-08T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/ai/</loc>
+    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/ai/</loc>
+    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/tensorflow/</loc>
+    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/google/</loc>
+    <lastmod>2018-04-09T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/vm/</loc>
+    <lastmod>2018-04-09T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/k8s/</loc>
+    <lastmod>2018-04-04T16:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/ovs/</loc>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/sdn/</loc>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/sdn/</loc>
+    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/markdown/</loc>
+    <lastmod>2018-04-04T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/nfv/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/opencontrail/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/openflow/</loc>
+    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</loc>
     <lastmod>2018-04-03T19:08:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/golang/</loc>
+    <lastmod>2018-04-03T18:53:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -143,10 +406,28 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/tags/caddy/</loc>
+    <lastmod>2018-04-03T18:43:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/zgq-web-caddy-test/</loc>
     <lastmod>2018-04-03T18:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/linux/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/ui/</loc>
+    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -157,339 +438,22 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/post/zgq-ui-segmentfault/</loc>
-    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/ai/</loc>
-    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/ai/</loc>
-    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/amaze/</loc>
-    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://zhanggq.github.io/tags/blog/</loc>
     <lastmod>2018-04-03T15:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/caddy/</loc>
-    <lastmod>2018-04-03T18:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/</loc>
-    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/cloud/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/consul/</loc>
-    <lastmod>2018-10-22T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/contrail-cmon/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/django/</loc>
-    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/finance/</loc>
-    <lastmod>2018-08-13T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/go/</loc>
-    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/golang/</loc>
-    <lastmod>2018-04-03T18:53:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/google/</loc>
-    <lastmod>2018-04-09T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/gpu/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/horizon/</loc>
-    <lastmod>2018-11-06T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/interllij-idea/</loc>
-    <lastmod>2018-05-08T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/istio/</loc>
-    <lastmod>2018-07-02T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/k8s/</loc>
-    <lastmod>2018-04-04T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/linux/</loc>
-    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/markdown/</loc>
-    <lastmod>2018-04-04T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/mysql/</loc>
-    <lastmod>2018-11-05T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/nfv/</loc>
-    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/opencontrail/</loc>
-    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/openflow/</loc>
-    <lastmod>2018-04-03T19:08:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/openstack/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/ovs/</loc>
-    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/paas/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/paas/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/passthrough/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/python/</loc>
-    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/sdn/</loc>
-    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/sdn/</loc>
-    <lastmod>2018-04-04T13:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/tags/segmentfault/</loc>
     <lastmod>2018-04-03T15:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/springboot/</loc>
-    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <loc>https://zhanggq.github.io/post/zgq-ui-segmentfault/</loc>
+    <lastmod>2018-04-03T15:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/springcloud/</loc>
-    <lastmod>2018-07-02T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/</loc>
-    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/tensorflow/</loc>
-    <lastmod>2018-04-24T16:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/ui/</loc>
-    <lastmod>2018-04-03T16:43:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/vm/</loc>
-    <lastmod>2018-04-09T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/vscode/</loc>
-    <lastmod>2018-05-25T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/vue/</loc>
-    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/web/</loc>
-    <lastmod>2018-06-29T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/</loc>
-    <lastmod>2018-12-27T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
-    <lastmod>2018-08-13T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/%E8%82%A1%E7%A5%A8/</loc>
-    <lastmod>2018-08-13T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
 </urlset>

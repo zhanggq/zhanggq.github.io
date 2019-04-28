@@ -35,7 +35,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.49.2" />
+<meta name="generator" content="Hugo 0.55.3" />
 
 
 <link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-mysql/" />
@@ -61,7 +61,8 @@
 <meta property="og:title" content="mysql高可用集群搭建（上篇）" />
 <meta property="og:description" content="摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-mysql/" /><meta property="article:published_time" content="2018-11-05T10:03:09&#43;08:00"/>
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-mysql/" />
+<meta property="article:published_time" content="2018-11-05T10:03:09&#43;08:00"/>
 <meta property="article:modified_time" content="2018-11-05T10:03:09&#43;08:00"/>
 
 <meta itemprop="name" content="mysql高可用集群搭建（上篇）">
@@ -429,7 +430,25 @@ tail -f /var/log/galera-bootstrap.log             (cmon 启动mysql 日志)
 
   
 
-  
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'zgq-paas-mysql.md',
+    title: 'mysql高可用集群搭建（上篇）',
+    link: decodeURI(location.href),
+    desc: '摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完',
+    owner: 'zhanggq',
+    repo: 'comments',
+    oauth: {
+      client_id: 'b88e78d6f966f0edea6e',
+      client_secret: '75fea1f9e7412b4a35b1d54dbd217f4e26414499'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
   </article>
         </div>
       </div>

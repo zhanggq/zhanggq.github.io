@@ -6,10 +6,19 @@
     <description>Recent content in Python on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Django框架学习</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-python-django/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-python-django/</guid>
+      <description>摘要 最新需要搞一套Python的股市趋势分析，朋友提供核心算法，我负责搭建整个架子。数据部分以前有写过现成的东西（Go写的），重新拿过来改成</description>
+    </item>
     
     <item>
       <title>Window10安装tensorflow</title>

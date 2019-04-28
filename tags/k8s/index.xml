@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>K8s on Zhanggq</title>
+    <title>k8s on Zhanggq</title>
     <link>https://zhanggq.github.io/tags/k8s/</link>
-    <description>Recent content in K8s on Zhanggq</description>
+    <description>Recent content in k8s on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 04 Apr 2018 16:03:09 +0800</lastBuildDate>

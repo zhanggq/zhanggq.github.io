@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mysql on Zhanggq</title>
+    <title>mysql on Zhanggq</title>
     <link>https://zhanggq.github.io/tags/mysql/</link>
-    <description>Recent content in Mysql on Zhanggq</description>
+    <description>Recent content in mysql on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 05 Nov 2018 10:03:09 +0800</lastBuildDate>

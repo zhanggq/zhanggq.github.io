@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Consul on Zhanggq</title>
+    <title>consul on Zhanggq</title>
     <link>https://zhanggq.github.io/tags/consul/</link>
-    <description>Recent content in Consul on Zhanggq</description>
+    <description>Recent content in consul on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 22 Oct 2018 10:03:09 +0800</lastBuildDate>

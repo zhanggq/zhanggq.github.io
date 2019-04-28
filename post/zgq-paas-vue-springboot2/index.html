@@ -35,7 +35,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.49.2" />
+<meta name="generator" content="Hugo 0.55.3" />
 
 
 <link rel="canonical" href="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" />
@@ -61,7 +61,8 @@
 <meta property="og:title" content="重新梳理一下我自己的两个web工程" />
 <meta property="og:description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" /><meta property="article:published_time" content="2018-11-26T10:03:09&#43;08:00"/>
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-paas-vue-springboot2/" />
+<meta property="article:published_time" content="2018-11-26T10:03:09&#43;08:00"/>
 <meta property="article:modified_time" content="2018-11-26T10:03:09&#43;08:00"/>
 
 <meta itemprop="name" content="重新梳理一下我自己的两个web工程">
@@ -70,11 +71,11 @@
 
 <meta itemprop="datePublished" content="2018-11-26T10:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-11-26T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="757">
+<meta itemprop="wordCount" content="680">
 
 
 
-<meta itemprop="keywords" content="cloud,paas,amaze,go,vue,springboot," />
+<meta itemprop="keywords" content="cloud,pass,amaze,go,vue,springboot," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="重新梳理一下我自己的两个web工程"/>
 <meta name="twitter:description" content="摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My"/>
@@ -167,7 +168,7 @@
               <a href="/categories/paas/"> PAAS </a>
             
           </div>
-        <span class="more-meta"> 约 757 字 </span>
+        <span class="more-meta"> 约 680 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
@@ -186,7 +187,6 @@
 <li><a href="#一-mysql">一、Mysql</a></li>
 <li><a href="#二-amaze-go">二、Amaze + Go</a></li>
 <li><a href="#三-vue-srping-boot">三、Vue + Srping boot</a></li>
-<li><a href="#四-关于前端框架">四、关于前端框架</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -209,7 +209,7 @@
 
 <h2 id="一-mysql">一、Mysql</h2>
 
-<p>Mysql是我很多工程的起点，所以这里先讲一下我自己的Mysql。我习惯用自己打的Mysql Docker镜像来启动，镜像的<a href="https://github.com/zhanggq/mariadb/tree/amaze">Git路径</a>。基于ubuntu，改了时区之类的，通过Supervisor启动Mysql。之后通过下面的命令启动容器，mysql端口映射到本地的13306端口，也就是其他容器可以通过-h 127.0.0.1 -P13306访问。</p>
+<p>Mysql是我很多工程的起点，所以这里先讲一下我自己的Mysql。我习惯用自己打的Mysql Docker镜像来启动，镜像的Git路径。基于ubuntu，改了时区之类的，通过Supervisor启动Mysql。之后通过下面的命令启动容器，mysql端口映射到本地的13306端口，也就是其他容器可以通过-h 127.0.0.1 -P13306访问。</p>
 
 <pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h mysql --name=mysql --restart=always -v /home/zgq/lib/mysql:/var/lib/mysql -p 13306:3306 --stop-signal=RTMIN+3 mariadb.amaze:v10.1 /usr/bin/supervisord
 </code></pre>
@@ -220,10 +220,7 @@
 
 <p>之前的帖子中提到过，自己写着玩的一个Web工程，前端是Amaze UI，后端是Go，前后端通过Ajax交互。后端通过定时任务（凌晨执行）从网易抓出各支股票收盘的数据，并写入Mysql，写入完成后自动备份Mysql库。整个前后端放入了Docker容器内，通过-h 127.0.0.1 -P13306访问本机上的Mysql容器。目前还缺个Python的回测程序，待开发 ……</p>
 
-<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h amaze --name=amaze  --net=host --restart=always --stop-signal=RTMIN+3 amaze:v1.0 /usr/bin/supervisord
-</code></pre>
-
-<p><img src="https://i.imgur.com/2DaMcPH.jpg" alt="" /></p>
+<p><img src="https://i.imgur.com/T7nqP6c.jpg" alt="" /></p>
 
 <p><a name="section3"></a></p>
 
@@ -231,19 +228,7 @@
 
 <p>公司一个项目需要，做了一下调研，并写了个Demo。前端是iview，后端是Spring boot，前后端分离。部署的时候花了不少时间，后端很简单，java -jar跑起来就行。而前端有点麻烦，因为涉及到反向代理配置。先后尝试了三种静态页面的部署工具，Caddy、Apache、Nginx，最后发现还是Nginx好使。最后同上，也是打了Docker镜像。顺便提一下，这个镜像属于偷懒性质，正确的做法应该是From Nginx镜像去打前端的镜像，From JDK镜像去打后端的镜像。</p>
 
-<pre><code>docker run --privileged -tid -e &quot;container=docker&quot; -h hrserver --name=hrserver --net=host --restart=always --stop-signal=RTMIN+3 hrserver:v1.0 /usr/sbin/init
-</code></pre>
-
-<p><img src="https://i.imgur.com/NFZB9jI.png" alt="" /></p>
-
-<p><a name="section4"></a></p>
-
-<h2 id="四-关于前端框架">四、关于前端框架</h2>
-
-<p>Githup上，评分高的还是中国人搞的框架，如下：</p>
-
-<p><a href="https://github.com/PanJiaChen/vue-element-admin">vue-element-admin 评分22.9k</a>
-<a href="https://admin.iviewui.com/home">iview 评分18.5k</a></p>
+<p><img src="https://i.imgur.com/rxhpKco.png" alt="" /></p>
 
 <p>以上</p>
 
@@ -275,7 +260,7 @@
           
           <a href="/tags/cloud/">cloud</a>
           
-          <a href="/tags/paas/">paas</a>
+          <a href="/tags/pass/">pass</a>
           
           <a href="/tags/amaze/">amaze</a>
           
@@ -309,7 +294,25 @@
 
   
 
-  
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'zgq-paas-vue-springboot2.md',
+    title: '重新梳理一下我自己的两个web工程',
+    link: decodeURI(location.href),
+    desc: '摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My',
+    owner: 'zhanggq',
+    repo: 'comments',
+    oauth: {
+      client_id: 'b88e78d6f966f0edea6e',
+      client_secret: '75fea1f9e7412b4a35b1d54dbd217f4e26414499'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
   </article>
         </div>
       </div>

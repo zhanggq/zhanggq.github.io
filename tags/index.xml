@@ -6,49 +6,49 @@
     <description>Recent content in Tags on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 24 Apr 2018 16:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Ai</title>
-      <link>https://zhanggq.github.io/tags/ai/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      <title>Python</title>
+      <link>https://zhanggq.github.io/tags/python/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/ai/</guid>
+      <guid>https://zhanggq.github.io/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Amaze</title>
-      <link>https://zhanggq.github.io/tags/amaze/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      <title>django</title>
+      <link>https://zhanggq.github.io/tags/django/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/amaze/</guid>
+      <guid>https://zhanggq.github.io/tags/django/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Blog</title>
-      <link>https://zhanggq.github.io/tags/blog/</link>
-      <pubDate>Tue, 03 Apr 2018 15:43:48 +0800</pubDate>
+      <title>mvc</title>
+      <link>https://zhanggq.github.io/tags/mvc/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/blog/</guid>
+      <guid>https://zhanggq.github.io/tags/mvc/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Caddy</title>
-      <link>https://zhanggq.github.io/tags/caddy/</link>
-      <pubDate>Tue, 03 Apr 2018 18:43:48 +0800</pubDate>
+      <title>PaaS</title>
+      <link>https://zhanggq.github.io/tags/paas/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/caddy/</guid>
+      <guid>https://zhanggq.github.io/tags/paas/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Cloud</title>
+      <title>cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
@@ -57,61 +57,7 @@
     </item>
     
     <item>
-      <title>Consul</title>
-      <link>https://zhanggq.github.io/tags/consul/</link>
-      <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/consul/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Contrail Cmon</title>
-      <link>https://zhanggq.github.io/tags/contrail-cmon/</link>
-      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/contrail-cmon/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Django</title>
-      <link>https://zhanggq.github.io/tags/django/</link>
-      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/django/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Go</title>
-      <link>https://zhanggq.github.io/tags/go/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
-      <link>https://zhanggq.github.io/tags/golang/</link>
-      <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Google</title>
-      <link>https://zhanggq.github.io/tags/google/</link>
-      <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/google/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Gpu</title>
+      <title>gpu</title>
       <link>https://zhanggq.github.io/tags/gpu/</link>
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
@@ -120,7 +66,70 @@
     </item>
     
     <item>
-      <title>Horizon</title>
+      <title>openstack</title>
+      <link>https://zhanggq.github.io/tags/openstack/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/openstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>passthrough</title>
+      <link>https://zhanggq.github.io/tags/passthrough/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/passthrough/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>amaze</title>
+      <link>https://zhanggq.github.io/tags/amaze/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/amaze/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go</title>
+      <link>https://zhanggq.github.io/tags/go/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pass</title>
+      <link>https://zhanggq.github.io/tags/pass/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/pass/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>springboot</title>
+      <link>https://zhanggq.github.io/tags/springboot/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/springboot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vue</title>
+      <link>https://zhanggq.github.io/tags/vue/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/vue/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>horizon</title>
       <link>https://zhanggq.github.io/tags/horizon/</link>
       <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
       
@@ -129,52 +138,16 @@
     </item>
     
     <item>
-      <title>Interllij Idea</title>
-      <link>https://zhanggq.github.io/tags/interllij-idea/</link>
-      <pubDate>Tue, 08 May 2018 10:03:09 +0800</pubDate>
+      <title>contrail cmon</title>
+      <link>https://zhanggq.github.io/tags/contrail-cmon/</link>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/interllij-idea/</guid>
+      <guid>https://zhanggq.github.io/tags/contrail-cmon/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Istio</title>
-      <link>https://zhanggq.github.io/tags/istio/</link>
-      <pubDate>Mon, 02 Jul 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/istio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>K8s</title>
-      <link>https://zhanggq.github.io/tags/k8s/</link>
-      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/k8s/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>https://zhanggq.github.io/tags/linux/</link>
-      <pubDate>Tue, 03 Apr 2018 16:43:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Markdown</title>
-      <link>https://zhanggq.github.io/tags/markdown/</link>
-      <pubDate>Wed, 04 Apr 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mysql</title>
+      <title>mysql</title>
       <link>https://zhanggq.github.io/tags/mysql/</link>
       <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
       
@@ -183,11 +156,38 @@
     </item>
     
     <item>
-      <title>Nfv</title>
-      <link>https://zhanggq.github.io/tags/nfv/</link>
-      <pubDate>Tue, 03 Apr 2018 19:08:48 +0800</pubDate>
+      <title>consul</title>
+      <link>https://zhanggq.github.io/tags/consul/</link>
+      <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/nfv/</guid>
+      <guid>https://zhanggq.github.io/tags/consul/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>istio</title>
+      <link>https://zhanggq.github.io/tags/istio/</link>
+      <pubDate>Mon, 02 Jul 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/istio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>springcloud</title>
+      <link>https://zhanggq.github.io/tags/springcloud/</link>
+      <pubDate>Mon, 02 Jul 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/springcloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>大数据</title>
+      <link>https://zhanggq.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Wed, 13 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
       <description></description>
     </item>
     

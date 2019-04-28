@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 27 Dec 2018 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 10:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Django框架学习</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-python-django/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-python-django/</guid>
+      <description>摘要 最新需要搞一套Python的股市趋势分析，朋友提供核心算法，我负责搭建整个架子。数据部分以前有写过现成的东西（Go写的），重新拿过来改成</description>
+    </item>
     
     <item>
       <title>Openstack GPU Passthrough</title>
@@ -54,15 +63,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-consul/</guid>
       <description>摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的</description>
-    </item>
-    
-    <item>
-      <title>Tushare金融大数据开放社区发布</title>
-      <link>https://zhanggq.github.io/post/zgq-finance-tushareblog/</link>
-      <pubDate>Mon, 13 Aug 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-finance-tushareblog/</guid>
-      <description>摘要 三个月前通过一个Tushare提供的API接口写了一个大数据股票分析模型小赚了一笔。现在Tushare pro版本已经发布，这里帮忙水一波</description>
     </item>
     
     <item>
