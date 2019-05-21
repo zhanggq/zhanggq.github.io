@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>PaaS on Zhanggq</title>
+    <title>PAAS on Zhanggq</title>
     <link>https://zhanggq.github.io/categories/paas/</link>
-    <description>Recent content in PaaS on Zhanggq</description>
+    <description>Recent content in PAAS on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 28 Apr 2019 10:03:09 +0800</lastBuildDate>
@@ -18,6 +18,15 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-python-django/</guid>
       <description>摘要 最新需要搞一套Python的股市趋势分析，朋友提供核心算法，我负责搭建整个架子。数据部分以前有写过现成的东西（Go写的），重新拿过来改成</description>
+    </item>
+    
+    <item>
+      <title>Vue Debug调试</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-vue-debug/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-vue-debug/</guid>
+      <description>摘要 差不多半年没碰Vue，回头再来看发现又差不多都忘了。Git hub上下载了最新的vue-element-admin，从头学起吧。学习的第一</description>
     </item>
     
     <item>
