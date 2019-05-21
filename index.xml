@@ -5,10 +5,89 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 28 Apr 2019 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 21 May 2019 10:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vue Debug调试</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-vue-debug/</link>
+      <pubDate>Tue, 21 May 2019 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-vue-debug/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;差不多半年没碰Vue，回头再来看发现又差不多都忘了。Git hub上下载了最新的&lt;a href=&#34;https://github.com/PanJiaChen/vue-element-admin&#34;&gt;vue-element-admin&lt;/a&gt;，从头学起吧。学习的第一步就是Debug。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-自己的环境说明&#34;&gt;一、自己的环境说明&lt;/h2&gt;
+
+&lt;p&gt;我所用的开发环境如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Windows系统（穷人买不起Mac）&lt;/li&gt;
+&lt;li&gt;开发工具使用webstorm&lt;/li&gt;
+&lt;li&gt;调试的代码是vue-element-admin v4.1.0&lt;/li&gt;
+&lt;li&gt;Chrome浏览器&lt;/li&gt;
+&lt;li&gt;能够翻墙&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-webstorm-debug配置&#34;&gt;二、Webstorm Debug配置&lt;/h2&gt;
+
+&lt;p&gt;首先需要先将vue-element-admin工程跑起来（此处不详细描述），接着在webstorm新增一个Debug配置，如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/29ZMZXk.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着需要打开Chrome浏览器的应用商店（此处需要翻墙），并下载JetBrains IDE Support插件，如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/NkisazS.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;顺便需要说明，JetBrains IDE Support插件默认是通过63342端口与webstorm进行通信的，如果同时启动了JetBrains的其它工具（比如Pycharm），有可能63342端口就会被其它工具占用，此时需要检查webstorm当前所用的Debug端口及修改JetBrains IDE Support插件配置。如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/u4rb1He.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/yKxoguK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;JetBrains IDE Support插件链接上webstorm之后，在webstorm上运行第一步新增的Debug（注意前提是vue-element-admin工程已经跑起来），此时webstorm会自动打开chrome浏览器，并进入相应的web界面。在浏览器中按F12，选择需要调试的源码，打断点，继续运行，直到代码被断住，此时就可以看见对应webstorm中也被断在了对应的代码上：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/AlneTpR.jpg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/VSvDIQA.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://i.imgur.com/PNlvdsi.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-进一步配置&#34;&gt;三、进一步配置&lt;/h2&gt;
+
+&lt;p&gt;按照上一步操作，理论上已经可以debug代码了，但实际真正要调式Vue代码时，确发现看不到真正的Vue源码：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/bpJo1e1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;所以此时还需要进一步配置vue-devtools。首先上chrome应用商店下载插件：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3jtXRnc.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着修改webstorm配置&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3lCYLU2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;重启Debug后，在chrome上就能看到所需要的vue源码：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/L4wykPa.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Django框架学习</title>
@@ -100,82 +179,6 @@ python ./analize_sys/manage.py runserver 0.0.0.0:8000
 
 &lt;li&gt;&lt;p&gt;从默认的admin演进到vue。和上面的一样，需要django-rest-framework，需要学习vue，需要自己找vue前端框架，需要自己画前端。&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-
-&lt;p&gt;以上&lt;/p&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>Vue Debug调试</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-vue-debug/</link>
-      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-vue-debug/</guid>
-      
-        <description>
-
-&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;差不多半年没碰Vue，回头再来看发现又差不多都忘了。Git hub上下载了最新的&lt;a href=&#34;https://github.com/PanJiaChen/vue-element-admin&#34;&gt;vue-element-admin&lt;/a&gt;，从头学起吧。学习的第一步就是Debug。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;一-自己的环境说明&#34;&gt;一、自己的环境说明&lt;/h2&gt;
-
-&lt;p&gt;我所用的开发环境如下：
-- Windows系统（穷人买不起Mac）
-- 开发工具使用webstorm
-- 调试的代码是vue-element-admin v4.1.0
-- Chrome浏览器
-- 能够翻墙&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;二-webstorm-debug配置&#34;&gt;二、Webstorm Debug配置&lt;/h2&gt;
-
-&lt;p&gt;首先需要先将vue-element-admin工程跑起来（此处不详细描述），接着在webstorm新增一个Debug配置，如图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/29ZMZXk.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;接着需要打开Chrome浏览器的应用商店（此处需要翻墙），并下载JetBrains IDE Support插件，如图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3jtXRnc.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;顺便需要说明，JetBrains IDE Support插件默认是通过63342端口与webstorm进行通信的，如果同时启动了JetBrains的其它工具（比如Pycharm），有可能63342端口就会被其它工具占用，此时需要检查webstorm当前所用的Debug端口及修改JetBrains IDE Support插件配置。如图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/u4rb1He.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://i.imgur.com/yKxoguK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;JetBrains IDE Support插件链接上webstorm之后，在webstorm上运行第一步新增的Debug（注意前提是vue-element-admin工程已经跑起来），此时webstorm会自动打开chrome浏览器，并进入相应的web界面。在浏览器中按F12，选择需要调试的源码，打断点，之后继续运行，直到断点被断住，此时就可以看见对应webstorm中也被断在了对应的代码上：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/AlneTpR.jpg&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://i.imgur.com/VSvDIQA.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://i.imgur.com/PNlvdsi.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;三-进一步配置&#34;&gt;三、进一步配置&lt;/h2&gt;
-
-&lt;p&gt;按照上一步操作，理论上已经可以debug代码了，但实际真正要调式Vue代码时，确发现看不到真正的Vue源码：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/bpJo1e1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;所以此时还需要进一步配置vue-devtools。首先上chrome应用商店下载插件：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/NkisazS.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;接着修改webstorm配置&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3lCYLU2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;重启Debug后，在chrome上就能看到所需要的vue源码：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/L4wykPa.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;以上&lt;/p&gt;
 </description>
