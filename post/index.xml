@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 21 May 2019 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 19 Feb 2021 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于图床的选择</title>
+      <link>https://zhanggq.github.io/post/zgq-natter-smms/</link>
+      <pubDate>Fri, 19 Feb 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-natter-smms/</guid>
+      <description>摘要 好久没有更新帖子了。一个原因是懒，另一个原因是之前用的MarkdownPad2的图床，国内访问总是打不开图片，影响用户体验。本次试试换一</description>
+    </item>
     
     <item>
       <title>Vue Debug调试</title>
@@ -180,15 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-sdn-openstack-opencontrail-openflow-nfv/</guid>
       <description>浅谈Openstack、OpenContrail、OpenFlow、NFV。属于我个人学习过程中的笔记杂谈。 首先先从2个大的概念说起吧：SD</description>
-    </item>
-    
-    <item>
-      <title>关于Go----Golang的优秀组件整理</title>
-      <link>https://zhanggq.github.io/post/zgq-web-golang-good-program/</link>
-      <pubDate>Tue, 03 Apr 2018 18:53:48 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-golang-good-program/</guid>
-      <description>这里仅介绍我见过的，觉得不错的Golang优秀组件。算是个人笔记吧，只有介绍，没有使用说明。 1.框架 Go的框架有很多很多，但至今还没有一款能</description>
     </item>
     
   </channel>

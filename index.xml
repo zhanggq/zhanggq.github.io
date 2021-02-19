@@ -5,10 +5,60 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 21 May 2019 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 19 Feb 2021 09:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于图床的选择</title>
+      <link>https://zhanggq.github.io/post/zgq-natter-smms/</link>
+      <pubDate>Fri, 19 Feb 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-natter-smms/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;好久没有更新帖子了。一个原因是懒，另一个原因是之前用的MarkdownPad2的图床，国内访问总是打不开图片，影响用户体验。本次试试换一个图床，看看效果。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-图床选择&#34;&gt;一、图床选择&lt;/h2&gt;
+
+&lt;p&gt;参考这个帖子&lt;a href=&#34;https://www.jianshu.com/p/ea1eb11db63f&#34;&gt;Markdown图床&lt;/a&gt;。码云的嫌麻烦， 所以选择了&lt;a href=&#34;https://www.jianshu.com/p/ea1eb11db63f&#34;&gt;sm.ms&lt;/a&gt;，试着上传了一张图片，看看效果。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/02/18/SabeXHZTcyt4zhI.png&#34; alt=&#34;7层协议.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-markdown工具选择&#34;&gt;二、Markdown工具选择&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;MarkdownPad2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;之前用的MarkdownPad2，很久没用之后再次打开，发生HTML渲染组件出错，懒得解决了。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;MarkPad&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;又试了MarkPad，问题是对中文输入法的支持非常的不友好。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Typora&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;然后又换了&lt;a href=&#34;https://www.typora.io/&#34;&gt;Typora&lt;/a&gt;，访问速度很慢，翻墙之后才下载成功，用起来觉得有点过于简单，但是勉强也能用用，先这样吧。&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Vue Debug调试</title>
