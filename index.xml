@@ -38,7 +38,7 @@
 
 &lt;h2 id=&#34;一-vpp绑定mellanox网卡时遇到的问题&#34;&gt;一、VPP绑定Mellanox网卡时遇到的问题&lt;/h2&gt;
 
-&lt;p&gt;本人用的是Centos7.7环境，服务器上插了2张Mellanox MCX4121A-ACAT网卡，如下所示：&lt;/p&gt;
+&lt;p&gt;本人用的是Centos7.7环境，VPP是20.05版本，服务器上插了2张Mellanox MCX4121A-ACAT网卡，如下所示：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# usertools/dpdk-devbind.py --status
 
