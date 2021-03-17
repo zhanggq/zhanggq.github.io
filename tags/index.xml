@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 19 Feb 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Mar 2021 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title></title>
       <link>https://zhanggq.github.io/tags/</link>
-      <pubDate>Fri, 19 Feb 2021 09:03:09 +0800</pubDate>
+      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/</guid>
       <description></description>
@@ -84,15 +84,6 @@
     </item>
     
     <item>
-      <title>PaaS</title>
-      <link>https://zhanggq.github.io/tags/paas/</link>
-      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/paas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
@@ -116,6 +107,15 @@
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/openstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>paas</title>
+      <link>https://zhanggq.github.io/tags/paas/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/paas/</guid>
       <description></description>
     </item>
     

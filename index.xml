@@ -5,10 +5,375 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 19 Feb 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Mar 2021 09:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VPP如何使用Mellanox网卡</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-vpp-mellanox/</link>
+      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-vpp-mellanox/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最近在用VPP做用户面报文的转发，发现Mellanox网卡挺难用，这里记录一下整个操作过程。整个过程大致有以下几步：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;更新Mellanox网卡驱动；&lt;/li&gt;
+&lt;li&gt;安装libmnl.so库等环境依赖；&lt;/li&gt;
+&lt;li&gt;编译DPDK时放开MLX5；&lt;/li&gt;
+&lt;li&gt;编译VPP时放开MLX5；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-vpp绑定mellanox网卡时遇到的问题&#34;&gt;一、VPP绑定Mellanox网卡时遇到的问题&lt;/h2&gt;
+
+&lt;p&gt;本人用的是Centos7.7环境，服务器上插了2张Mellanox MCX4121A-ACAT网卡，如下所示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# usertools/dpdk-devbind.py --status
+
+Network devices using kernel driver
+===================================
+0000:18:00.0 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp24s0f0 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic 
+0000:18:00.1 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp24s0f1 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic 
+0000:3e:00.2 &#39;Ethernet Connection X722 for 1GbE 37d1&#39; if=enp62s0f2 drv=i40e unused=igb_uio,vfio-pci,uio_pci_generic *Active*
+0000:3e:00.3 &#39;Ethernet Connection X722 for 1GbE 37d1&#39; if=enp62s0f3 drv=i40e unused=igb_uio,vfio-pci,uio_pci_generic 
+0000:af:00.0 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp175s0f0 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic *Active*
+0000:af:00.1 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp175s0f1 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;购买网卡之前做过简单的调研，该网卡型号是在DPDK的支持列表中的，加上Intel的xxv710断货，所以就买了这种型号的网卡。结果VPP起来后发现网卡识别不到，简单查了一下，发现VPP的代码src\plugins\dpdk\device\init.c中有如下代码，我淦 ……&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;static void dpdk_bind_devices_to_uio (dpdk_config_main_t * conf)
+{
+    ……
+    /* Mellanox CX3, CX3VF */
+    else if (d-&amp;gt;vendor_id == 0x15b3 &amp;amp;&amp;amp; d-&amp;gt;device_id &amp;gt;= 0x1003 &amp;amp;&amp;amp; d-&amp;gt;device_id &amp;lt;= 0x1004)
+      {
+        continue;
+      }
+    /* Mellanox CX4, CX4VF, CX4LX, CX4LXVF, CX5, CX5VF, CX5EX, CX5EXVF */
+    else if (d-&amp;gt;vendor_id == 0x15b3 &amp;amp;&amp;amp; d-&amp;gt;device_id &amp;gt;= 0x1013 &amp;amp;&amp;amp; d-&amp;gt;device_id &amp;lt;= 0x101a)
+      {
+        continue;
+      }
+    /* Mellanox CX6, CX6VF, CX6DX, CX6DXVF */
+    else if (d-&amp;gt;vendor_id == 0x15b3 &amp;amp;&amp;amp; d-&amp;gt;device_id &amp;gt;= 0x101b &amp;amp;&amp;amp; d-&amp;gt;device_id &amp;lt;= 0x101e)
+      {
+        continue;
+      }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将这部分代码改掉，重编DPDK插件后再跑，从打印看，是DPDK不识别，在rte_eth_dev_count_avail()返回的结果是0，我再淦 ……&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;2021-03-11 19:03:59.814914 ERROR  [VPP]: dpdk_bind_devices_to_uio:875: PCI device 0x15b3:0x1015 at PCI address 0000:18:00.0
+2021-03-11 19:03:59.815055 ERROR  [VPP]: dpdk_bind_devices_to_uio:1009: PCI device 0x15b3:0x1015 bind to uio
+2021-03-11 19:03:59.818461 ERROR  [VPP]: dpdk_bind_devices_to_uio:875: PCI device 0x15b3:0x1015 at PCI address 0000:18:00.1
+2021-03-11 19:03:59.818591 ERROR  [VPP]: dpdk_bind_devices_to_uio:1009: PCI device 0x15b3:0x1015 bind to uio
+……
+2021-03-11 19:03:59.843570 ERROR  [VPP]: dpdk_config:1522: EAL init args: -c 1f -n 4 --in-memory --file-prefix vpp -w 0000:18:00.0 -w 0000:18:00.1 --master-lcore 0 
+2021-03-11 19:04:00.110849 DEBUG  [VPP]: dpdk_lib_init:247: DPDK drivers found no Ethernet devices...
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;直接拿出DPDK的Example跑了一下，发现确实是DPDK不支持，于VPP无关，得，从DPDK开始找办法吧。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-更新mellanox网卡驱动&#34;&gt;二、更新Mellanox网卡驱动&lt;/h2&gt;
+
+&lt;p&gt;具体过程参考DPDK官网的&lt;a href=&#34;https://doc.dpdk.org/guides/nics/mlx5.html#quick-start-guide-on-ofed-en&#34;&gt;Quick Start Guide on OFED&lt;/a&gt;。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;从&lt;a href=&#34;https://cn.mellanox.com/products/infiniband-drivers/linux/mlnx_ofed&#34;&gt;Nvidia官网&lt;/a&gt;下载Mellanox OFED驱动，我用的版本是MLNX_OFED_LINUX-5.2-2.2.0.0-rhel7.7-x86_64.tgz&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;上传服务器，解压，然后安装驱动；&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;   [root@localhost MLNX_OFED_LINUX-5.2-2.2.0.0-rhel7.7-x86_64]# ./mlnxofedinstall --force --dpdk --upstream-libs
+   Logs dir: /tmp/MLNX_OFED_LINUX.16363.logs
+   General log file: /tmp/MLNX_OFED_LINUX.16363.logs/general.log
+   Verifying KMP rpms compatibility with target kernel...
+   ……
+   Initializing...
+   Attempting to perform Firmware update...
+   Querying Mellanox devices firmware ...
+   
+   Device #1:
+   ----------
+   
+     Device Type:      ConnectX4LX
+     Part Number:      MCX4121A-ACA_Ax
+     Description:      ConnectX-4 Lx EN network interface card; 25GbE dual-port SFP28; PCIe3.0 x8; ROHS R6
+     PSID:             MT_2420110034
+     PCI Device Name:  18:00.0
+     Base MAC:         1c34da523394
+     Versions:         Current        Available     
+        FW             14.26.1040     14.29.2002    
+        PXE            3.5.0803       3.6.0204      
+        UEFI           14.19.0014     14.22.0016    
+   
+     Status:           Update required
+   
+   ---------
+   Found 1 device(s) requiring firmware update...
+   
+   Device #1: Updating FW ...     
+   Querying Mellanox devices firmware ...
+   
+   Device #1:
+   ----------
+   
+     Device Type:      ConnectX4LX
+     Part Number:      MCX4121A-ACA_Ax
+     Description:      ConnectX-4 Lx EN network interface card; 25GbE dual-port SFP28; PCIe3.0 x8; ROHS R6
+     PSID:             MT_2420110034
+     PCI Device Name:  af:00.0
+     Base MAC:         0c42a15965b0
+     Versions:         Current        Available     
+        FW             14.25.1020     14.29.2002    
+        PXE            3.5.0701       3.6.0204      
+        UEFI           14.18.0019     14.22.0016    
+   
+     Status:           Update required
+   
+   ---------
+   Found 1 device(s) requiring firmware update...
+   ……
+   Device #1: Updating FW ...     
+   FSMST_INITIALIZE -   OK          
+   FSMST_INITIALIZE -   OK          0%
+   Writing Boot image component -   OK          
+   Writing Boot image component - Done
+   
+   Restart needed for updates to take effect.
+   Log File: /tmp/JsCZVuDAV5
+   Writing Boot image component -   OK          
+   Done
+   
+   Restart needed for updates to take effect.
+   Log File: /tmp/WXZUWDPNT8
+   Real log file: /tmp/MLNX_OFED_LINUX.16363.logs/fw_update.log
+   To load the new driver, run:
+   /etc/init.d/openibd restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;手工执行一下命令，确认驱动正常；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;   [root@localhost dpdk-20.02]# /etc/init.d/openibd restart
+   Unloading HCA driver:                                      [  OK  ]
+   Loading HCA driver and Access Layer:                       [  OK  ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;看一下ibverb的版本；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;   [root@localhost dpdk-20.02]# rpm -qa | grep ibverb
+   libibverbs-utils-52mlnx1-1.52220.x86_64
+   libibverbs-52mlnx1-1.52220.x86_64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-dpdk编译&#34;&gt;三、DPDK编译&lt;/h2&gt;
+
+&lt;p&gt;理论上这一步并不需要，编译VPP时会将DPDK一起编译。但为了验证，还是单独重编一下DPDK。首先要修改编译宏：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# vi config/common_base
+#
+# Compile burst-oriented Mellanox ConnectX-4, ConnectX-5,
+# ConnectX-6 &amp;amp; BlueField (MLX5) PMD
+#
+CONFIG_RTE_LIBRTE_MLX5_PMD=y
+CONFIG_RTE_LIBRTE_MLX5_DEBUG=y
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;编完内核及App之后，用testpmd验证一下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# cd ./build/build/app/test-pmd/
+[root@localhost test-pmd]# 
+[root@localhost test-pmd]# ./testpmd -l 8-15 -n 4 -w 0000:18:00.0 -w 0000:18:00.1 -w 0000:af:00.0 -w 0000:af:00.1 -- --rxq=2 --txq=2 -i
+EAL: Detected 32 lcore(s)
+EAL: Detected 2 NUMA nodes
+EAL: Multi-process socket /var/run/dpdk/rte/mp_socket
+EAL: Selected IOVA mode &#39;VA&#39;
+EAL: No available hugepages reported in hugepages-1048576kB
+EAL: Probing VFIO support...
+EAL: VFIO support initialized
+EAL: PCI device 0000:18:00.0 on NUMA socket 0
+EAL:   probe driver: 15b3:1015 net_mlx5
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_3&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_2&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_1&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_0&amp;quot;
+net_mlx5: mlx5.c:3089: mlx5_pci_probe(): PCI information matches for device &amp;quot;mlx5_0&amp;quot;
+net_mlx5: mlx5.c:2480: mlx5_dev_spawn(): DV flow is not supported
+EAL: PCI device 0000:18:00.1 on NUMA socket 0
+EAL:   probe driver: 15b3:1015 net_mlx5
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_3&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_2&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_1&amp;quot;
+net_mlx5: mlx5.c:3089: mlx5_pci_probe(): PCI information matches for device &amp;quot;mlx5_1&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_0&amp;quot;
+net_mlx5: mlx5.c:2480: mlx5_dev_spawn(): DV flow is not supported
+EAL: PCI device 0000:af:00.0 on NUMA socket 1
+EAL:   probe driver: 15b3:1015 net_mlx5
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_3&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_2&amp;quot;
+net_mlx5: mlx5.c:3089: mlx5_pci_probe(): PCI information matches for device &amp;quot;mlx5_2&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_1&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_0&amp;quot;
+net_mlx5: mlx5.c:2480: mlx5_dev_spawn(): DV flow is not supported
+EAL: PCI device 0000:af:00.1 on NUMA socket 1
+EAL:   probe driver: 15b3:1015 net_mlx5
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_3&amp;quot;
+net_mlx5: mlx5.c:3089: mlx5_pci_probe(): PCI information matches for device &amp;quot;mlx5_3&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_2&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_1&amp;quot;
+net_mlx5: mlx5.c:3054: mlx5_pci_probe(): checking device &amp;quot;mlx5_0&amp;quot;
+net_mlx5: mlx5.c:2480: mlx5_dev_spawn(): DV flow is not supported
+Interactive-mode selected
+testpmd: create a new mbuf pool &amp;lt;mbuf_pool_socket_1&amp;gt;: n=203456, size=2176, socket=1
+testpmd: preferred mempool ops selected: ring_mp_mc
+testpmd: create a new mbuf pool &amp;lt;mbuf_pool_socket_0&amp;gt;: n=203456, size=2176, socket=0
+testpmd: preferred mempool ops selected: ring_mp_mc
+Configuring Port 0 (socket 0)
+Port 0: 1C:34:DA:52:33:94
+Configuring Port 1 (socket 0)
+Port 1: 1C:34:DA:52:33:95
+Configuring Port 2 (socket 1)
+Port 2: 0C:42:A1:59:65:B0
+Configuring Port 3 (socket 1)
+Port 3: 0C:42:A1:59:65:B1
+Checking link statuses...
+Done
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;此时再看网卡，还在内核中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# usertools/dpdk-devbind.py --status
+
+Network devices using kernel driver
+===================================
+0000:18:00.0 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp24s0f0 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic 
+0000:18:00.1 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp24s0f1 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic 
+0000:3e:00.2 &#39;Ethernet Connection X722 for 1GbE 37d1&#39; if=enp62s0f2 drv=i40e unused=igb_uio,vfio-pci,uio_pci_generic *Active*
+0000:3e:00.3 &#39;Ethernet Connection X722 for 1GbE 37d1&#39; if=enp62s0f3 drv=i40e unused=igb_uio,vfio-pci,uio_pci_generic 
+0000:af:00.0 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp175s0f0 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic *Active*
+0000:af:00.1 &#39;MT27710 Family [ConnectX-4 Lx] 1015&#39; if=enp175s0f1 drv=mlx5_core unused=igb_uio,vfio-pci,uio_pci_generic 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从&lt;a href=&#34;https://community.mellanox.com/s/article/mellanox-dpdk&#34;&gt;Mellanox官网&lt;/a&gt;中可以看到它的驱动设计就是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Mellanox PMD directly accesses HW for fast data-path processing while control-path still goes through kernel modules. Unlike other PMDs, Mellanox PMD does not rely on UIO/VFIO driver for control-path. Instead, control-path is built on top of libibverbs using the Raw Ethernet Accelerated Verbs API. Thus, the PCIe device is not required to be unbound from kernel network stack and standard Linux commands (e.g ethtool/ifconfig) can be run on the kernel device to query/update MTU and flow control parameters or to monitor statistics. This allows the PMD to coexist with kernel driver interface which still remains functional. Ports that are not being used by DPDK can send and receive traffic through the kernel network stack.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-vpp编译&#34;&gt;四、VPP编译&lt;/h2&gt;
+
+&lt;p&gt;在FD.io的主题帖上看到两个帖子，&lt;a href=&#34;https://lists.fd.io/g/vpp-dev/topic/14304652&#34;&gt;贴1&lt;/a&gt;，&lt;a href=&#34;https://lists.fd.io/g/vpp-dev/topic/32141457&#34;&gt;贴2&lt;/a&gt;。综上所述，VPP使用Mellanox有两种方式，一种还是原来的通过DPDK去连接Mellanox驱动，从而使用Mellanox网卡。另一种方式是使用&lt;a href=&#34;https://gerrit.fd.io/r/c/19364/3/src/plugins/rdma/rdma_doc.md&#34;&gt;RDMA驱动&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;先说原来的方式，第一步先安装依赖；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost ~]# yum install -y libmnl-devel numactl-devel rdma-core-devel nasm
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后重编VPP，编译时可以看一下DPDK plugin需要的依赖是否都有了；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost ~]# make rebuild-release vpp_uses_dpdk_mlx5_pmd=yes DPDK_MLX5_PMD_DLOPEN_DEPS=y
+……
+-- dpdk plugin needs libdpdk.a library - found at /opt/vpp/external/x86_64/lib/libdpdk.a
+-- Found DPDK 20.2.0 in /opt/vpp/external/x86_64/include/dpdk
+-- dpdk plugin needs numa library - found at /usr/lib64/libnuma.so
+-- dpdk plugin needs libIPSec_MB.a library - found at /opt/vpp/external/x86_64/lib/libIPSec_MB.a
+-- dpdk plugin needs mnl library - found at /usr/lib64/libmnl.so
+-- DPDK depends on libmnl (Mellanox PMD requirement)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;同时还可以检查编译dpdk_plugin.so所依赖的libdpdk.a里有没有mlx5相关的静态库；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# vi /opt/vpp/external/x86_64/lib/libdpdk.a
+GROUP ( librte_bus_fslmc.a librte_bus_pci.a librte_bus_vdev.a librte_bus_vmbus.a librte_cmdline.a librte_common_cpt.a librte_common_dpaax.a librte_common_iavf.a librte_common_mlx5.a librte_common_octeontx.a librte_common_octeontx2.a librte_compressdev.a librte_cryptodev.a librte_eal.a librte_ethdev.a librte_eventdev.a librte_fib.a librte_hash.a librte_ip_frag.a librte_ipsec.a librte_kvargs.a librte_mbuf.a librte_mempool.a librte_mempool_bucket.a librte_mempool_dpaa2.a librte_mempool_octeontx.a librte_mempool_octeontx2.a librte_mempool_ring.a librte_mempool_stack.a librte_meter.a librte_metrics.a librte_net.a librte_pci.a librte_pdump.a librte_pmd_aesni_gcm.a librte_pmd_aesni_mb.a librte_pmd_af_packet.a librte_pmd_ark.a librte_pmd_atlantic.a librte_pmd_avp.a librte_pmd_axgbe.a librte_pmd_bnxt.a librte_pmd_caam_jr.a librte_pmd_crypto_scheduler.a librte_pmd_cxgbe.a librte_pmd_dpaa2.a librte_pmd_dpaa2_event.a librte_pmd_dpaa2_sec.a librte_pmd_dsw_event.a librte_pmd_e1000.a librte_pmd_ena.a librte_pmd_enetc.a librte_pmd_enic.a librte_pmd_fm10k.a librte_pmd_hinic.a librte_pmd_hns3.a librte_pmd_i40e.a librte_pmd_iavf.a librte_pmd_ice.a librte_pmd_ifc.a librte_pmd_ionic.a librte_pmd_ixgbe.a librte_pmd_lio.a librte_pmd_memif.a librte_pmd_mlx5.a librte_pmd_netvsc.a librte_pmd_nfp.a librte_pmd_nitrox.a librte_pmd_null.a librte_pmd_null_crypto.a librte_pmd_octeontx.a librte_pmd_octeontx2.a librte_pmd_octeontx2_crypto.a librte_pmd_octeontx2_event.a librte_pmd_octeontx_crypto.a librte_pmd_octeontx_ssovf.a librte_pmd_octeontx_zip.a librte_pmd_opdl_event.a librte_pmd_qat.a librte_pmd_qede.a librte_pmd_ring.a librte_pmd_sfc_efx.a librte_pmd_skeleton_event.a librte_pmd_sw_event.a librte_pmd_thunderx_nicvf.a librte_pmd_vdev_netvsc.a librte_pmd_vhost.a librte_pmd_virtio.a librte_pmd_virtio_crypto.a librte_pmd_vmxnet3_uio.a librte_rcu.a librte_reorder.a librte_rib.a librte_ring.a librte_sched.a librte_security.a librte_stack.a librte_timer.a librte_vhost.a )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;完事后修改启动文件，加上需要的网卡，启动；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# cat /etc/vpp/vpp_dpdk.conf
+……
+dpdk {
+  dev 0000:18:00.0 {
+    name n3
+  }
+  dev 0000:18:00.1 {
+    name n6
+  }
+}
+……
+[root@localhost dpdk-20.02]# /home/C/vpp/build-root/build-vpp-native/vpp/bin/vpp -c /etc/vpp/vpp_dpdk.conf 
+0: tls_init_ca_chain:609: Could not initialize TLS CA certificates
+0: tls_mbedtls_init:644: failed to initialize TLS CA chain
+0: tls_init_ca_chain:874: Could not initialize TLS CA certificates
+0: tls_openssl_init:948: failed to initialize TLS CA chain
+VPP# show interface 
+              Name               Idx    State  MTU (L3/IP4/IP6/MPLS)     Counter          Count     
+local0                            0     down          0/0/0/0       
+n3                                1     down         9000/0/0/0     
+n6                                2     down         9000/0/0/0     
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外一种使用RDMA插件；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@localhost dpdk-20.02]# cat /etc/vpp/vpp_rdma.conf
+……
+#dpdk {
+#  dev 0000:18:00.0
+#  dev 0000:18:00.1
+#}
+……
+[root@localhost dpdk-20.02]# /home/C/vpp/build-root/build-vpp-native/vpp/bin/vpp -c /etc/vpp/vpp_rdma.conf
+0: tls_init_ca_chain:609: Could not initialize TLS CA certificates
+0: tls_mbedtls_init:644: failed to initialize TLS CA chain
+0: tls_init_ca_chain:874: Could not initialize TLS CA certificates
+0: tls_openssl_init:948: failed to initialize TLS CA chain
+VPP# show interface 
+              Name               Idx    State  MTU (L3/IP4/IP6/MPLS)     Counter          Count     
+TwentyFiveGigabitEthernet18/0/0   1     down         9000/0/0/0     
+TwentyFiveGigabitEthernet18/0/1   2     down         9000/0/0/0     
+TwentyFiveGigabitEthernetaf/0/0   3     down         9000/0/0/0     
+TwentyFiveGigabitEthernetaf/0/1   4     down         9000/0/0/0     
+local0                            0     down          0/0/0/0       
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后可以看一下，多了一个rdma-input；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;VPP# show vlib graph
+           Name                      Next                    Previous   
+……
+rdma-input                 ip4-input-no-checksum [0]
+                                 ip4-input [1]      
+                                 ip6-input [2]      
+                                mpls-input [3]      
+                              ethernet-input [4]    
+                                error-drop [5]           
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>关于图床的选择</title>
