@@ -167,6 +167,12 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/tags/dpdk/</loc>
+    <lastmod>2021-03-17T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/</loc>
     <lastmod>2021-03-17T10:03:09+08:00</lastmod>
     <priority>0</priority>
@@ -179,7 +185,7 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/vpp/</loc>
+    <loc>https://zhanggq.github.io/tags/vpp/</loc>
     <lastmod>2021-03-17T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>

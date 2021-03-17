@@ -21,6 +21,24 @@
     </item>
     
     <item>
+      <title>DPDK</title>
+      <link>https://zhanggq.github.io/tags/dpdk/</link>
+      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/dpdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VPP</title>
+      <link>https://zhanggq.github.io/tags/vpp/</link>
+      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/vpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>debug</title>
       <link>https://zhanggq.github.io/tags/debug/</link>
       <pubDate>Tue, 21 May 2019 10:03:09 +0800</pubDate>
@@ -170,24 +188,6 @@
       <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/horizon/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>contrail cmon</title>
-      <link>https://zhanggq.github.io/tags/contrail-cmon/</link>
-      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/contrail-cmon/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mysql</title>
-      <link>https://zhanggq.github.io/tags/mysql/</link>
-      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/mysql/</guid>
       <description></description>
     </item>
     
