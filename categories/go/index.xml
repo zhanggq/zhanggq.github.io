@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>go on Zhanggq</title>
-    <link>https://zhanggq.github.io/tags/go/</link>
-    <description>Recent content in go on Zhanggq</description>
+    <title>Go on Zhanggq</title>
+    <link>https://zhanggq.github.io/categories/go/</link>
+    <description>Recent content in Go on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 02 Apr 2021 09:03:09 +0800</lastBuildDate>
     
-	<atom:link href="https://zhanggq.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhanggq.github.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-go-nil-pointer/</guid>
       <description>摘要 最近开发过程中遇到挺多空指针引发的Coredump，想在CI过程中集成一下Go的代码检查工具，但实际发现这些工具的效果都不行…… 一、测试</description>
-    </item>
-    
-    <item>
-      <title>重新梳理一下我自己的两个web工程</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</guid>
-      <description>摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My</description>
     </item>
     
   </channel>

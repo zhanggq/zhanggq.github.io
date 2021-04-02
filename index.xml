@@ -5,10 +5,221 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Mar 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 02 Apr 2021 09:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于Go的空指针检查</title>
+      <link>https://zhanggq.github.io/post/zgq-go-nil-pointer/</link>
+      <pubDate>Fri, 02 Apr 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-go-nil-pointer/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最近开发过程中遇到挺多空指针引发的Coredump，想在CI过程中集成一下Go的代码检查工具，但实际发现这些工具的效果都不行……&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-测试代码&#34;&gt;一、测试代码&lt;/h2&gt;
+
+&lt;p&gt;简单写了一些空指针代码，如下所示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;reflect&amp;quot;
+    &amp;quot;testGolint/context&amp;quot; // 加载这个库时，就会调用其init()，所以其内部打印在main()之前
+    &amp;quot;time&amp;quot;
+)
+
+type Address struct {
+    Home  string
+    Email string
+}
+
+type User struct {
+    Name    string
+    Address *Address
+}
+
+func testCase0() {
+    fmt.Println(&amp;quot;Test Case 0 Begin..&amp;quot;)
+    var a = User{}
+
+    address := a.Address
+    if address == nil {
+        fmt.Println(*address) // nil dereference
+    }
+
+    fmt.Printf(&amp;quot;Email Address = [%s] \n&amp;quot;, address.Email) // 典型的空指针，查不出来
+
+    fmt.Println(&amp;quot;Test Case 0 Finish..&amp;quot;)
+}
+
+func testCase1() {
+    fmt.Println(&amp;quot;Test Case 1 Begin..&amp;quot;)
+    var a = &amp;amp;context.Context{}
+    var user = a.UserAllocate()
+    fmt.Printf(&amp;quot;User Name %s \n&amp;quot;, user.Name)
+
+    var company = user.WorkExps[0]
+    fmt.Printf(&amp;quot;User Company Name %s \n&amp;quot;, company.CompanyName) // 典型的空指针，查不出来
+
+    fmt.Println(&amp;quot;Test Case 1 Finish..&amp;quot;)
+}
+
+func testCase2() {
+    fmt.Println(&amp;quot;Test Case 2 Begin..&amp;quot;)
+    var a *context.Context
+
+    go func() {
+        fmt.Println(&amp;quot;Before a.&amp;quot;)
+        a = &amp;amp;context.Context{}
+        fmt.Println(&amp;quot;After a&amp;quot;)
+    }()
+    //time.Sleep(1 * time.Second) // 加上这句就不会dump
+
+    go func() {
+        fmt.Println(&amp;quot;Before UserInfo.&amp;quot;)
+        a.UserInfo() // 这行很可能运行在a = &amp;amp;context.Context{}之前，会触发空指针dump
+        fmt.Println(&amp;quot;After UserInfo.&amp;quot;)
+    }()
+
+    fmt.Println(&amp;quot;Test Case 2 Finish..&amp;quot;)
+    time.Sleep(3 * time.Second)
+}
+
+func IsNil(i interface{}) bool {
+    vi := reflect.ValueOf(i)
+    if vi.Kind() == reflect.Ptr {
+        return vi.IsNil()
+    }
+    return false
+}
+
+type Worker interface {
+    String() string
+}
+
+type Person struct {
+    Age  uint8
+    Name string
+    Sex  string
+}
+
+type Employee struct {
+    Person
+}
+
+type Employer struct {
+    Title string
+    Person
+}
+
+func (p *Person) String() string {
+    return fmt.Sprintf(&amp;quot;Name: %s, Sex: %s, Age: %d&amp;quot;, p.Name, p.Sex, p.Age)
+}
+
+func (er *Employer) String() string {
+    return fmt.Sprintf(&amp;quot;%s, Title: %s&amp;quot;, er.Person.String(), er.Title)
+}
+
+func testCase3() {
+    var (
+        w          Worker
+        emptyPoint *Employee
+    )
+
+    w = &amp;amp;Employer{
+        Title: &amp;quot;Title&amp;quot;,
+        Person: Person{
+            Name: &amp;quot;Tom&amp;quot;,
+            Age:  50,
+            Sex:  &amp;quot;male&amp;quot;,
+        },
+    }
+
+    if IsNil(w) {
+        fmt.Printf(&amp;quot;interface w is nil&amp;quot;)
+        return
+    }
+
+    // **bad** 是类型断言问题
+    e := w.(*Employee)
+    fmt.Println(e.String())
+
+    // ok
+    if e, ok := w.(*Employee); ok {
+        fmt.Printf(&amp;quot;It&#39;s Employee, %s\n&amp;quot;, e.String())
+    } else if e, ok := w.(*Employer); ok {
+        fmt.Printf(&amp;quot;It&#39;s Employer, %s\n&amp;quot;, e.String())
+    }
+
+    // **bad** 在嵌入式结构上定义方法时在nil指针上调用方法
+    fmt.Println(emptyPoint.String())
+}
+
+func main() {
+    fmt.Println(&amp;quot;Test Begin..&amp;quot;)
+
+    testCase0()
+    testCase1()
+    testCase2()
+    testCase3()
+
+    fmt.Println(&amp;quot;Test Finish..&amp;quot;)
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;开测！&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-golangci-lint&#34;&gt;二、Golangci-lint&lt;/h2&gt;
+
+&lt;p&gt;名气最大的一个工具&lt;a href=&#34;https://github.com/golangci/golangci-lint&#34;&gt;Golangci-lint&lt;/a&gt;。修改&lt;a href=&#34;https://github.com/golangci/golangci-lint/blob/master/.golangci.yml&#34;&gt;.golangci.yml&lt;/a&gt;，放开所有的限制，运行后发现核心的问题没查出来，只有一些格式问题：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/04/02/Q5ZXA6PakRypINc.png&#34; alt=&#34;golangci-lint.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-nilness&#34;&gt;三、Nilness&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://pkg.go.dev/golang.org/x/tools&#34;&gt;Nilness&lt;/a&gt;是官方的一个专门检查空指针的工具，但运行后发现只能查几种简单的空指针场景：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/04/02/GyCdwZcb1sXhxBE.png&#34; alt=&#34;nilness.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-staticcheck&#34;&gt;四、Staticcheck&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://staticcheck.io/docs/&#34;&gt;Staticcheck&lt;/a&gt;，依然不行：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/04/02/ML6botcvKZ8gT2X.png&#34; alt=&#34;staticcheck.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-gocritic&#34;&gt;五、Gocritic&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://go-critic.github.io/&#34;&gt;Gocritic&lt;/a&gt;，不行：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/04/02/7gT1CVRzsfhvKiY.png&#34; alt=&#34;gocritic1.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/04/02/a2fTJWFdbzmC57t.png&#34; alt=&#34;gocritic2.png&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>VPP如何使用Mellanox网卡</title>
@@ -396,7 +607,7 @@ rdma-input                 ip4-input-no-checksum [0]
 
 &lt;h2 id=&#34;一-图床选择&#34;&gt;一、图床选择&lt;/h2&gt;
 
-&lt;p&gt;参考这个帖子&lt;a href=&#34;https://www.jianshu.com/p/ea1eb11db63f&#34;&gt;Markdown图床&lt;/a&gt;。码云的嫌麻烦， 所以选择了&lt;a href=&#34;https://www.jianshu.com/p/ea1eb11db63f&#34;&gt;sm.ms&lt;/a&gt;，试着上传了一张图片，看看效果。&lt;/p&gt;
+&lt;p&gt;参考这个帖子&lt;a href=&#34;https://www.jianshu.com/p/ea1eb11db63f&#34;&gt;Markdown图床&lt;/a&gt;。码云的嫌麻烦， 所以选择了&lt;a href=&#34;https://sm.ms/&#34;&gt;sm.ms&lt;/a&gt;，试着上传了一张图片，看看效果。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/02/18/SabeXHZTcyt4zhI.png&#34; alt=&#34;7层协议.png&#34; /&gt;&lt;/p&gt;
 

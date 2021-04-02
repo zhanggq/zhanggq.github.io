@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Mar 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 02 Apr 2021 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于Go的空指针检查</title>
+      <link>https://zhanggq.github.io/post/zgq-go-nil-pointer/</link>
+      <pubDate>Fri, 02 Apr 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-go-nil-pointer/</guid>
+      <description>摘要 最近开发过程中遇到挺多空指针引发的Coredump，想在CI过程中集成一下Go的代码检查工具，但实际发现这些工具的效果都不行…… 一、测试</description>
+    </item>
     
     <item>
       <title>VPP如何使用Mellanox网卡</title>
@@ -180,15 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</guid>
       <description>前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本</description>
-    </item>
-    
-    <item>
-      <title>Markdown Cases Preview</title>
-      <link>https://zhanggq.github.io/post/even-preview/</link>
-      <pubDate>Wed, 04 Apr 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/even-preview/</guid>
-      <description>摘要 综合展示一下Markdown各种语法的实例，算是自己以后写Blog的模板吧。 目前这个只能算是初级模板，还有其它很多高级的用法不在展示的范</description>
     </item>
     
   </channel>
