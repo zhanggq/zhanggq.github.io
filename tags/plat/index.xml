@@ -30,15 +30,6 @@
     </item>
     
     <item>
-      <title>论大型通信软件平台 队列篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</link>
-      <pubDate>Mon, 15 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</guid>
-      <description>摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi</description>
-    </item>
-    
-    <item>
       <title>论大型通信软件平台 注册篇</title>
       <link>https://zhanggq.github.io/post/zgq-plat-2-register/</link>
       <pubDate>Wed, 03 Nov 2021 09:03:09 +0800</pubDate>

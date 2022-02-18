@@ -57,15 +57,6 @@
     </item>
     
     <item>
-      <title>论大型通信软件平台 队列篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</link>
-      <pubDate>Mon, 15 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</guid>
-      <description>摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi</description>
-    </item>
-    
-    <item>
       <title>论大型通信软件平台 注册篇</title>
       <link>https://zhanggq.github.io/post/zgq-plat-2-register/</link>
       <pubDate>Wed, 03 Nov 2021 09:03:09 +0800</pubDate>
@@ -189,6 +180,15 @@
       
       <guid>https://zhanggq.github.io/post/zgq-web-vue-springboot/</guid>
       <description>摘要 最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇</description>
+    </item>
+    
+    <item>
+      <title>【纯水贴】大数据分析应用于股票交易的尝试</title>
+      <link>https://zhanggq.github.io/post/zgq-finance-tushare/</link>
+      <pubDate>Wed, 13 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-finance-tushare/</guid>
+      <description>摘要 前不久写了一个大数据股票分析模型，筛了一些股票出来，然后挑了一个卖相好的，没想到中奖了，特此来水一贴 一、第一轮测试 于5月24日买入，于6</description>
     </item>
     
   </channel>
