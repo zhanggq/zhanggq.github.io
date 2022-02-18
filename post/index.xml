@@ -6,10 +6,82 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 02 Apr 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 18 Jan 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>DPDK的Mbuf</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</link>
+      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</guid>
+      <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
+    </item>
+    
+    <item>
+      <title>DPDK性能调优</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-performance/</link>
+      <pubDate>Mon, 17 Jan 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-performance/</guid>
+      <description>摘要 最近在用上古16.07版本的DPDK做UPF，最初的性能是2核67wpps，调优后至少能到2核180wpps。这里记录一下整个操作过程。</description>
+    </item>
+    
+    <item>
+      <title>VPP运行在ARM板上</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-vpp-arm/</link>
+      <pubDate>Sat, 25 Dec 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-vpp-arm/</guid>
+      <description>摘要 最近有个项目需要把VPP运行在ARM板子上，本篇文章主要记录一些操作过程： 环境信息； VPP交叉编译； UPF依赖交叉编译； 运行； 一、环境信</description>
+    </item>
+    
+    <item>
+      <title>论大型通信软件平台 内存篇</title>
+      <link>https://zhanggq.github.io/post/zgq-plat-4-mempool/</link>
+      <pubDate>Thu, 18 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-plat-4-mempool/</guid>
+      <description>摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc</description>
+    </item>
+    
+    <item>
+      <title>论大型通信软件平台 接口篇</title>
+      <link>https://zhanggq.github.io/post/zgq-plat-3-socket/</link>
+      <pubDate>Mon, 15 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-plat-3-socket/</guid>
+      <description>摘要 继续归纳平台，本篇主要讲讲平台的Socket封装。 一、Socket封装概述 Socket封装简单来说就是对上层业务提供发送消息的接口。当业</description>
+    </item>
+    
+    <item>
+      <title>论大型通信软件平台 队列篇</title>
+      <link>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</link>
+      <pubDate>Mon, 15 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</guid>
+      <description>摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi</description>
+    </item>
+    
+    <item>
+      <title>论大型通信软件平台 注册篇</title>
+      <link>https://zhanggq.github.io/post/zgq-plat-2-register/</link>
+      <pubDate>Wed, 03 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-plat-2-register/</guid>
+      <description>摘要 继续归纳平台，本篇主要讲讲平台的注册机制。 一、注册机制概述 说到服务注册、服务发现这些微服务方面的概念，大家肯定都比较耳熟，实际上这些概念</description>
+    </item>
+    
+    <item>
+      <title>论大型通信软件平台 概述篇</title>
+      <link>https://zhanggq.github.io/post/zgq-plat-1-overview/</link>
+      <pubDate>Mon, 01 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-plat-1-overview/</guid>
+      <description>摘要 最近接触了FreeRTOS，发现这实际上并不是什么操作系统，而是传统意义上的平台被移植到了嵌入式开发中。所以在学习之前，先结合这些年接触</description>
+    </item>
     
     <item>
       <title>关于Go的空指针检查</title>
@@ -117,78 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-web-vue-springboot/</guid>
       <description>摘要 最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇</description>
-    </item>
-    
-    <item>
-      <title>【纯水贴】大数据分析应用于股票交易的尝试</title>
-      <link>https://zhanggq.github.io/post/zgq-finance-tushare/</link>
-      <pubDate>Wed, 13 Jun 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-finance-tushare/</guid>
-      <description>摘要 前不久写了一个大数据股票分析模型，筛了一些股票出来，然后挑了一个卖相好的，没想到中奖了，特此来水一贴 一、第一轮测试 于5月24日买入，于6</description>
-    </item>
-    
-    <item>
-      <title>kubernetes对接Ceph</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</link>
-      <pubDate>Fri, 25 May 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</guid>
-      <description>摘要 总结一下kubernetes对接Ceph过程中遇到的问题，持续更新中 …… 一、环境准备 实验环境有点特殊，先部署了一套超融合环境，opens</description>
-    </item>
-    
-    <item>
-      <title>Interllij IDEA使用教程</title>
-      <link>https://zhanggq.github.io/post/zgq-web-idea/</link>
-      <pubDate>Tue, 08 May 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-idea/</guid>
-      <description>摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:</description>
-    </item>
-    
-    <item>
-      <title>VS code使用教程</title>
-      <link>https://zhanggq.github.io/post/zgq-web-vscode/</link>
-      <pubDate>Wed, 25 Apr 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-vscode/</guid>
-      <description>摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&amp;rdquo;查</description>
-    </item>
-    
-    <item>
-      <title>Window10安装tensorflow</title>
-      <link>https://zhanggq.github.io/post/zgq-ai-tensorflow/</link>
-      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-ai-tensorflow/</guid>
-      <description>摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow</description>
-    </item>
-    
-    <item>
-      <title>一步一步创建Google虚机</title>
-      <link>https://zhanggq.github.io/post/zgq-web-google-vm/</link>
-      <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-web-google-vm/</guid>
-      <description>摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以</description>
-    </item>
-    
-    <item>
-      <title>Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</link>
-      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</guid>
-      <description>摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰</description>
-    </item>
-    
-    <item>
-      <title>Ovs流表分析</title>
-      <link>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</link>
-      <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</guid>
-      <description>前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本</description>
     </item>
     
   </channel>

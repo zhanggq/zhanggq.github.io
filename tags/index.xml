@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 02 Apr 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 18 Jan 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,63 @@
     <item>
       <title></title>
       <link>https://zhanggq.github.io/tags/</link>
-      <pubDate>Fri, 02 Apr 2021 09:03:09 +0800</pubDate>
+      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DPDK</title>
+      <link>https://zhanggq.github.io/tags/dpdk/</link>
+      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/dpdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Performance</title>
+      <link>https://zhanggq.github.io/tags/performance/</link>
+      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/performance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ARM</title>
+      <link>https://zhanggq.github.io/tags/arm/</link>
+      <pubDate>Sat, 25 Dec 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/arm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VPP</title>
+      <link>https://zhanggq.github.io/tags/vpp/</link>
+      <pubDate>Sat, 25 Dec 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/vpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C</title>
+      <link>https://zhanggq.github.io/tags/c/</link>
+      <pubDate>Thu, 18 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PLAT</title>
+      <link>https://zhanggq.github.io/tags/plat/</link>
+      <pubDate>Thu, 18 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/plat/</guid>
       <description></description>
     </item>
     
@@ -30,20 +84,11 @@
     </item>
     
     <item>
-      <title>DPDK</title>
-      <link>https://zhanggq.github.io/tags/dpdk/</link>
-      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
+      <title>Vue</title>
+      <link>https://zhanggq.github.io/tags/vue/</link>
+      <pubDate>Tue, 21 May 2019 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/dpdk/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>VPP</title>
-      <link>https://zhanggq.github.io/tags/vpp/</link>
-      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/vpp/</guid>
+      <guid>https://zhanggq.github.io/tags/vue/</guid>
       <description></description>
     </item>
     
@@ -62,15 +107,6 @@
       <pubDate>Tue, 21 May 2019 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/element/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>vue</title>
-      <link>https://zhanggq.github.io/tags/vue/</link>
-      <pubDate>Tue, 21 May 2019 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/vue/</guid>
       <description></description>
     </item>
     
@@ -111,15 +147,6 @@
     </item>
     
     <item>
-      <title>PaaS</title>
-      <link>https://zhanggq.github.io/tags/paas/</link>
-      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/paas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cloud</title>
       <link>https://zhanggq.github.io/tags/cloud/</link>
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
@@ -147,47 +174,20 @@
     </item>
     
     <item>
+      <title>paas</title>
+      <link>https://zhanggq.github.io/tags/paas/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/paas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>passthrough</title>
       <link>https://zhanggq.github.io/tags/passthrough/</link>
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/passthrough/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>amaze</title>
-      <link>https://zhanggq.github.io/tags/amaze/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/amaze/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pass</title>
-      <link>https://zhanggq.github.io/tags/pass/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/pass/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>springboot</title>
-      <link>https://zhanggq.github.io/tags/springboot/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/springboot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>horizon</title>
-      <link>https://zhanggq.github.io/tags/horizon/</link>
-      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/horizon/</guid>
       <description></description>
     </item>
     
