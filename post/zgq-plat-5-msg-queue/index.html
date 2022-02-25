@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>论大型通信软件平台 内存篇 - Zhanggq</title>
+  <title>论大型通信软件平台 队列篇 - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc" />
+  <meta name="description" content="摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.55.3" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-plat-4-mempool/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-plat-5-msg-queue/" />
 
 
 
@@ -58,27 +58,27 @@
 
 
 
-<meta property="og:title" content="论大型通信软件平台 内存篇" />
-<meta property="og:description" content="摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc" />
+<meta property="og:title" content="论大型通信软件平台 队列篇" />
+<meta property="og:description" content="摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-plat-4-mempool/" />
-<meta property="article:published_time" content="2021-11-18T09:03:09&#43;08:00"/>
-<meta property="article:modified_time" content="2021-11-18T10:03:09&#43;08:00"/>
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-plat-5-msg-queue/" />
+<meta property="article:published_time" content="2021-11-21T09:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2021-11-21T10:03:09&#43;08:00"/>
 
-<meta itemprop="name" content="论大型通信软件平台 内存篇">
-<meta itemprop="description" content="摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc">
+<meta itemprop="name" content="论大型通信软件平台 队列篇">
+<meta itemprop="description" content="摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi">
 
 
-<meta itemprop="datePublished" content="2021-11-18T09:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2021-11-18T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="343">
+<meta itemprop="datePublished" content="2021-11-21T09:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2021-11-21T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="646">
 
 
 
 <meta itemprop="keywords" content="PLAT,C," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="论大型通信软件平台 内存篇"/>
-<meta name="twitter:description" content="摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc"/>
+<meta name="twitter:title" content="论大型通信软件平台 队列篇"/>
+<meta name="twitter:description" content="摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -159,17 +159,17 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">论大型通信软件平台 内存篇</h1>
+      <h1 class="post-title">论大型通信软件平台 队列篇</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2021-11-18 </span>
+        <span class="post-time"> 2021-11-21 </span>
         <div class="post-category">
             
               <a href="/categories/plat/"> PLAT </a>
             
           </div>
-        <span class="more-meta"> 约 343 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span class="more-meta"> 约 646 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
 
@@ -184,8 +184,9 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#一-内存封装概述">一、内存封装概述</a></li>
-<li><a href="#二-内存封装实现示例">二、内存封装实现示例</a></li>
+<li><a href="#一-线程间通信概述">一、线程间通信概述</a></li>
+<li><a href="#二-消息队列实现示例">二、消息队列实现示例</a></li>
+<li><a href="#三-系统上电过程实现示例">三、系统上电过程实现示例</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -201,45 +202,64 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>继续归纳平台，本篇主要讲讲平台的内存封装。</p>
+<p>继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-内存封装概述">一、内存封装概述</h2>
+<h2 id="一-线程间通信概述">一、线程间通信概述</h2>
 
-<p>对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc等函数是非常危险的，特别容易出现内存泄露甚至Codedump，并且即使逃过了泄露等问题，在使用过程中如果动态申请内存时却发现系统内存不够了，也会导致程序崩溃。所以通常情况下在平台层会直接申请一块内存作为内存池，其它业务线程都会改成向平台去申请内存。这里平台主要负责：</p>
+<p>通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbitmq就用于进程间通信。但平台除了会封装进程间通信机制外，还会具备线程间通信能力，用于各个业务Task之间传递消息。这里平台主要负责：</p>
 
 <ul>
-<li>平台创建及初始化内存资源池；</li>
-<li>平台对内存链表的管理；</li>
-<li>向业务提供申请内存、释放内存等接口；</li>
-<li>其它内存检查管理功能。</li>
+<li>平台为各个Task创建及初始化消息队列；</li>
+<li>发送消息时，平台会将消息放入目标Task的消息队列中；</li>
+<li>接收消息时，平台会将消息队列中的消息取出并调用对应Task的处理函数进行处理；</li>
 </ul>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-内存封装实现示例">二、内存封装实现示例</h2>
+<h2 id="二-消息队列实现示例">二、消息队列实现示例</h2>
 
-<p>平台定义的各种内存块大小及数量</p>
+<p>之前的文章中已经写过，初始化gtPCB(Job控制块)时，会为该Job创建同步消息队列及异步消息队列。</p>
 
-<p><img src="https://s2.loli.net/2022/01/29/GCO6FKBmwnfqz35.png" alt="图片" /></p>
+<p><img src="https://s2.loli.net/2022/02/19/AsQ7a5IOGz3CiYP.png" alt="图片" /></p>
 
-<p>平台为每种内存块定义的内存池结构体</p>
+<p><img src="https://s2.loli.net/2022/02/19/oeBrdVgiHPKaO8w.png" alt="图片" /></p>
 
-<p><img src="https://s2.loli.net/2022/01/29/Jn95LFeUwuHXWVo.png" alt="QQ图片20220129162908.png" /></p>
+<p>创建完成后，Job作为一个线程启动，此时Job会死循环分别处理同步消息和异步消息。同步消息包括定时器消息，同步消息，广播消息等：</p>
 
-<p>平台创建及初始化内存资源池：</p>
+<p><img src="https://s2.loli.net/2022/02/19/EfX916Rr4FbYhH2.png" alt="图片" /></p>
 
-<p><img src="https://s2.loli.net/2022/01/29/63Jq9rxdWQsaHyo.png" alt="图片" /></p>
+<p><img src="https://s2.loli.net/2022/02/25/VNdryeI8EWAi9Zs.png" alt="图片" /></p>
 
-<p>平台为业务提供的申请内存接口：</p>
+<p>异步消息是指其它业务线程或平台发来的消息，统一由Job注册的主处理函数作为消息处理入口：</p>
 
-<p><img src="https://s2.loli.net/2022/01/29/kujWgavHUSdKiPD.png" alt="图片" /></p>
+<p><img src="https://s2.loli.net/2022/02/19/Zr2DRnjNFKWuh18.png" alt="图片" /></p>
 
-<p>平台为业务提供的释放内存接口：</p>
+<p><img src="https://s2.loli.net/2022/02/25/fivZLB9ldhQsJUq.png" alt="图片" /></p>
 
-<p><img src="https://s2.loli.net/2022/01/29/uxZdltfg8soOpXy.png" alt="图片" /></p>
+<p><a name="section3"></a></p>
+
+<h2 id="三-系统上电过程实现示例">三、系统上电过程实现示例</h2>
+
+<p>下面通过整个系统上电的过程，来展示消息队列的实际使用。之前说过，平台是作为一层库提供给业务使用的，所以进程的main函数一定是由业务编写的。当业务main函数启动时，首先会通知平台Job完成上电，如图：</p>
+
+<p><img src="https://s2.loli.net/2022/02/25/gIkHcJqhM1FBWZP.png" alt="图片" /></p>
+
+<p><img src="https://s2.loli.net/2022/02/25/rMqFywjTURKO8Ev.png" alt="图片" /></p>
+
+<p>而这里的PostMsgToTask实际上就是将消息放入对于Job的消息队列中</p>
+
+<p><img src="https://s2.loli.net/2022/02/25/eT6XvF3ORtMyKSH.png" alt="图片" /></p>
+
+<p><img src="https://s2.loli.net/2022/02/25/dgfQJ574OZ9Ghvx.png" alt="图片" /></p>
+
+<p>之后，平台Job从自己的消息队列中获取到上电消息，将自己的状态置为work态，并Job注册表逐个通知其它Job上电。也可以严格控制模块上电顺序，先通知A模块上电，A自己上电成功后再通知B模块上电，依此类推。</p>
+
+<p><img src="https://s2.loli.net/2022/02/25/6Pzp1TcgAtjeEXw.png" alt="图片" /></p>
+
+<p><img src="https://s2.loli.net/2022/02/25/dS4BecfktaJwyVg.png" alt="图片" /></p>
 
     </div>
 
@@ -252,7 +272,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2021-11-18</span>
+    <span class="item-content">2021-11-21</span>
   </p>
   
   <p class="copyright-item">
@@ -276,14 +296,14 @@
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-plat-5-msg-queue/">
+          <a class="prev" href="/post/zgq-dpdk-vpp-arm/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">论大型通信软件平台 队列篇</span>
+            <span class="prev-text nav-default">VPP运行在ARM板上</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         
-          <a class="next" href="/post/zgq-plat-3-socket/">
-            <span class="next-text nav-default">论大型通信软件平台 接口篇</span>
+          <a class="next" href="/post/zgq-plat-4-mempool/">
+            <span class="next-text nav-default">论大型通信软件平台 内存篇</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -300,10 +320,10 @@
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-plat-4-mempool.md',
-    title: '论大型通信软件平台 内存篇',
+    id: 'zgq-plat-5-msg-queue.md',
+    title: '论大型通信软件平台 队列篇',
     link: decodeURI(location.href),
-    desc: '摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc',
+    desc: '摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

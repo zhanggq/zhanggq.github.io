@@ -2,7 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhanggq.github.io/post/zgq-c-performance/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/zgq-dpdk-checksum/</loc>
+    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</loc>
+    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/zgq-dpdk-vrf/</loc>
     <lastmod>2022-01-18T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -18,6 +39,13 @@
   <url>
     <loc>https://zhanggq.github.io/post/zgq-dpdk-vpp-arm/</loc>
     <lastmod>2021-12-25T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</loc>
+    <lastmod>2021-11-21T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -206,19 +234,49 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/c/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/categories/c/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/dpdk/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/performance/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/</loc>
+    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -229,25 +287,7 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/performance/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/</loc>
+    <loc>https://zhanggq.github.io/categories/dpdk/</loc>
     <lastmod>2022-01-18T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -265,20 +305,14 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/c/</loc>
-    <lastmod>2021-11-18T10:03:09+08:00</lastmod>
+    <loc>https://zhanggq.github.io/tags/plat/</loc>
+    <lastmod>2021-11-21T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/plat/</loc>
-    <lastmod>2021-11-18T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/plat/</loc>
-    <lastmod>2021-11-18T10:03:09+08:00</lastmod>
+    <lastmod>2021-11-21T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -469,13 +503,13 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/ai/</loc>
+    <loc>https://zhanggq.github.io/tags/ai/</loc>
     <lastmod>2018-04-24T16:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/ai/</loc>
+    <loc>https://zhanggq.github.io/categories/ai/</loc>
     <lastmod>2018-04-24T16:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -511,13 +545,13 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/sdn/</loc>
+    <loc>https://zhanggq.github.io/tags/sdn/</loc>
     <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/tags/sdn/</loc>
+    <loc>https://zhanggq.github.io/categories/sdn/</loc>
     <lastmod>2018-04-04T13:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>

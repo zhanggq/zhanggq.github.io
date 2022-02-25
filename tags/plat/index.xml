@@ -6,10 +6,19 @@
     <description>Recent content in PLAT on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Nov 2021 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 21 Nov 2021 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/plat/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>论大型通信软件平台 队列篇</title>
+      <link>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</link>
+      <pubDate>Sun, 21 Nov 2021 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</guid>
+      <description>摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi</description>
+    </item>
     
     <item>
       <title>论大型通信软件平台 内存篇</title>

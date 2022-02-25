@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.55.3" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-dpdk-vrf/" />
 
 
 
@@ -61,7 +61,7 @@
 <meta property="og:title" content="DPDK的Mbuf" />
 <meta property="og:description" content="摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/" />
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-dpdk-vrf/" />
 <meta property="article:published_time" content="2022-01-18T09:03:09&#43;08:00"/>
 <meta property="article:modified_time" content="2022-01-18T10:03:09&#43;08:00"/>
 
@@ -401,14 +401,14 @@ Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-dpdk-checksum/">
+          <a class="prev" href="/post/zgq-dpdk-mbuf-pool/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">DPDK的Mbuf</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         
-          <a class="next" href="/post/zgq-dpdk-vrf/">
-            <span class="next-text nav-default">DPDK的Mbuf</span>
+          <a class="next" href="/post/zgq-dpdk-performance/">
+            <span class="next-text nav-default">DPDK性能调优</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -425,7 +425,7 @@ Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-dpdk-mbuf-pool.md',
+    id: 'zgq-dpdk-vrf.md',
     title: 'DPDK的Mbuf',
     link: decodeURI(location.href),
     desc: '摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面',

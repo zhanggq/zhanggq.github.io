@@ -71,7 +71,7 @@
 
 <meta itemprop="datePublished" content="2022-01-17T09:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-17T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="2225">
+<meta itemprop="wordCount" content="2387">
 
 
 
@@ -168,7 +168,7 @@
               <a href="/categories/dpdk/"> DPDK </a>
             
           </div>
-        <span class="more-meta"> 约 2225 字 </span>
+        <span class="more-meta"> 约 2387 字 </span>
         <span class="more-meta"> 预计阅读 5 分钟 </span>
       </div>
     </header>
@@ -497,7 +497,7 @@ systemctl disable NetworkManager.service
 </code></pre>
 
 <ul>
-<li><p>去掉收发包时spin_lock，但这个会导致kni口或其它变化时收包的coredump；</p></li>
+<li><p>spin_lock通过开关控制，当需要配置Ip或Mtu时打开锁控制。发包时关闭锁控制；</p></li>
 
 <li><p>由原来的单个报文之间发送，改成批量tx_burst；</p></li>
 
@@ -515,12 +515,14 @@ systemctl disable NetworkManager.service
 <ul>
 <li><p>控制面的转发表项与转发面是共享内存，需要将转发面进程改成secondary；</p></li>
 
-<li><p>将收包线程和发包线程拆开，通过ring来交互；</p></li>
-
 <li><p>取消UDP checksum 的计算，改为网卡计算；</p></li>
 </ul>
 
 <p><img src="https://s2.loli.net/2022/01/28/8FJRXtcKTUgHfwk.png" alt="图片" /></p>
+
+<ul>
+<li>将收包线程和发包线程拆开，通过ring来交互。更进一步的是将收包、业务处理、发包都拆开。因为性能的需要，网卡开启多队列，并利用Rss将包负载均衡到不同的Queue上，但随之而来的是相同的业务流也可能会被打到不同的Queue上，导致业务乱序，所以需要通过将收包拆成独立的线程，并再根据一定的Hash关系放到不同的业务处理Ring上，业务处理完成后再通过Ring丢给发包线程。</li>
+</ul>
 
     </div>
 
@@ -557,7 +559,7 @@ systemctl disable NetworkManager.service
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-dpdk-mbuf-pool/">
+          <a class="prev" href="/post/zgq-dpdk-vrf/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">DPDK的Mbuf</span>
             <span class="prev-text nav-mobile">上一篇</span>
