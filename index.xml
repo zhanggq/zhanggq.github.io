@@ -5,10 +5,131 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 23 Feb 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 10 Mar 2022 09:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>扫描工具</title>
+      <link>https://zhanggq.github.io/post/zgq-c-check/</link>
+      <pubDate>Thu, 10 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-c-check/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-valgrind&#34;&gt;一、Valgrind&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Valgrind主要用于在程序运行时，监视内存的使用情况，是否存在内存泄漏等问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;安装&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Valgrind需要安装在程序运行环境上。安装过程如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;获取源码&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;wget &lt;a href=&#34;http://www.valgrind.org/downloads/valgrind-3.18.1.tar.bz2&#34;&gt;http://www.valgrind.org/downloads/valgrind-3.18.1.tar.bz2&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;编译安装&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;tar -jxvf valgrind-3.18.1.tar.bz2
+cd valgrind-3.18.1
+./configure --prefix=/home/valgrind
+make
+make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;环境变量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;vim ~/.bashrc
+export PATH=$PATH:/home/valgrind/bin/
+source ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;程序运行&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;valgrind &amp;ndash;tool=memcheck &amp;ndash;leak-check=yes &amp;ndash;show-reachable=yes &amp;ndash;run-libc-freeres=yes &amp;ndash;log-file=./valgrind_report.log ./agt.out + 程序启动参数&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;扫描结果&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Valgrind会报告5种级别的内存泄露：&amp;rdquo;definitely lost&amp;rdquo;,&amp;ldquo;indirectly lost&amp;rdquo;,&amp;ldquo;possibly lost&amp;rdquo;,&amp;ldquo;still reachable&amp;rdquo;,&amp;ldquo;suppressed&amp;rdquo;。通常情况下需要关注前三种级别，这里不再一一讲述每种级别的场景。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/10/RfQr1IOpwhgFUuT.png&#34; alt=&#34;QQ图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-fortify&#34;&gt;二、Fortify&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;动态扫描工具的一个问题在于它依赖程序真实运行的环境，而一般真实运行环境不可能把所有的异常都跑到，所以需要引入静态扫描工具。Fortify是一款商用扫描工具，可以在代码编译期间对代码进行扫描，通过可视化的工具对各个代码异常点进行查看。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;安装&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;上传安装包至编译服务器/user/integration/autobuild/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;  cd /user/integration/autobuild/
+  mkdir fortify
+  tar -zxf Fortify_SCA_and_Apps_4.40_Linux.tar.gz -C /user/integration/autobuild/fortify/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;拷贝License文件至/user/integration/autobuild/fortify/fortify.license&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;执行安装，参考&lt;a href=&#34;https://www.cnblogs.com/fsxsmile/p/14690235.html&#34;&gt;Fortify&amp;ndash;安装与使用&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装完成后拷贝规则文件至/opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/Core/config/rules/&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;顺便生成文件夹用于存放报告&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;  mkdir -p /user/integration/autobuild/fortify/Result/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;编译&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;修改Makefile文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;vi output/Makefile.linux
+CC == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TARGET)gcc
+AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TARGET)ar
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;执行编译&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;执行编译后，Fortify会生成中间文件在/root/.fortify/sca6.4/build/SAC&lt;/p&gt;
+
+&lt;p&gt;最好每次扫描完成后备份该文件夹作为留存。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;生成报告&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;/opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -64 -Xmx4096M -Xms4096M -Xss24M -b SAC -scan -f /user/integration/autobuild/fortify/Result/SAC.results.fpr&lt;/p&gt;
+
+&lt;p&gt;报告生成后可以通过windows上安装的Fortify程序进行阅读&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>性能调优工具</title>
@@ -935,6 +1056,10 @@ systemctl disable NetworkManager.service
 &lt;ul&gt;
 &lt;li&gt;将收包线程和发包线程拆开，通过ring来交互。更进一步的是将收包、业务处理、发包都拆开。因为性能的需要，网卡开启多队列，并利用Rss将包负载均衡到不同的Queue上，但随之而来的是相同的业务流也可能会被打到不同的Queue上，导致业务乱序，所以需要通过将收包拆成独立的线程，并再根据一定的Hash关系放到不同的业务处理Ring上，业务处理完成后再通过Ring丢给发包线程。&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;这里参考中兴的文档：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/10/McVqdu1kzP3hGTg.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>

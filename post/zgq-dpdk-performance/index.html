@@ -71,7 +71,7 @@
 
 <meta itemprop="datePublished" content="2022-01-17T09:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-17T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="2387">
+<meta itemprop="wordCount" content="2397">
 
 
 
@@ -168,7 +168,7 @@
               <a href="/categories/dpdk/"> DPDK </a>
             
           </div>
-        <span class="more-meta"> 约 2387 字 </span>
+        <span class="more-meta"> 约 2397 字 </span>
         <span class="more-meta"> 预计阅读 5 分钟 </span>
       </div>
     </header>
@@ -523,6 +523,10 @@ systemctl disable NetworkManager.service
 <ul>
 <li>将收包线程和发包线程拆开，通过ring来交互。更进一步的是将收包、业务处理、发包都拆开。因为性能的需要，网卡开启多队列，并利用Rss将包负载均衡到不同的Queue上，但随之而来的是相同的业务流也可能会被打到不同的Queue上，导致业务乱序，所以需要通过将收包拆成独立的线程，并再根据一定的Hash关系放到不同的业务处理Ring上，业务处理完成后再通过Ring丢给发包线程。</li>
 </ul>
+
+<p>这里参考中兴的文档：</p>
+
+<p><img src="https://s2.loli.net/2022/03/10/McVqdu1kzP3hGTg.png" alt="图片" /></p>
 
     </div>
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>C on Zhanggq</title>
-    <link>https://zhanggq.github.io/categories/c/</link>
-    <description>Recent content in C on Zhanggq</description>
+    <title>Valgrind on Zhanggq</title>
+    <link>https://zhanggq.github.io/tags/valgrind/</link>
+    <description>Recent content in Valgrind on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 10 Mar 2022 09:03:09 +0800</lastBuildDate>
     
-	<atom:link href="https://zhanggq.github.io/categories/c/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhanggq.github.io/tags/valgrind/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-c-check/</guid>
       <description>摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind</description>
-    </item>
-    
-    <item>
-      <title>性能调优工具</title>
-      <link>https://zhanggq.github.io/post/zgq-c-performance/</link>
-      <pubDate>Wed, 23 Feb 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-c-performance/</guid>
-      <description>摘要 最近搞UPF性能调优时，简单使用了一下性能调优工具，这里描述一下使用过程。gprof，vtune(待补充)。 一、gprof 编译 gprof</description>
     </item>
     
   </channel>

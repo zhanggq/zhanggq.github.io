@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 23 Feb 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 10 Mar 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>扫描工具</title>
+      <link>https://zhanggq.github.io/post/zgq-c-check/</link>
+      <pubDate>Thu, 10 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-c-check/</guid>
+      <description>摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind</description>
+    </item>
     
     <item>
       <title>性能调优工具</title>
@@ -180,15 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</guid>
       <description>摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori</description>
-    </item>
-    
-    <item>
-      <title>mysql高可用集群搭建（上篇）</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-mysql/</link>
-      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-mysql/</guid>
-      <description>摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完</description>
     </item>
     
   </channel>
