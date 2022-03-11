@@ -132,6 +132,102 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
     </item>
     
     <item>
+      <title>UPF的VRF功能</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
+      <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们的UPF网元在和客户对接使用的过程中，发现缺少了VRF功能，这里简单描述一下VRF功能的设计。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-需求&#34;&gt;一、需求&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Case1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;按照客户目前的组网方案，基站地址是DHCP分配的，可能会与DN的地址段重叠。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Case2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;虽然我们与客户的网关之间做了动态路由，但客户的交换机不会向我们发布动态路由，只能通过网管配置到基站/DN的静态路由，下一跳为不同交换机的VIP地址。&lt;/p&gt;
+
+&lt;p&gt;综上所述，我们需要支持N3/N6查询不同的路由表来适配上述需求。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-vrf介绍&#34;&gt;二、VRF介绍&lt;/h2&gt;
+
+&lt;p&gt;VRF（VPN Routing Forwarding）又称VPN实例（VPN Instance），是一种虚拟化技术。在物理设备上创建多个VPN实例，每个VPN实例拥有独立的接口、路由表和路由协议进程等。VRF是对物理设备的一个逻辑划分，每个逻辑单元都被称为一个VPN实例，实例之间在路由层面是隔离的。VRF实现过程如下：&lt;/p&gt;
+
+&lt;p&gt;\1. 创建实例，并将三层接口（可以是路由器的物理接口或者子接口，也可以是VLANIF接口）绑定到实例；&lt;/p&gt;
+
+&lt;p&gt;\2. 配置与实例绑定的路由协议或静态路由；&lt;/p&gt;
+
+&lt;p&gt;\3. 基于与实例绑定的接口和路由协议等建立实例路由表；&lt;/p&gt;
+
+&lt;p&gt;\4. 报文根据入口的接口，基于绑定的实例路由表转发数据；&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://baijiahao.baidu.com/s?id=1702782710105988010&amp;amp;wfr=spider&amp;amp;for=pc&#34;&gt;https://baijiahao.baidu.com/s?id=1702782710105988010&amp;amp;wfr=spider&amp;amp;for=pc&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://max.book118.com/html/2017/0729/125092731.shtm&#34;&gt;https://max.book118.com/html/2017/0729/125092731.shtm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-vrf实现&#34;&gt;三、VRF实现&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;配置&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;UPF在每次启动时，会从配置表中读取VRF的Id值，并将该值保存到端口各个内存表中。这部分略过。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;路由表&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在原来的代码中，路由表只有1个实例。按照现在的需求，至少要有2个路由表实例。代码由原来的指针改为数组指针，并使用VRF ID作为实例的索引。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/11/U1go9whdzP4v5Hi.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;路由表更新&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;UPF启动及运行过程中，涉及路由表的新增或修改场景有多个：&lt;/p&gt;
+
+&lt;p&gt;\1. 内部Socket使用的路由表；&lt;/p&gt;
+
+&lt;p&gt;\2. 本地接口配置生成的直连路由；&lt;/p&gt;
+
+&lt;p&gt;\3. ARP学习到的路由；&lt;/p&gt;
+
+&lt;p&gt;\4. 静态路由；&lt;/p&gt;
+
+&lt;p&gt;\5. 动态路由；&lt;/p&gt;
+
+&lt;p&gt;其中内部Socket可以默认使用VRF 0，其他场景都可以根据Port来查询到VRF Id，并将路由更新到对应的路由表实例中。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;路由表查找&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;根据前面思科的介绍，报文归属的VRF Id要在接收时打上。根据不同的报文来源，大致分以下场景：&lt;/p&gt;
+
+&lt;p&gt;\1. 从DPDK收到的报文，目前代码是将Portid直接打在每个报文上的，所以根据PortId能够查询到VRF Id；&lt;/p&gt;
+
+&lt;p&gt;\2. 从KNI口收到的报文，因为Kni口和DPDK的Port是绑定关系，目前代码也是将Portid直接打在每个报文上的，同样根据PortId能够查询到VRF Id；&lt;/p&gt;
+
+&lt;p&gt;\3. 从内部socket收到的报文，譬如SA报文，目前是没有打上Portid的，但这一类的报文方向是固定的，都是从N3口发往基站的报文所以可以在内部填充报文时，直接写死VRF Id；&lt;/p&gt;
+
+&lt;p&gt;\4. UPF主动发送的报文，譬如gtpu echo报文、End Mark报文，同样没有Portid的，但其方向也是固定的，同样可以直接写死VRF Id。&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
       <title>性能调优工具</title>
       <link>https://zhanggq.github.io/post/zgq-c-performance/</link>
       <pubDate>Wed, 23 Feb 2022 09:03:09 +0800</pubDate>
@@ -177,374 +273,10 @@ gprof up gmon.out –q
     
     <item>
       <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-checksum/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
-      
-        <description>
-
-&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面就死掉了，所有的报文都被drop了，rx_error疯涨。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;一-调整的代码&#34;&gt;一、调整的代码&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;现象描述&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;简单来说，以前的代码只有一个mbuf_pool。所有的Port的Rx Queue都使用的是这个mbuf_pool，Kni口创建时也用的这个mbuf_pool，UPF主动发送报文也是从这个mbuf_pool中申请内存的。&lt;/p&gt;
-
-&lt;p&gt;而在优化性能时，尝试将这个mbuf_pool拆分成了mbuf_pool_rx，mbuf_pool_kni，mbuf_pool_loc。mbuf_pool_rx用于Port的Rx Queue，mbuf_pool_kni用于Kni口的rte_kni_alloc，mbuf_pool_loc用于UPF主动发送报文时的内存申请。&lt;/p&gt;
-
-&lt;p&gt;运行一段时间后，使用rte_mempool_in_use_count发现三个mbuf_pool被占用的cache越来越多，直至最后几乎耗尽。当cache快要耗尽时，开始出现rx_error疯涨，所有的报文都被drop了。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;原因分析&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;假设这样的场景，从Kni口向外部ping包，DPDK应该会从mbuf_pool_kni申请一个cache用于这个ping包的存放，之后经过一系列协议栈处理后，最终通过rte_eth_tx_burst发包走掉，怀疑这里面是无法释放掉mbuf_pool_kni里面的cache的。&lt;/p&gt;
-
-&lt;p&gt;同样，从Port的任意一个队列通过rte_eth_rx_burst收包，报文是被放在mbuf_pool_rx的内存里的，假设是上送给Kni口的报文，则最后是通过rte_kni_tx_burst走掉的，同样怀疑这是无法释放mbuf_pool_rx里面的cache的。&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;二-测试代码&#34;&gt;二、测试代码&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo1&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;使用DPDK的sample改了一个小程序，第一步测试先使用一个mbuf_pool且不使用Kni，而是直接Port收包后三层处理走掉。Demo大概如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/01/29/N3gS1Kv9aqTtGWU.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;但是统计有点和想象中完全不一样：&lt;/p&gt;
-
-&lt;p&gt;在Demo中启动了2个Port，每个Port使用1个Rx queue和1个Tx queue，Rx queue的rxd（接收描述符desd）的个数为1024，所以程序刚启动时用rte_mempool_in_use_count打出来的个数是2048，这个可以理解。&lt;/p&gt;
-
-&lt;p&gt;但问题是启动后，在二层没有匹配上的场景下，所有的包都是直接走了rte_pktmbuf_free，此时发现used_count在不断变小，这个就有点和我一开始的理解不一样了。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Port 0 Link up at 40 Gbps FDX Autoneg
-Port 1 Link up at 40 Gbps FDX Autoneg
-Worker core id [2], port id[0].
-Lcore: Port id [0] start [1643199749].
-Lcore: Port[0] ip: 172.19.61.114.
-Lcore: Port[0] MAC address: FA:16:3E:96:9F:4A.
-Lcore: Port[0] MemPool Rx: size[4096], used_count[2048], free_count[2048].
-Lcore: Port[0] MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], RxPkg[8], TxPkg[0], DropPkg[8].
-Lcore: MemPool Rx: size[4096], used_count[2040], free_count[2056].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [2].
-Lcore: Port[0] rx queue count 4
-Lcore: Port[0], RxPkg[14], TxPkg[0], DropPkg[14].
-Lcore: MemPool Rx: size[4096], used_count[2034], free_count[2062].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;启动Ping包之后，少量匹配不上的报文继续走rte_pktmbuf_free，大部分ARP和ICMP报文走rte_eth_tx_burst发送出去。此时rte_mempool_in_use_count的统计值在不断增加。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Lcore: Port[0], RxPkg[60], TxPkg[24], DropPkg[36].
-Lcore: MemPool Rx: size[4096], used_count[2044], free_count[2052].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[24].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[25].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[26].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[27].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[28].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[29].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[30].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[31].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[32].
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[33].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[34].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[35].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[36].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[37].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[38].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[39].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[40].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[41].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[42].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[43].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[44].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[45].
-Lcore: Port[0], RxPkg[90], TxPkg[46], DropPkg[44].
-Lcore: MemPool Rx: size[4096], used_count[2068], free_count[2028].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].                        
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;之后长时间Ping包，观察rte_mempool_in_use_count的统计值基本维持在3000左右。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Lcore: Port[0], RxPkg[233826], TxPkg[180498], DropPkg[53328].
-Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>DPDK的Mbuf</title>
       <link>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</link>
       <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</guid>
-      
-        <description>
-
-&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面就死掉了，所有的报文都被drop了，rx_error疯涨。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;一-调整的代码&#34;&gt;一、调整的代码&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;现象描述&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;简单来说，以前的代码只有一个mbuf_pool。所有的Port的Rx Queue都使用的是这个mbuf_pool，Kni口创建时也用的这个mbuf_pool，UPF主动发送报文也是从这个mbuf_pool中申请内存的。&lt;/p&gt;
-
-&lt;p&gt;而在优化性能时，尝试将这个mbuf_pool拆分成了mbuf_pool_rx，mbuf_pool_kni，mbuf_pool_loc。mbuf_pool_rx用于Port的Rx Queue，mbuf_pool_kni用于Kni口的rte_kni_alloc，mbuf_pool_loc用于UPF主动发送报文时的内存申请。&lt;/p&gt;
-
-&lt;p&gt;运行一段时间后，使用rte_mempool_in_use_count发现三个mbuf_pool被占用的cache越来越多，直至最后几乎耗尽。当cache快要耗尽时，开始出现rx_error疯涨，所有的报文都被drop了。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;原因分析&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;假设这样的场景，从Kni口向外部ping包，DPDK应该会从mbuf_pool_kni申请一个cache用于这个ping包的存放，之后经过一系列协议栈处理后，最终通过rte_eth_tx_burst发包走掉，怀疑这里面是无法释放掉mbuf_pool_kni里面的cache的。&lt;/p&gt;
-
-&lt;p&gt;同样，从Port的任意一个队列通过rte_eth_rx_burst收包，报文是被放在mbuf_pool_rx的内存里的，假设是上送给Kni口的报文，则最后是通过rte_kni_tx_burst走掉的，同样怀疑这是无法释放mbuf_pool_rx里面的cache的。&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;二-测试代码&#34;&gt;二、测试代码&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo1&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;使用DPDK的sample改了一个小程序，第一步测试先使用一个mbuf_pool且不使用Kni，而是直接Port收包后三层处理走掉。Demo大概如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/01/29/N3gS1Kv9aqTtGWU.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;但是统计有点和想象中完全不一样：&lt;/p&gt;
-
-&lt;p&gt;在Demo中启动了2个Port，每个Port使用1个Rx queue和1个Tx queue，Rx queue的rxd（接收描述符desd）的个数为1024，所以程序刚启动时用rte_mempool_in_use_count打出来的个数是2048，这个可以理解。&lt;/p&gt;
-
-&lt;p&gt;但问题是启动后，在二层没有匹配上的场景下，所有的包都是直接走了rte_pktmbuf_free，此时发现used_count在不断变小，这个就有点和我一开始的理解不一样了。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Port 0 Link up at 40 Gbps FDX Autoneg
-Port 1 Link up at 40 Gbps FDX Autoneg
-Worker core id [2], port id[0].
-Lcore: Port id [0] start [1643199749].
-Lcore: Port[0] ip: 172.19.61.114.
-Lcore: Port[0] MAC address: FA:16:3E:96:9F:4A.
-Lcore: Port[0] MemPool Rx: size[4096], used_count[2048], free_count[2048].
-Lcore: Port[0] MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], RxPkg[8], TxPkg[0], DropPkg[8].
-Lcore: MemPool Rx: size[4096], used_count[2040], free_count[2056].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [2].
-Lcore: Port[0] rx queue count 4
-Lcore: Port[0], RxPkg[14], TxPkg[0], DropPkg[14].
-Lcore: MemPool Rx: size[4096], used_count[2034], free_count[2062].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;启动Ping包之后，少量匹配不上的报文继续走rte_pktmbuf_free，大部分ARP和ICMP报文走rte_eth_tx_burst发送出去。此时rte_mempool_in_use_count的统计值在不断增加。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Lcore: Port[0], RxPkg[60], TxPkg[24], DropPkg[36].
-Lcore: MemPool Rx: size[4096], used_count[2044], free_count[2052].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[24].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[25].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[26].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[27].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[28].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[29].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[30].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[31].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[32].
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[33].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[34].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[35].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[36].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[37].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[38].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[39].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[40].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[41].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[42].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[43].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[44].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[45].
-Lcore: Port[0], RxPkg[90], TxPkg[46], DropPkg[44].
-Lcore: MemPool Rx: size[4096], used_count[2068], free_count[2028].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].                        
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;之后长时间Ping包，观察rte_mempool_in_use_count的统计值基本维持在3000左右。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Lcore: Port[0], RxPkg[233826], TxPkg[180498], DropPkg[53328].
-Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
       
         <description>
 
@@ -1060,6 +792,52 @@ systemctl disable NetworkManager.service
 &lt;p&gt;这里参考中兴的文档：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/10/McVqdu1kzP3hGTg.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>DPDK的Checksum offload</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-checksum/</link>
+      <pubDate>Sun, 16 Jan 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;做DPDK性能调优的时候，涉及到了使用DPDK+硬件的Checksum offload功能，这里简单描述一下。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-背景&#34;&gt;一、背景&lt;/h2&gt;
+
+&lt;p&gt;对于IPv6的报文来说，在Ip层里面是没有Checksum的，所以只涉及4层里面的Checksum计算。而对于UPF网元来说，只涉及下行N3口的GTPU报文里的UDP层的Checksum计算。&lt;/p&gt;
+
+&lt;p&gt;从Ckecksum计算过程来看，UDP层的Checksum计算是涉及整个报文长度的，对于报文较长的流来说，这个过程比较耗费性能，所以需要通过硬件来做Checksum卸荷，提高一点性能。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-代码&#34;&gt;二、代码&lt;/h2&gt;
+
+&lt;p&gt;参考DPDK的testpmd中的代码，大概如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/11/FeUPCzonTrWhY7s.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最后实际测试了一下，对于Ipv6下行灌包场景，性能大概提升了5%。抓包如下：&lt;/p&gt;
+
+&lt;p&gt;N3接口的内部抓包，包从N3接口发送到DPDK去的时候，UDPchecksum是卸载了的，所以wireshark解码显示错误&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/11/ZNqAiwPX3r1kv5y.jpg&#34; alt=&#34;CatchA809&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;8313行是从N3接口发到交换机的报文，可以看到IP头和UDP头的checksum都是正确的，网卡进行了从计算&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/11/yorvlQ9ILZshNxq.jpg&#34; alt=&#34;Catch&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>

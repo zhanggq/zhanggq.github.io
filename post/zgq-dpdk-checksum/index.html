@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>DPDK的Mbuf - Zhanggq</title>
+  <title>DPDK的Checksum offload - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面" />
+  <meta name="description" content="摘要 做DPDK性能调优的时候，涉及到了使用DPDK&#43;硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -58,27 +58,27 @@
 
 
 
-<meta property="og:title" content="DPDK的Mbuf" />
-<meta property="og:description" content="摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面" />
+<meta property="og:title" content="DPDK的Checksum offload" />
+<meta property="og:description" content="摘要 做DPDK性能调优的时候，涉及到了使用DPDK&#43;硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://zhanggq.github.io/post/zgq-dpdk-checksum/" />
-<meta property="article:published_time" content="2022-01-18T09:03:09&#43;08:00"/>
-<meta property="article:modified_time" content="2022-01-18T10:03:09&#43;08:00"/>
+<meta property="article:published_time" content="2022-01-16T09:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2022-01-16T10:03:09&#43;08:00"/>
 
-<meta itemprop="name" content="DPDK的Mbuf">
-<meta itemprop="description" content="摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面">
-
-
-<meta itemprop="datePublished" content="2022-01-18T09:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-18T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="2060">
+<meta itemprop="name" content="DPDK的Checksum offload">
+<meta itemprop="description" content="摘要 做DPDK性能调优的时候，涉及到了使用DPDK&#43;硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来">
 
 
+<meta itemprop="datePublished" content="2022-01-16T09:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-16T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="431">
 
-<meta itemprop="keywords" content="DPDK,Performance," />
+
+
+<meta itemprop="keywords" content="DPDK,Checksum," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="DPDK的Mbuf"/>
-<meta name="twitter:description" content="摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面"/>
+<meta name="twitter:title" content="DPDK的Checksum offload"/>
+<meta name="twitter:description" content="摘要 做DPDK性能调优的时候，涉及到了使用DPDK&#43;硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -159,17 +159,17 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">DPDK的Mbuf</h1>
+      <h1 class="post-title">DPDK的Checksum offload</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-01-18 </span>
+        <span class="post-time"> 2022-01-16 </span>
         <div class="post-category">
             
               <a href="/categories/dpdk/"> DPDK </a>
             
           </div>
-        <span class="more-meta"> 约 2060 字 </span>
-        <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span class="more-meta"> 约 431 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
       </div>
     </header>
 
@@ -184,8 +184,8 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#一-调整的代码">一、调整的代码</a></li>
-<li><a href="#二-测试代码">二、测试代码</a></li>
+<li><a href="#一-背景">一、背景</a></li>
+<li><a href="#二-代码">二、代码</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -201,170 +201,34 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面就死掉了，所有的报文都被drop了，rx_error疯涨。</p>
+<p>做DPDK性能调优的时候，涉及到了使用DPDK+硬件的Checksum offload功能，这里简单描述一下。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-调整的代码">一、调整的代码</h2>
+<h2 id="一-背景">一、背景</h2>
 
-<p><strong>现象描述</strong></p>
+<p>对于IPv6的报文来说，在Ip层里面是没有Checksum的，所以只涉及4层里面的Checksum计算。而对于UPF网元来说，只涉及下行N3口的GTPU报文里的UDP层的Checksum计算。</p>
 
-<p>简单来说，以前的代码只有一个mbuf_pool。所有的Port的Rx Queue都使用的是这个mbuf_pool，Kni口创建时也用的这个mbuf_pool，UPF主动发送报文也是从这个mbuf_pool中申请内存的。</p>
-
-<p>而在优化性能时，尝试将这个mbuf_pool拆分成了mbuf_pool_rx，mbuf_pool_kni，mbuf_pool_loc。mbuf_pool_rx用于Port的Rx Queue，mbuf_pool_kni用于Kni口的rte_kni_alloc，mbuf_pool_loc用于UPF主动发送报文时的内存申请。</p>
-
-<p>运行一段时间后，使用rte_mempool_in_use_count发现三个mbuf_pool被占用的cache越来越多，直至最后几乎耗尽。当cache快要耗尽时，开始出现rx_error疯涨，所有的报文都被drop了。</p>
-
-<p><strong>原因分析</strong></p>
-
-<p>假设这样的场景，从Kni口向外部ping包，DPDK应该会从mbuf_pool_kni申请一个cache用于这个ping包的存放，之后经过一系列协议栈处理后，最终通过rte_eth_tx_burst发包走掉，怀疑这里面是无法释放掉mbuf_pool_kni里面的cache的。</p>
-
-<p>同样，从Port的任意一个队列通过rte_eth_rx_burst收包，报文是被放在mbuf_pool_rx的内存里的，假设是上送给Kni口的报文，则最后是通过rte_kni_tx_burst走掉的，同样怀疑这是无法释放mbuf_pool_rx里面的cache的。</p>
+<p>从Ckecksum计算过程来看，UDP层的Checksum计算是涉及整个报文长度的，对于报文较长的流来说，这个过程比较耗费性能，所以需要通过硬件来做Checksum卸荷，提高一点性能。</p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-测试代码">二、测试代码</h2>
+<h2 id="二-代码">二、代码</h2>
 
-<p><strong>Demo1</strong></p>
+<p>参考DPDK的testpmd中的代码，大概如下：</p>
 
-<p>使用DPDK的sample改了一个小程序，第一步测试先使用一个mbuf_pool且不使用Kni，而是直接Port收包后三层处理走掉。Demo大概如下：</p>
+<p><img src="https://s2.loli.net/2022/03/11/FeUPCzonTrWhY7s.png" alt="图片" /></p>
 
-<p><img src="https://s2.loli.net/2022/01/29/N3gS1Kv9aqTtGWU.png" alt="图片" /></p>
+<p>最后实际测试了一下，对于Ipv6下行灌包场景，性能大概提升了5%。抓包如下：</p>
 
-<p>但是统计有点和想象中完全不一样：</p>
+<p>N3接口的内部抓包，包从N3接口发送到DPDK去的时候，UDPchecksum是卸载了的，所以wireshark解码显示错误</p>
 
-<p>在Demo中启动了2个Port，每个Port使用1个Rx queue和1个Tx queue，Rx queue的rxd（接收描述符desd）的个数为1024，所以程序刚启动时用rte_mempool_in_use_count打出来的个数是2048，这个可以理解。</p>
+<p><img src="https://s2.loli.net/2022/03/11/ZNqAiwPX3r1kv5y.jpg" alt="CatchA809" /></p>
 
-<p>但问题是启动后，在二层没有匹配上的场景下，所有的包都是直接走了rte_pktmbuf_free，此时发现used_count在不断变小，这个就有点和我一开始的理解不一样了。</p>
+<p>8313行是从N3接口发到交换机的报文，可以看到IP头和UDP头的checksum都是正确的，网卡进行了从计算</p>
 
-<pre><code class="language-shell">Port 0 Link up at 40 Gbps FDX Autoneg
-Port 1 Link up at 40 Gbps FDX Autoneg
-Worker core id [2], port id[0].
-Lcore: Port id [0] start [1643199749].
-Lcore: Port[0] ip: 172.19.61.114.
-Lcore: Port[0] MAC address: FA:16:3E:96:9F:4A.
-Lcore: Port[0] MemPool Rx: size[4096], used_count[2048], free_count[2048].
-Lcore: Port[0] MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], RxPkg[8], TxPkg[0], DropPkg[8].
-Lcore: MemPool Rx: size[4096], used_count[2040], free_count[2056].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [2].
-Lcore: Port[0] rx queue count 4
-Lcore: Port[0], RxPkg[14], TxPkg[0], DropPkg[14].
-Lcore: MemPool Rx: size[4096], used_count[2034], free_count[2062].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-</code></pre>
-
-<p>启动Ping包之后，少量匹配不上的报文继续走rte_pktmbuf_free，大部分ARP和ICMP报文走rte_eth_tx_burst发送出去。此时rte_mempool_in_use_count的统计值在不断增加。</p>
-
-<pre><code class="language-shell">Lcore: Port[0], RxPkg[60], TxPkg[24], DropPkg[36].
-Lcore: MemPool Rx: size[4096], used_count[2044], free_count[2052].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[24].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[25].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[26].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[27].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[28].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[29].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[30].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[31].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[32].
-Lcore: Port[0] receive pkgs [3].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[33].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[34].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[35].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[36].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[37].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[38].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[39].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[40].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[41].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[42].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[43].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[44].
-Lcore: Port[0] receive pkgs [1].
-Lcore: Port[0] rx queue count 0
-Lcore: Port[0], Receive ICMP pkg. Src addr [172.19.61.24], Dst addr [172.19.61.114]. Total count[45].
-Lcore: Port[0], RxPkg[90], TxPkg[46], DropPkg[44].
-Lcore: MemPool Rx: size[4096], used_count[2068], free_count[2028].
-Lcore: MemPool Kni: size[4096], used_count[62], free_count[4034].                        
-</code></pre>
-
-<p>之后长时间Ping包，观察rte_mempool_in_use_count的统计值基本维持在3000左右。</p>
-
-<pre><code class="language-shell">Lcore: Port[0], RxPkg[233826], TxPkg[180498], DropPkg[53328].
-Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
-</code></pre>
+<p><img src="https://s2.loli.net/2022/03/11/yorvlQ9ILZshNxq.jpg" alt="Catch" /></p>
 
     </div>
 
@@ -377,7 +241,7 @@ Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2022-01-18</span>
+    <span class="item-content">2022-01-16</span>
   </p>
   
   <p class="copyright-item">
@@ -394,21 +258,21 @@ Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
           
           <a href="/tags/dpdk/">DPDK</a>
           
-          <a href="/tags/performance/">Performance</a>
+          <a href="/tags/checksum/">Checksum</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-c-performance/">
+          <a class="prev" href="/post/zgq-dpdk-performance/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">性能调优工具</span>
+            <span class="prev-text nav-default">DPDK性能调优</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         
-          <a class="next" href="/post/zgq-dpdk-mbuf-pool/">
-            <span class="next-text nav-default">DPDK的Mbuf</span>
+          <a class="next" href="/post/zgq-dpdk-vpp-arm/">
+            <span class="next-text nav-default">VPP运行在ARM板上</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -426,9 +290,9 @@ Lcore: MemPool Rx: size[4096], used_count[3024], free_count[1072]
   <script type="text/javascript">
   const gitment = new Gitment({
     id: 'zgq-dpdk-checksum.md',
-    title: 'DPDK的Mbuf',
+    title: 'DPDK的Checksum offload',
     link: decodeURI(location.href),
-    desc: '摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面',
+    desc: '摘要 做DPDK性能调优的时候，涉及到了使用DPDK\x2b硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

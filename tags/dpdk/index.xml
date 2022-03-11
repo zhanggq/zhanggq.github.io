@@ -6,18 +6,18 @@
     <description>Recent content in DPDK on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 18 Jan 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 25 Feb 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/dpdk/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-checksum/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
+      <title>UPF的VRF功能</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
+      <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
-      <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
+      <description>摘要 我们的UPF网元在和客户对接使用的过程中，发现缺少了VRF功能，这里简单描述一下VRF功能的设计。 一、需求 Case1 按照客户目前的组网方案，基站</description>
     </item>
     
     <item>
@@ -30,21 +30,21 @@
     </item>
     
     <item>
-      <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
-      <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
-    </item>
-    
-    <item>
       <title>DPDK性能调优</title>
       <link>https://zhanggq.github.io/post/zgq-dpdk-performance/</link>
       <pubDate>Mon, 17 Jan 2022 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/post/zgq-dpdk-performance/</guid>
       <description>摘要 最近在用上古16.07版本的DPDK做UPF，最初的性能是2核67wpps，调优后至少能到2核180wpps。这里记录一下整个操作过程。</description>
+    </item>
+    
+    <item>
+      <title>DPDK的Checksum offload</title>
+      <link>https://zhanggq.github.io/post/zgq-dpdk-checksum/</link>
+      <pubDate>Sun, 16 Jan 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
+      <description>摘要 做DPDK性能调优的时候，涉及到了使用DPDK+硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来</description>
     </item>
     
     <item>

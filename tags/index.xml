@@ -48,6 +48,24 @@
     </item>
     
     <item>
+      <title>DPDK</title>
+      <link>https://zhanggq.github.io/tags/dpdk/</link>
+      <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/dpdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VRF</title>
+      <link>https://zhanggq.github.io/tags/vrf/</link>
+      <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/vrf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Performance</title>
       <link>https://zhanggq.github.io/tags/performance/</link>
       <pubDate>Wed, 23 Feb 2022 09:03:09 +0800</pubDate>
@@ -57,11 +75,11 @@
     </item>
     
     <item>
-      <title>DPDK</title>
-      <link>https://zhanggq.github.io/tags/dpdk/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
+      <title>Checksum</title>
+      <link>https://zhanggq.github.io/tags/checksum/</link>
+      <pubDate>Sun, 16 Jan 2022 09:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/dpdk/</guid>
+      <guid>https://zhanggq.github.io/tags/checksum/</guid>
       <description></description>
     </item>
     
@@ -165,29 +183,11 @@
     </item>
     
     <item>
-      <title>cloud</title>
-      <link>https://zhanggq.github.io/tags/cloud/</link>
+      <title>PaaS</title>
+      <link>https://zhanggq.github.io/tags/paas/</link>
       <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/tags/cloud/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gpu</title>
-      <link>https://zhanggq.github.io/tags/gpu/</link>
-      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/gpu/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>openstack</title>
-      <link>https://zhanggq.github.io/tags/openstack/</link>
-      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/openstack/</guid>
+      <guid>https://zhanggq.github.io/tags/paas/</guid>
       <description></description>
     </item>
     

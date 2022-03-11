@@ -22,28 +22,10 @@
     
     <item>
       <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-checksum/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
-      <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
-    </item>
-    
-    <item>
-      <title>DPDK的Mbuf</title>
       <link>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</link>
       <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</guid>
-      <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
-    </item>
-    
-    <item>
-      <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
       <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
     </item>
     
