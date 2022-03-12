@@ -22,10 +22,10 @@
     
     <item>
       <title>UPF的VRF功能</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
+      <link>https://zhanggq.github.io/post/zgq-upf-vrf/</link>
       <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
+      <guid>https://zhanggq.github.io/post/zgq-upf-vrf/</guid>
       <description>摘要 我们的UPF网元在和客户对接使用的过程中，发现缺少了VRF功能，这里简单描述一下VRF功能的设计。 一、需求 Case1 按照客户目前的组网方案，基站</description>
     </item>
     
@@ -63,6 +63,24 @@
       
       <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
       <description>摘要 做DPDK性能调优的时候，涉及到了使用DPDK+硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来</description>
+    </item>
+    
+    <item>
+      <title>UPF对接FRR之BGP</title>
+      <link>https://zhanggq.github.io/post/zgq-upf-bgp/</link>
+      <pubDate>Tue, 04 Jan 2022 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-upf-bgp/</guid>
+      <description>前言 动态路由是UPF冗余方案中必不可少的一部分，这里简单介绍一下UPF的冗余组网方案及UPF对接BGP路由。 一、UPF冗余网络模型 在商用的U</description>
+    </item>
+    
+    <item>
+      <title>UPF对接FRR之OSPF</title>
+      <link>https://zhanggq.github.io/post/zgq-upf-ospf/</link>
+      <pubDate>Tue, 04 Jan 2022 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-upf-ospf/</guid>
+      <description>前言 接续上一篇&amp;rdquo;UPF对接FRR之BGP&amp;rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF</description>
     </item>
     
     <item>
@@ -171,24 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</guid>
       <description>摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的</description>
-    </item>
-    
-    <item>
-      <title>重新梳理一下我自己的两个web工程</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</link>
-      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</guid>
-      <description>摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My</description>
-    </item>
-    
-    <item>
-      <title>Openstack Horizon二次开发</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</link>
-      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</guid>
-      <description>摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori</description>
     </item>
     
   </channel>

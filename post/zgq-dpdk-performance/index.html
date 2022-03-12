@@ -71,7 +71,7 @@
 
 <meta itemprop="datePublished" content="2022-01-17T09:03:09&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-17T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="2397">
+<meta itemprop="wordCount" content="2554">
 
 
 
@@ -168,8 +168,8 @@
               <a href="/categories/dpdk/"> DPDK </a>
             
           </div>
-        <span class="more-meta"> 约 2397 字 </span>
-        <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span class="more-meta"> 约 2554 字 </span>
+        <span class="more-meta"> 预计阅读 6 分钟 </span>
       </div>
     </header>
 
@@ -187,6 +187,7 @@
 <li><a href="#一-宿主机的优化">一、宿主机的优化</a></li>
 <li><a href="#二-虚拟机的优化">二、虚拟机的优化</a></li>
 <li><a href="#三-软件的优化">三、软件的优化</a></li>
+<li><a href="#四-测试结果">四、测试结果</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -527,6 +528,18 @@ systemctl disable NetworkManager.service
 <p>这里参考中兴的文档：</p>
 
 <p><img src="https://s2.loli.net/2022/03/10/McVqdu1kzP3hGTg.png" alt="图片" /></p>
+
+<p><a name="section4"></a></p>
+
+<h2 id="四-测试结果">四、测试结果</h2>
+
+<p>经过上述调整，最终UPF测试模型为1 KNI线程 + 1 TPD抓包线程 + 2 TREC收包线程 + 3 TFD处理线程 + 2 TSEND发包线程。单UPF流量从原来的60wpps增长到340wpps，如图中交换机出口流量所示。</p>
+
+<p><img src="https://s2.loli.net/2022/03/12/OxRbMHA3LjphCt1.png" alt="图" /></p>
+
+<p>从Ring的统计来看，在TREC向TFD入Ring的过程中有丢包，说明TFD的处理能力到达极限。</p>
+
+<p><img src="https://s2.loli.net/2022/03/12/a6blUhSI9jnf18w.png" alt="图" /></p>
 
     </div>
 

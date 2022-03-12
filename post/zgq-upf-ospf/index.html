@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>扫描工具 - Zhanggq</title>
+  <title>UPF对接FRR之OSPF - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind" />
+  <meta name="description" content="前言 接续上一篇&amp;rdquo;UPF对接FRR之BGP&amp;rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.55.3" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-c-check/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-upf-ospf/" />
 
 
 
@@ -58,27 +58,27 @@
 
 
 
-<meta property="og:title" content="扫描工具" />
-<meta property="og:description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind" />
+<meta property="og:title" content="UPF对接FRR之OSPF" />
+<meta property="og:description" content="前言 接续上一篇&rdquo;UPF对接FRR之BGP&rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-c-check/" />
-<meta property="article:published_time" content="2022-03-10T09:03:09&#43;08:00"/>
-<meta property="article:modified_time" content="2022-03-10T10:03:09&#43;08:00"/>
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-upf-ospf/" />
+<meta property="article:published_time" content="2022-01-04T13:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2022-01-04T13:03:09&#43;08:00"/>
 
-<meta itemprop="name" content="扫描工具">
-<meta itemprop="description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind">
-
-
-<meta itemprop="datePublished" content="2022-03-10T09:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2022-03-10T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="806">
+<meta itemprop="name" content="UPF对接FRR之OSPF">
+<meta itemprop="description" content="前言 接续上一篇&rdquo;UPF对接FRR之BGP&rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF">
 
 
+<meta itemprop="datePublished" content="2022-01-04T13:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-04T13:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="441">
 
-<meta itemprop="keywords" content="C,Fortify,Valgrind," />
+
+
+<meta itemprop="keywords" content="FRR,OSPF," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="扫描工具"/>
-<meta name="twitter:description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind"/>
+<meta name="twitter:title" content="UPF对接FRR之OSPF"/>
+<meta name="twitter:description" content="前言 接续上一篇&rdquo;UPF对接FRR之BGP&rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -159,17 +159,17 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">扫描工具</h1>
+      <h1 class="post-title">UPF对接FRR之OSPF</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-03-10 </span>
+        <span class="post-time"> 2022-01-04 </span>
         <div class="post-category">
             
-              <a href="/categories/c/"> C </a>
+              <a href="/categories/upf/"> UPF </a>
             
           </div>
-        <span class="more-meta"> 约 806 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span class="more-meta"> 约 441 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
       </div>
     </header>
 
@@ -183,9 +183,9 @@
 <ul>
 <li>
 <ul>
-<li><a href="#摘要">摘要</a></li>
-<li><a href="#一-valgrind">一、Valgrind</a></li>
-<li><a href="#二-fortify">二、Fortify</a></li>
+<li><a href="#前言">前言</a></li>
+<li><a href="#一-主用upf的ospf配置参考">一、主用UPF的OSPF配置参考</a></li>
+<li><a href="#二-备用upf的ospf配置参考">二、备用UPF的OSPF配置参考</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -198,112 +198,139 @@
 
 <p><a name="section0"></a></p>
 
-<h2 id="摘要">摘要</h2>
+<h2 id="前言">前言</h2>
 
 <blockquote>
-<p>分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。</p>
+<p>接续上一篇&rdquo;UPF对接FRR之BGP&rdquo;，这里简单列一下OSPF的配置。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-valgrind">一、Valgrind</h2>
+<h2 id="一-主用upf的ospf配置参考">一、主用UPF的OSPF配置参考</h2>
 
-<p><strong>说明</strong></p>
+<p>主用UPF上的配置如下:</p>
 
-<p>Valgrind主要用于在程序运行时，监视内存的使用情况，是否存在内存泄漏等问题。</p>
+<pre><code class="language-shell">[root@testdept-upf-32-gsu-0 ~]# cat /usr/local/frr/etc/ospfd.conf
+interface vEth0
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+interface vEth1
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+router ospf
+ ospf router-id 172.19.63.201
+ network 172.19.61.25/32 area 1
+ network 172.19.62.25/32 area 2
+ network 172.19.63.26/32 area 1
+ network 172.19.64.26/32 area 2
+ network 190.0.0.0/8 area 2
+ neighbor 172.19.61.254
+ neighbor 172.19.62.254
 
-<p><strong>安装</strong></p>
+ router-info area
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
 
-<p>Valgrind需要安装在程序运行环境上。安装过程如下：</p>
-
-<ul>
-<li>获取源码</li>
-</ul>
-
-<p>wget <a href="http://www.valgrind.org/downloads/valgrind-3.18.1.tar.bz2">http://www.valgrind.org/downloads/valgrind-3.18.1.tar.bz2</a></p>
-
-<ul>
-<li>编译安装</li>
-</ul>
-
-<pre><code class="language-shell">tar -jxvf valgrind-3.18.1.tar.bz2
-cd valgrind-3.18.1
-./configure --prefix=/home/valgrind
-make
-make install
+[root@testdept-upf-32-gsu-0 ~]# cat /usr/local/frr/etc/ospf6d.conf
+interface eth3
+ ipv6 ospf6 area 0
+!
+interface vEth0
+ ipv6 ospf6 area 1
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+interface vEth1
+ ipv6 ospf6 area 2
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+router ospf6
+ ospf6 router-id 172.19.63.200
+ area 1 range 172:19:0:63::26/128
+ area 1 export-list accarea1
+ area 2 range 172:19:0:64::26/128
+ area 2 range 190::/16
+ area 2 export-list accarea2
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
 </code></pre>
-
-<ul>
-<li>环境变量</li>
-</ul>
-
-<pre><code class="language-shell">vim ~/.bashrc
-export PATH=$PATH:/home/valgrind/bin/
-source ~/.bashrc
-</code></pre>
-
-<p><strong>程序运行</strong></p>
-
-<p>valgrind &ndash;tool=memcheck &ndash;leak-check=yes &ndash;show-reachable=yes &ndash;run-libc-freeres=yes &ndash;log-file=./valgrind_report.log ./agt.out + 程序启动参数</p>
-
-<p><strong>扫描结果</strong></p>
-
-<p>Valgrind会报告5种级别的内存泄露：&rdquo;definitely lost&rdquo;,&ldquo;indirectly lost&rdquo;,&ldquo;possibly lost&rdquo;,&ldquo;still reachable&rdquo;,&ldquo;suppressed&rdquo;。通常情况下需要关注前三种级别，这里不再一一讲述每种级别的场景。</p>
-
-<p><img src="https://s2.loli.net/2022/03/10/RfQr1IOpwhgFUuT.png" alt="QQ图片" /></p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-fortify">二、Fortify</h2>
+<h2 id="二-备用upf的ospf配置参考">二、备用UPF的OSPF配置参考</h2>
 
-<p><strong>说明</strong></p>
+<p>备用UPF上的配置如下:</p>
 
-<p>动态扫描工具的一个问题在于它依赖程序真实运行的环境，而一般真实运行环境不可能把所有的异常都跑到，所以需要引入静态扫描工具。Fortify是一款商用扫描工具，可以在代码编译期间对代码进行扫描，通过可视化的工具对各个代码异常点进行查看。</p>
+<pre><code class="language-shell">[root@testdept-upf-32-gsu-1 ~]# cat /usr/local/frr/etc/ospfd.conf
+interface vEth0
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+interface vEth1
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+router ospf
+ ospf router-id 172.19.63.200
+ network 172.19.61.24/32 area 1
+ network 172.19.62.24/32 area 2
+ neighbor 172.19.61.254
+ neighbor 172.19.62.254
 
-<p><strong>安装</strong></p>
+ router-info area
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
 
-<ul>
-<li>上传安装包至编译服务器/user/integration/autobuild/</li>
-</ul>
-
-<pre><code class="language-shell">  cd /user/integration/autobuild/
-  mkdir fortify
-  tar -zxf Fortify_SCA_and_Apps_4.40_Linux.tar.gz -C /user/integration/autobuild/fortify/
+[root@testdept-upf-32-gsu-1 ~]# cat /usr/local/frr/etc/ospf6d.conf
+interface eth3
+ ipv6 ospf6 area 0
+!
+interface vEth0
+ ipv6 ospf6 area 1
+ ipv6 ospf6 passive
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+interface vEth1
+ ipv6 ospf6 area 2
+ ipv6 ospf6 passive
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+router ospf6
+ ospf6 router-id 172.19.63.201
+ area 1 export-list accarea1
+ area 2 export-list accarea2
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
 </code></pre>
-
-<ul>
-<li><p>拷贝License文件至/user/integration/autobuild/fortify/fortify.license</p></li>
-
-<li><p>执行安装，参考<a href="https://www.cnblogs.com/fsxsmile/p/14690235.html">Fortify&ndash;安装与使用</a></p></li>
-
-<li><p>安装完成后拷贝规则文件至/opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/Core/config/rules/</p></li>
-
-<li><p>顺便生成文件夹用于存放报告</p></li>
-</ul>
-
-<pre><code class="language-shell">  mkdir -p /user/integration/autobuild/fortify/Result/
-</code></pre>
-
-<p><strong>编译</strong></p>
-
-<p>修改Makefile文件</p>
-
-<pre><code class="language-shell">vi output/Makefile.linux
-CC == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TARGET)gcc
-AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TARGET)ar
-</code></pre>
-
-<p><strong>执行编译</strong></p>
-
-<p>执行编译后，Fortify会生成中间文件在/root/.fortify/sca6.4/build/SAC</p>
-
-<p>最好每次扫描完成后备份该文件夹作为留存。</p>
-
-<p><strong>生成报告</strong></p>
-
-<p>/opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -64 -Xmx4096M -Xms4096M -Xss24M -b SAC -scan -f /user/integration/autobuild/fortify/Result/SAC.results.fpr</p>
-
-<p>报告生成后可以通过windows上安装的Fortify程序进行阅读</p>
 
     </div>
 
@@ -316,7 +343,7 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2022-03-10</span>
+    <span class="item-content">2022-01-04</span>
   </p>
   
   <p class="copyright-item">
@@ -331,20 +358,23 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
     <footer class="post-footer">
       <div class="post-tags">
           
-          <a href="/tags/c/">C</a>
+          <a href="/tags/frr/">FRR</a>
           
-          <a href="/tags/fortify/">Fortify</a>
-          
-          <a href="/tags/valgrind/">Valgrind</a>
+          <a href="/tags/ospf/">OSPF</a>
           
         </div>
 
       
       <nav class="post-nav">
         
+          <a class="prev" href="/post/zgq-upf-bgp/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">UPF对接FRR之BGP</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         
-          <a class="next" href="/post/zgq-upf-vrf/">
-            <span class="next-text nav-default">UPF的VRF功能</span>
+          <a class="next" href="/post/zgq-dpdk-vpp-arm/">
+            <span class="next-text nav-default">VPP运行在ARM板上</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -361,10 +391,10 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-c-check.md',
-    title: '扫描工具',
+    id: 'zgq-upf-ospf.md',
+    title: 'UPF对接FRR之OSPF',
     link: decodeURI(location.href),
-    desc: '摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind',
+    desc: '前言 接续上一篇\x26rdquo;UPF对接FRR之BGP\x26rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

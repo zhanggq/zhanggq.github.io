@@ -9,7 +9,7 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/post/zgq-dpdk-vrf/</loc>
+    <loc>https://zhanggq.github.io/post/zgq-upf-vrf/</loc>
     <lastmod>2022-02-25T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -39,6 +39,20 @@
   <url>
     <loc>https://zhanggq.github.io/post/zgq-dpdk-checksum/</loc>
     <lastmod>2022-01-16T10:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/zgq-upf-bgp/</loc>
+    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/zgq-upf-ospf/</loc>
+    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -294,13 +308,7 @@
   </url>
   
   <url>
-    <loc>https://zhanggq.github.io/categories/dpdk/</loc>
-    <lastmod>2022-02-25T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/dpdk/</loc>
+    <loc>https://zhanggq.github.io/categories/upf/</loc>
     <lastmod>2022-02-25T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -318,8 +326,38 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/categories/dpdk/</loc>
+    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/dpdk/</loc>
+    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/tags/checksum/</loc>
     <lastmod>2022-01-16T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/bgp/</loc>
+    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/frr/</loc>
+    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/ospf/</loc>
+    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   

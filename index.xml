@@ -133,10 +133,10 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
     
     <item>
       <title>UPF的VRF功能</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vrf/</link>
+      <link>https://zhanggq.github.io/post/zgq-upf-vrf/</link>
       <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
       
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vrf/</guid>
+      <guid>https://zhanggq.github.io/post/zgq-upf-vrf/</guid>
       
         <description>
 
@@ -792,6 +792,18 @@ systemctl disable NetworkManager.service
 &lt;p&gt;这里参考中兴的文档：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/10/McVqdu1kzP3hGTg.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-测试结果&#34;&gt;四、测试结果&lt;/h2&gt;
+
+&lt;p&gt;经过上述调整，最终UPF测试模型为1 KNI线程 + 1 TPD抓包线程 + 2 TREC收包线程 + 3 TFD处理线程 + 2 TSEND发包线程。单UPF流量从原来的60wpps增长到340wpps，如图中交换机出口流量所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/12/OxRbMHA3LjphCt1.png&#34; alt=&#34;图&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从Ring的统计来看，在TREC向TFD入Ring的过程中有丢包，说明TFD的处理能力到达极限。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/12/a6blUhSI9jnf18w.png&#34; alt=&#34;图&#34; /&gt;&lt;/p&gt;
 </description>
       
     </item>
@@ -838,6 +850,610 @@ systemctl disable NetworkManager.service
 &lt;p&gt;8313行是从N3接口发到交换机的报文，可以看到IP头和UDP头的checksum都是正确的，网卡进行了从计算&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/11/yorvlQ9ILZshNxq.jpg&#34; alt=&#34;Catch&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>UPF对接FRR之BGP</title>
+      <link>https://zhanggq.github.io/post/zgq-upf-bgp/</link>
+      <pubDate>Tue, 04 Jan 2022 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-upf-bgp/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;动态路由是UPF冗余方案中必不可少的一部分，这里简单介绍一下UPF的冗余组网方案及UPF对接BGP路由。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-upf冗余网络模型&#34;&gt;一、UPF冗余网络模型&lt;/h2&gt;
+
+&lt;p&gt;在商用的UPF组网方案中，UPF冗余模式通常采用N+M主备的方式。涉及的地址为N3、N6口接口地址N+M；N3、N6口业务地址为N；UP地址池为N。简单来说就是每个UPF都有自己的N3、N6接口地址，但是只有主用的UPF有业务地址。对端基站和DN通过业务地址与UPF进行交互。&lt;/p&gt;
+
+&lt;p&gt;所以这里需要主用的UPF在上电后，通过动态路由将自己的路由发布给对端。同样当备用UPF转主用时，要接管对应的业务地址及UE地址池，并通过动态路由将新的路由发布给对端。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-upf对接frr&#34;&gt;二、UPF对接FRR&lt;/h2&gt;
+
+&lt;p&gt;FRRouting (FRR)是开源的路由协议套件，它支持BGP、OSPF、BFD等众多路由协议。UPF通过与FRR对接，即可比较快速的支持BGP+BFD。大概的实现过程如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;UPF通过网管得到BGP、BFD的配置；&lt;/li&gt;
+&lt;li&gt;UPF将配置转换为FRR的配置命令并通过shell命令配置；&lt;/li&gt;
+&lt;li&gt;UPF通过NETLINK监听系统的路由变化，从而得到FRR学习到的路由，并加入自己的路由表中;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;关于FRR的BGP等协议详细配置说明请参见其&lt;a href=&#34;https://docs.frrouting.org/en/latest/bgp.html&#34;&gt;官网&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section3&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;三-备用upf的bgp配置参考&#34;&gt;三、备用UPF的BGP配置参考&lt;/h2&gt;
+
+&lt;p&gt;备用UPF上的配置如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@testdept-upf-32-gsu-0 ~]# cat /usr/local/frr/etc/bgpd.conf
+router bgp 100
+ bgp router-id 172.19.62.24
+ no bgp ebgp-requires-policy
+ no bgp default ipv4-unicast
+ timers bgp 10 30
+ neighbor 172.19.61.253 remote-as 200
+ neighbor 172.19.61.253 bfd
+ neighbor 172.19.61.253 bfd profile bfd
+ neighbor 172.19.61.253 bfd check-control-plane-failure
+ neighbor 172.19.61.254 remote-as 200
+ neighbor 172.19.61.254 bfd
+ neighbor 172.19.61.254 bfd profile bfd
+ neighbor 172.19.61.254 bfd check-control-plane-failure
+ neighbor 172.19.62.253 remote-as 200
+ neighbor 172.19.62.253 bfd
+ neighbor 172.19.62.253 bfd profile bfd
+ neighbor 172.19.62.253 bfd check-control-plane-failure
+ neighbor 172.19.62.254 remote-as 200
+ neighbor 172.19.62.254 bfd
+ neighbor 172.19.62.254 bfd profile bfd
+ neighbor 172.19.62.254 bfd check-control-plane-failure
+ neighbor 172:19:0:61::253 remote-as 200
+ neighbor 172:19:0:61::253 bfd
+ neighbor 172:19:0:61::253 bfd profile bfd
+ neighbor 172:19:0:61::253 bfd check-control-plane-failure
+ neighbor 172:19:0:61::254 remote-as 200
+ neighbor 172:19:0:61::254 bfd
+ neighbor 172:19:0:61::254 bfd profile bfd
+ neighbor 172:19:0:61::254 bfd check-control-plane-failure
+ neighbor 172:19:0:62::253 remote-as 200
+ neighbor 172:19:0:62::253 bfd
+ neighbor 172:19:0:62::253 bfd profile bfd
+ neighbor 172:19:0:62::253 bfd check-control-plane-failure
+ neighbor 172:19:0:62::254 remote-as 200
+ neighbor 172:19:0:62::254 bfd
+ neighbor 172:19:0:62::254 bfd profile bfd
+ neighbor 172:19:0:62::254 bfd check-control-plane-failure
+ !
+ address-family ipv4 unicast
+  neighbor 172.19.61.253 activate
+  neighbor 172.19.61.253 prefix-list n3ipv4 out
+  neighbor 172.19.61.254 activate
+  neighbor 172.19.61.254 prefix-list n3ipv4 out
+  neighbor 172.19.62.253 activate
+  neighbor 172.19.62.253 prefix-list n6ipv4 out
+  neighbor 172.19.62.254 activate
+  neighbor 172.19.62.254 prefix-list n6ipv4 out
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  neighbor 172:19:0:61::253 activate
+  neighbor 172:19:0:61::253 prefix-list n3ipv6 out
+  neighbor 172:19:0:61::254 activate
+  neighbor 172:19:0:61::254 prefix-list n3ipv6 out
+  neighbor 172:19:0:62::253 activate
+  neighbor 172:19:0:62::253 prefix-list n6ipv6 out
+  neighbor 172:19:0:62::254 activate
+  neighbor 172:19:0:62::254 prefix-list n6ipv6 out
+ exit-address-family
+!
+!
+line vty
+!
+[root@testdept-upf-32-gsu-0 ~]# cat /usr/local/frr/etc/bfdd.conf
+bfd
+ profile bfd
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.62.254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:62::254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.62.253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:62::253
+  transmit-interval 500
+  receive-interval 500
+ !
+!
+
+[root@testdept-upf-32-gsu-0 ~]# /usr/local/frr/bin/vtysh 
+testdept-upf-32-gsu-0.localdomain# show running-config 
+router bgp 100
+ bgp router-id 172.19.62.24
+ no bgp ebgp-requires-policy
+ no bgp default ipv4-unicast
+ timers bgp 10 30
+ neighbor 172.19.61.253 remote-as 200
+ neighbor 172.19.61.253 bfd
+ neighbor 172.19.61.253 bfd profile bfd
+ neighbor 172.19.61.253 bfd check-control-plane-failure
+ neighbor 172.19.61.254 remote-as 200
+ neighbor 172.19.61.254 bfd
+ neighbor 172.19.61.254 bfd profile bfd
+ neighbor 172.19.61.254 bfd check-control-plane-failure
+ neighbor 172.19.62.253 remote-as 200
+ neighbor 172.19.62.253 bfd
+ neighbor 172.19.62.253 bfd profile bfd
+ neighbor 172.19.62.253 bfd check-control-plane-failure
+ neighbor 172.19.62.254 remote-as 200
+ neighbor 172.19.62.254 bfd
+ neighbor 172.19.62.254 bfd profile bfd
+ neighbor 172.19.62.254 bfd check-control-plane-failure
+ neighbor 172:19:0:61::253 remote-as 200
+ neighbor 172:19:0:61::253 bfd
+ neighbor 172:19:0:61::253 bfd profile bfd
+ neighbor 172:19:0:61::253 bfd check-control-plane-failure
+ neighbor 172:19:0:61::254 remote-as 200
+ neighbor 172:19:0:61::254 bfd
+ neighbor 172:19:0:61::254 bfd profile bfd
+ neighbor 172:19:0:61::254 bfd check-control-plane-failure
+ neighbor 172:19:0:62::253 remote-as 200
+ neighbor 172:19:0:62::253 bfd
+ neighbor 172:19:0:62::253 bfd profile bfd
+ neighbor 172:19:0:62::253 bfd check-control-plane-failure
+ neighbor 172:19:0:62::254 remote-as 200
+ neighbor 172:19:0:62::254 bfd
+ neighbor 172:19:0:62::254 bfd profile bfd
+ neighbor 172:19:0:62::254 bfd check-control-plane-failure
+ !
+ address-family ipv4 unicast
+  neighbor 172.19.61.253 activate
+  neighbor 172.19.61.253 prefix-list n3ipv4 out
+  neighbor 172.19.61.254 activate
+  neighbor 172.19.61.254 prefix-list n3ipv4 out
+  neighbor 172.19.62.253 activate
+  neighbor 172.19.62.253 prefix-list n6ipv4 out
+  neighbor 172.19.62.254 activate
+  neighbor 172.19.62.254 prefix-list n6ipv4 out
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  neighbor 172:19:0:61::253 activate
+  neighbor 172:19:0:61::253 prefix-list n3ipv6 out
+  neighbor 172:19:0:61::254 activate
+  neighbor 172:19:0:61::254 prefix-list n3ipv6 out
+  neighbor 172:19:0:62::253 activate
+  neighbor 172:19:0:62::253 prefix-list n6ipv6 out
+  neighbor 172:19:0:62::254 activate
+  neighbor 172:19:0:62::254 prefix-list n6ipv6 out
+ exit-address-family
+!
+line vty
+!
+bfd
+ profile bfd
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.62.254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:62::254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.62.253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:62::253
+  transmit-interval 500
+  receive-interval 500
+ !
+!
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section4&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四-主用upf的bgp配置参考&#34;&gt;四、主用UPF的BGP配置参考&lt;/h2&gt;
+
+&lt;p&gt;主用UPF上的配置如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@testdept-upf-32-gsu-1 ~]# cat /usr/local/frr/etc/bgpd.conf
+router bgp 100
+ bgp router-id 172.19.61.25
+ no bgp ebgp-requires-policy
+ no bgp default ipv4-unicast
+ timers bgp 10 30
+ neighbor 172.19.61.253 remote-as 200
+ neighbor 172.19.61.253 bfd
+ neighbor 172.19.61.253 bfd profile bfd
+ neighbor 172.19.61.253 bfd check-control-plane-failure
+ neighbor 172.19.61.254 remote-as 200
+ neighbor 172.19.61.254 bfd
+ neighbor 172.19.61.254 bfd profile bfd
+ neighbor 172.19.61.254 bfd check-control-plane-failure
+ neighbor 172.19.62.211 remote-as 200
+ neighbor 172.19.62.211 bfd
+ neighbor 172.19.62.211 bfd profile bfd
+ neighbor 172.19.62.211 bfd check-control-plane-failure
+ neighbor 172:19:0:61::253 remote-as 200
+ neighbor 172:19:0:61::253 bfd
+ neighbor 172:19:0:61::253 bfd profile bfd
+ neighbor 172:19:0:61::253 bfd check-control-plane-failure
+ neighbor 172:19:0:61::254 remote-as 200
+ neighbor 172:19:0:61::254 bfd
+ neighbor 172:19:0:61::254 bfd profile bfd
+ neighbor 172:19:0:61::254 bfd check-control-plane-failure
+ !
+ address-family ipv4 unicast
+  network 172.19.63.26/32
+  network 172.19.64.26/32
+  network 190.0.0.0/8
+  neighbor 172.19.61.253 activate
+  neighbor 172.19.61.253 prefix-list n3ipv4 out
+  neighbor 172.19.61.254 activate
+  neighbor 172.19.61.254 prefix-list n3ipv4 out
+  neighbor 172.19.62.211 activate
+  neighbor 172.19.62.211 prefix-list n6ipv4 out
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  network 172:19:0:63::26/128
+  network 172:19:0:64::26/128
+  network 190::/16
+  neighbor 172:19:0:61::253 activate
+  neighbor 172:19:0:61::253 prefix-list n3ipv6 out
+  neighbor 172:19:0:61::254 activate
+  neighbor 172:19:0:61::254 prefix-list n3ipv6 out
+ exit-address-family
+!
+!
+ip prefix-list n3ipv4 seq 5 permit 172.19.63.26/32
+ipv6 prefix-list n3ipv6 seq 5 permit 172:19:0:63::26/128
+ip prefix-list n6ipv4 seq 5 permit 172.19.64.26/32
+ip prefix-list n6ipv4 seq 10 permit 190.0.0.0/8
+ipv6 prefix-list n6ipv6 seq 5 permit 172:19:0:64::26/128
+ipv6 prefix-list n6ipv6 seq 10 permit 190::/16
+!
+line vty
+!
+[root@testdept-upf-32-gsu-1 ~]# cat /usr/local/frr/etc/bfdd.conf
+ip prefix-list n3ipv4 seq 5 permit 172.19.63.26/32
+ipv6 prefix-list n3ipv6 seq 5 permit 172:19:0:63::26/128
+ip prefix-list n6ipv4 seq 5 permit 172.19.64.26/32
+ip prefix-list n6ipv4 seq 10 permit 190.0.0.0/8
+ipv6 prefix-list n6ipv6 seq 5 permit 172:19:0:64::26/128
+ipv6 prefix-list n6ipv6 seq 10 permit 190::/16
+!
+line vty
+!
+!
+bfd
+ profile bfd
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.62.211
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::253
+  transmit-interval 500
+  receive-interval 500
+ !
+!
+[root@testdept-upf-32-gsu-1 ~]# /usr/local/frr/bin/vtysh
+testdept-upf-32-gsu-1.localdomain# show running-config 
+router bgp 100
+ bgp router-id 172.19.61.25
+ no bgp ebgp-requires-policy
+ no bgp default ipv4-unicast
+ timers bgp 10 30
+ neighbor 172.19.61.253 remote-as 200
+ neighbor 172.19.61.253 bfd
+ neighbor 172.19.61.253 bfd profile bfd
+ neighbor 172.19.61.253 bfd check-control-plane-failure
+ neighbor 172.19.61.254 remote-as 200
+ neighbor 172.19.61.254 bfd
+ neighbor 172.19.61.254 bfd profile bfd
+ neighbor 172.19.61.254 bfd check-control-plane-failure
+ neighbor 172.19.62.211 remote-as 200
+ neighbor 172.19.62.211 bfd
+ neighbor 172.19.62.211 bfd profile bfd
+ neighbor 172.19.62.211 bfd check-control-plane-failure
+ neighbor 172:19:0:61::253 remote-as 200
+ neighbor 172:19:0:61::253 bfd
+ neighbor 172:19:0:61::253 bfd profile bfd
+ neighbor 172:19:0:61::253 bfd check-control-plane-failure
+ neighbor 172:19:0:61::254 remote-as 200
+ neighbor 172:19:0:61::254 bfd
+ neighbor 172:19:0:61::254 bfd profile bfd
+ neighbor 172:19:0:61::254 bfd check-control-plane-failure
+ !
+ address-family ipv4 unicast
+  network 172.19.63.26/32
+  network 172.19.64.26/32
+  network 190.0.0.0/8
+  neighbor 172.19.61.253 activate
+  neighbor 172.19.61.253 prefix-list n3ipv4 out
+  neighbor 172.19.61.254 activate
+  neighbor 172.19.61.254 prefix-list n3ipv4 out
+  neighbor 172.19.62.211 activate
+  neighbor 172.19.62.211 prefix-list n6ipv4 out
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  network 172:19:0:63::26/128
+  network 172:19:0:64::26/128
+  network 190::/16
+  neighbor 172:19:0:61::253 activate
+  neighbor 172:19:0:61::253 prefix-list n3ipv6 out
+  neighbor 172:19:0:61::254 activate
+  neighbor 172:19:0:61::254 prefix-list n3ipv6 out
+ exit-address-family
+!
+ip prefix-list n3ipv4 seq 5 permit 172.19.63.26/32
+ip prefix-list n6ipv4 seq 5 permit 172.19.64.26/32
+ip prefix-list n6ipv4 seq 10 permit 190.0.0.0/8
+!
+ipv6 prefix-list n3ipv6 seq 5 permit 172:19:0:63::26/128
+ipv6 prefix-list n6ipv6 seq 5 permit 172:19:0:64::26/128
+ipv6 prefix-list n6ipv6 seq 10 permit 190::/16
+!
+line vty
+!
+bfd
+ profile bfd
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.62.211
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::254
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172.19.61.253
+  transmit-interval 500
+  receive-interval 500
+ !
+ peer 172:19:0:61::253
+  transmit-interval 500
+  receive-interval 500
+ !
+!
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section5&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;五-netlink监听&#34;&gt;五、NETLINK监听&lt;/h2&gt;
+
+&lt;p&gt;略&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/12/DAYV28f9Npx6Ibn.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>UPF对接FRR之OSPF</title>
+      <link>https://zhanggq.github.io/post/zgq-upf-ospf/</link>
+      <pubDate>Tue, 04 Jan 2022 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-upf-ospf/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;接续上一篇&amp;rdquo;UPF对接FRR之BGP&amp;rdquo;，这里简单列一下OSPF的配置。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-主用upf的ospf配置参考&#34;&gt;一、主用UPF的OSPF配置参考&lt;/h2&gt;
+
+&lt;p&gt;主用UPF上的配置如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@testdept-upf-32-gsu-0 ~]# cat /usr/local/frr/etc/ospfd.conf
+interface vEth0
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+interface vEth1
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+router ospf
+ ospf router-id 172.19.63.201
+ network 172.19.61.25/32 area 1
+ network 172.19.62.25/32 area 2
+ network 172.19.63.26/32 area 1
+ network 172.19.64.26/32 area 2
+ network 190.0.0.0/8 area 2
+ neighbor 172.19.61.254
+ neighbor 172.19.62.254
+
+ router-info area
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
+
+[root@testdept-upf-32-gsu-0 ~]# cat /usr/local/frr/etc/ospf6d.conf
+interface eth3
+ ipv6 ospf6 area 0
+!
+interface vEth0
+ ipv6 ospf6 area 1
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+interface vEth1
+ ipv6 ospf6 area 2
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+router ospf6
+ ospf6 router-id 172.19.63.200
+ area 1 range 172:19:0:63::26/128
+ area 1 export-list accarea1
+ area 2 range 172:19:0:64::26/128
+ area 2 range 190::/16
+ area 2 export-list accarea2
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-备用upf的ospf配置参考&#34;&gt;二、备用UPF的OSPF配置参考&lt;/h2&gt;
+
+&lt;p&gt;备用UPF上的配置如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@testdept-upf-32-gsu-1 ~]# cat /usr/local/frr/etc/ospfd.conf
+interface vEth0
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+interface vEth1
+ ip ospf bfd
+ ip ospf bfd profile bfd
+!
+router ospf
+ ospf router-id 172.19.63.200
+ network 172.19.61.24/32 area 1
+ network 172.19.62.24/32 area 2
+ neighbor 172.19.61.254
+ neighbor 172.19.62.254
+
+ router-info area
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
+
+[root@testdept-upf-32-gsu-1 ~]# cat /usr/local/frr/etc/ospf6d.conf
+interface eth3
+ ipv6 ospf6 area 0
+!
+interface vEth0
+ ipv6 ospf6 area 1
+ ipv6 ospf6 passive
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+interface vEth1
+ ipv6 ospf6 area 2
+ ipv6 ospf6 passive
+ ipv6 ospf6 bfd
+ ipv6 ospf6 bfd profile bfd
+!
+router ospf6
+ ospf6 router-id 172.19.63.201
+ area 1 export-list accarea1
+ area 2 export-list accarea2
+!
+ipv6 access-list accarea1 seq 5 permit 172:19:0:63::/64
+ipv6 access-list accarea2 seq 5 permit 172:19:0:64::/64
+ipv6 access-list accarea2 seq 10 permit 190::/16
+!
+!
+line vty
+!
+&lt;/code&gt;&lt;/pre&gt;
 </description>
       
     </item>
