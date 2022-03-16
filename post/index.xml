@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 10 Mar 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Mar 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hash冲突链</title>
+      <link>https://zhanggq.github.io/post/zgq-c-hash/</link>
+      <pubDate>Mon, 14 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-c-hash/</guid>
+      <description>摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于</description>
+    </item>
     
     <item>
       <title>扫描工具</title>
@@ -180,15 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-python-django/</guid>
       <description>摘要 最新需要搞一套Python的股市趋势分析，朋友提供核心算法，我负责搭建整个架子。数据部分以前有写过现成的东西（Go写的），重新拿过来改成</description>
-    </item>
-    
-    <item>
-      <title>Openstack GPU Passthrough</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</link>
-      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</guid>
-      <description>摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的</description>
     </item>
     
   </channel>

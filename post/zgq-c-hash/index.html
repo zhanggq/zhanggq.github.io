@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>扫描工具 - Zhanggq</title>
+  <title>Hash冲突链 - Zhanggq</title>
   <link rel="alternate" hreflang="zh-cn" href="https://zhanggq.github.io/" />
 
 <meta name="renderer" content="webkit" />
@@ -26,7 +26,7 @@
 
 
 <meta name="author" content="Zhanggq" />
-  <meta name="description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind" />
+  <meta name="description" content="摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -38,7 +38,7 @@
 <meta name="generator" content="Hugo 0.55.3" />
 
 
-<link rel="canonical" href="https://zhanggq.github.io/post/zgq-c-check/" />
+<link rel="canonical" href="https://zhanggq.github.io/post/zgq-c-hash/" />
 
 
 
@@ -58,27 +58,27 @@
 
 
 
-<meta property="og:title" content="扫描工具" />
-<meta property="og:description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind" />
+<meta property="og:title" content="Hash冲突链" />
+<meta property="og:description" content="摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zhanggq.github.io/post/zgq-c-check/" />
-<meta property="article:published_time" content="2022-03-10T09:03:09&#43;08:00"/>
-<meta property="article:modified_time" content="2022-03-10T10:03:09&#43;08:00"/>
+<meta property="og:url" content="https://zhanggq.github.io/post/zgq-c-hash/" />
+<meta property="article:published_time" content="2022-03-14T09:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2022-03-14T10:03:09&#43;08:00"/>
 
-<meta itemprop="name" content="扫描工具">
-<meta itemprop="description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind">
-
-
-<meta itemprop="datePublished" content="2022-03-10T09:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2022-03-10T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="806">
+<meta itemprop="name" content="Hash冲突链">
+<meta itemprop="description" content="摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于">
 
 
+<meta itemprop="datePublished" content="2022-03-14T09:03:09&#43;08:00" />
+<meta itemprop="dateModified" content="2022-03-14T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="670">
 
-<meta itemprop="keywords" content="C,Fortify,Valgrind," />
+
+
+<meta itemprop="keywords" content="C,Hash," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="扫描工具"/>
-<meta name="twitter:description" content="摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind"/>
+<meta name="twitter:title" content="Hash冲突链"/>
+<meta name="twitter:description" content="摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -159,16 +159,16 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">扫描工具</h1>
+      <h1 class="post-title">Hash冲突链</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-03-10 </span>
+        <span class="post-time"> 2022-03-14 </span>
         <div class="post-category">
             
               <a href="/categories/c/"> C </a>
             
           </div>
-        <span class="more-meta"> 约 806 字 </span>
+        <span class="more-meta"> 约 670 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
       </div>
     </header>
@@ -184,8 +184,8 @@
 <li>
 <ul>
 <li><a href="#摘要">摘要</a></li>
-<li><a href="#一-valgrind">一、Valgrind</a></li>
-<li><a href="#二-fortify">二、Fortify</a></li>
+<li><a href="#一-hash冲突链解释">一、Hash冲突链解释</a></li>
+<li><a href="#二-代码实现">二、代码实现</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -201,109 +201,70 @@
 <h2 id="摘要">摘要</h2>
 
 <blockquote>
-<p>分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。</p>
+<p>写了一个Hash冲突链。</p>
 </blockquote>
 
 <p><a name="section1"></a></p>
 
-<h2 id="一-valgrind">一、Valgrind</h2>
+<h2 id="一-hash冲突链解释">一、Hash冲突链解释</h2>
 
-<p><strong>说明</strong></p>
+<p>UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于保存各个用户的会话上下文。Hash索引为用户的SUPI+Dnn+Pdn Type。而Hash索引又存在冲突的可能，且又不可能无限扩展Hash表，所以使用了Hash冲突链，或者叫拉链法。</p>
 
-<p>Valgrind主要用于在程序运行时，监视内存的使用情况，是否存在内存泄漏等问题。</p>
+<p>简单来说模型如下所示，创建一个链表并将其分为2部分，前面N个节点作为Hash表，后面K个节点作为冲突链使用。当Hash索引冲突后，从K中取出一个节点挂到冲突的节点下形成冲突链。</p>
 
-<p><strong>安装</strong></p>
-
-<p>Valgrind需要安装在程序运行环境上。安装过程如下：</p>
-
-<ul>
-<li>获取源码</li>
-</ul>
-
-<p>wget <a href="http://www.valgrind.org/downloads/valgrind-3.18.1.tar.bz2">http://www.valgrind.org/downloads/valgrind-3.18.1.tar.bz2</a></p>
-
-<ul>
-<li>编译安装</li>
-</ul>
-
-<pre><code class="language-shell">tar -jxvf valgrind-3.18.1.tar.bz2
-cd valgrind-3.18.1
-./configure --prefix=/home/valgrind
-make
-make install
-</code></pre>
-
-<ul>
-<li>环境变量</li>
-</ul>
-
-<pre><code class="language-shell">vim ~/.bashrc
-export PATH=$PATH:/home/valgrind/bin/
-source ~/.bashrc
-</code></pre>
-
-<p><strong>程序运行</strong></p>
-
-<p>valgrind &ndash;tool=memcheck &ndash;leak-check=yes &ndash;show-reachable=yes &ndash;run-libc-freeres=yes &ndash;log-file=./valgrind_report.log ./agt.out + 程序启动参数</p>
-
-<p><strong>扫描结果</strong></p>
-
-<p>Valgrind会报告5种级别的内存泄露：&rdquo;definitely lost&rdquo;,&ldquo;indirectly lost&rdquo;,&ldquo;possibly lost&rdquo;,&ldquo;still reachable&rdquo;,&ldquo;suppressed&rdquo;。通常情况下需要关注前三种级别，这里不再一一讲述每种级别的场景。</p>
-
-<p><img src="https://s2.loli.net/2022/03/10/RfQr1IOpwhgFUuT.png" alt="QQ图片" /></p>
+<p><img src="https://s2.loli.net/2022/03/15/lYJByIqULTQOsaZ.png" alt="图片" /></p>
 
 <p><a name="section2"></a></p>
 
-<h2 id="二-fortify">二、Fortify</h2>
+<h2 id="二-代码实现">二、代码实现</h2>
 
-<p><strong>说明</strong></p>
+<p><strong>Hash算法</strong></p>
 
-<p>动态扫描工具的一个问题在于它依赖程序真实运行的环境，而一般真实运行环境不可能把所有的异常都跑到，所以需要引入静态扫描工具。Fortify是一款商用扫描工具，可以在代码编译期间对代码进行扫描，通过可视化的工具对各个代码异常点进行查看。</p>
+<p>一个简单的Hash算法，将用户的SUPI+Dnn+Pdn Type合成32位字符串，Hash出UINT16的Hash索引。</p>
 
-<p><strong>安装</strong></p>
+<p><img src="https://s2.loli.net/2022/03/15/b4mZhdAHnC8tuVB.png" alt="QQ图片20220315205317.png" /></p>
 
-<ul>
-<li>上传安装包至编译服务器/user/integration/autobuild/</li>
-</ul>
+<p><strong>链表初始化</strong></p>
 
-<pre><code class="language-shell">  cd /user/integration/autobuild/
-  mkdir fortify
-  tar -zxf Fortify_SCA_and_Apps_4.40_Linux.tar.gz -C /user/integration/autobuild/fortify/
-</code></pre>
+<p>申请一块内存，做一个64K+200K的链表。前面64K作为Hash表使用，后面200K作为冲突链使用。</p>
 
-<ul>
-<li><p>拷贝License文件至/user/integration/autobuild/fortify/fortify.license</p></li>
+<p><img src="https://s2.loli.net/2022/03/15/vf85VeKuZokrjP9.png" alt="图片" /></p>
 
-<li><p>执行安装，参考<a href="https://www.cnblogs.com/fsxsmile/p/14690235.html">Fortify&ndash;安装与使用</a></p></li>
+<p><strong>申请节点</strong></p>
 
-<li><p>安装完成后拷贝规则文件至/opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/Core/config/rules/</p></li>
+<p>申请节点时，先根据Hash出来的索引检查节点是否被占用。如果没被占用就直接使用，如果已经被占用，则从FreeList中取一个节点。</p>
 
-<li><p>顺便生成文件夹用于存放报告</p></li>
-</ul>
+<p><img src="https://s2.loli.net/2022/03/16/P7xOBohCF86qTJc.png" alt="图片" /></p>
 
-<pre><code class="language-shell">  mkdir -p /user/integration/autobuild/fortify/Result/
-</code></pre>
+<p><strong>节点挂链</strong></p>
 
-<p><strong>编译</strong></p>
+<p>节点挂链时，如果是索引对应的节点，则将NextEntry置为全F即可。否则说明是Freelist中得到的节点，要挂到索引所在节点的冲突链的末尾。</p>
 
-<p>修改Makefile文件</p>
+<p><img src="https://s2.loli.net/2022/03/16/1RhC7kLoGVprlQt.png" alt="图片" /></p>
 
-<pre><code class="language-shell">vi output/Makefile.linux
-CC == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TARGET)gcc
-AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TARGET)ar
-</code></pre>
+<p><img src="https://s2.loli.net/2022/03/16/NwgeuQMzLlr6KGx.png" alt="图片" /></p>
 
-<p><strong>执行编译</strong></p>
+<p><strong>节点新增</strong></p>
 
-<p>执行编译后，Fortify会生成中间文件在/root/.fortify/sca6.4/build/SAC</p>
+<p>对上面两个接口封装一个create接口。</p>
 
-<p>最好每次扫描完成后备份该文件夹作为留存。</p>
+<p><img src="https://s2.loli.net/2022/03/16/ISJaMpOAh2fscZV.png" alt="图片" /></p>
 
-<p><strong>生成报告</strong></p>
+<p><strong>节点释放</strong></p>
 
-<p>/opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -64 -Xmx4096M -Xms4096M -Xss24M -b SAC -scan -f /user/integration/autobuild/fortify/Result/SAC.results.fpr</p>
+<p>节点释放时，要判断该节点是否在冲突链中，如果是冲突链中的，释放节点后要将其挂回Freelist并将冲突链重新排序。</p>
 
-<p>报告生成后可以通过windows上安装的Fortify程序进行阅读</p>
+<p><img src="https://s2.loli.net/2022/03/16/1XgnjItuKoUlcVf.png" alt="图片" /></p>
+
+<p><img src="https://s2.loli.net/2022/03/16/sCex3HFlS8YOI1b.png" alt="图片" /></p>
+
+<p><img src="https://s2.loli.net/2022/03/16/TEiRLe5K6W3hXO2.png" alt="图片" /></p>
+
+<p><strong>冲突链查找</strong></p>
+
+<p>先根据Hash出来的索引找到入口节点，然后循环匹配该节点及其冲突链下的节点与请求的SUPI+Dnn+Pdn是否匹配。</p>
+
+<p><img src="https://s2.loli.net/2022/03/16/SOJItf8oqCFQg2a.png" alt="图片" /></p>
 
     </div>
 
@@ -316,7 +277,7 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2022-03-10</span>
+    <span class="item-content">2022-03-14</span>
   </p>
   
   <p class="copyright-item">
@@ -333,23 +294,16 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
           
           <a href="/tags/c/">C</a>
           
-          <a href="/tags/fortify/">Fortify</a>
-          
-          <a href="/tags/valgrind/">Valgrind</a>
+          <a href="/tags/hash/">Hash</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/zgq-c-hash/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Hash冲突链</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
-          <a class="next" href="/post/zgq-upf-vrf/">
-            <span class="next-text nav-default">UPF的VRF功能</span>
+          <a class="next" href="/post/zgq-c-check/">
+            <span class="next-text nav-default">扫描工具</span>
             <span class="prev-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -366,10 +320,10 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
     <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
   <script type="text/javascript">
   const gitment = new Gitment({
-    id: 'zgq-c-check.md',
-    title: '扫描工具',
+    id: 'zgq-c-hash.md',
+    title: 'Hash冲突链',
     link: decodeURI(location.href),
-    desc: '摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind',
+    desc: '摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于',
     owner: 'zhanggq',
     repo: 'comments',
     oauth: {

@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 10 Mar 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Mar 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title></title>
       <link>https://zhanggq.github.io/tags/</link>
-      <pubDate>Thu, 10 Mar 2022 09:03:09 +0800</pubDate>
+      <pubDate>Mon, 14 Mar 2022 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/</guid>
       <description></description>
@@ -23,9 +23,18 @@
     <item>
       <title>C</title>
       <link>https://zhanggq.github.io/tags/c/</link>
-      <pubDate>Thu, 10 Mar 2022 09:03:09 +0800</pubDate>
+      <pubDate>Mon, 14 Mar 2022 09:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hash</title>
+      <link>https://zhanggq.github.io/tags/hash/</link>
+      <pubDate>Mon, 14 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/tags/hash/</guid>
       <description></description>
     </item>
     
@@ -179,15 +188,6 @@
       <pubDate>Tue, 21 May 2019 10:03:09 +0800</pubDate>
       
       <guid>https://zhanggq.github.io/tags/webstorm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://zhanggq.github.io/tags/python/</link>
-      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/tags/python/</guid>
       <description></description>
     </item>
     

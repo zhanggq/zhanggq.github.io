@@ -5,10 +5,92 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 10 Mar 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Mar 2022 09:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hash冲突链</title>
+      <link>https://zhanggq.github.io/post/zgq-c-hash/</link>
+      <pubDate>Mon, 14 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-c-hash/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;写了一个Hash冲突链。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-hash冲突链解释&#34;&gt;一、Hash冲突链解释&lt;/h2&gt;
+
+&lt;p&gt;UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于保存各个用户的会话上下文。Hash索引为用户的SUPI+Dnn+Pdn Type。而Hash索引又存在冲突的可能，且又不可能无限扩展Hash表，所以使用了Hash冲突链，或者叫拉链法。&lt;/p&gt;
+
+&lt;p&gt;简单来说模型如下所示，创建一个链表并将其分为2部分，前面N个节点作为Hash表，后面K个节点作为冲突链使用。当Hash索引冲突后，从K中取出一个节点挂到冲突的节点下形成冲突链。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/15/lYJByIqULTQOsaZ.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;二-代码实现&#34;&gt;二、代码实现&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Hash算法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一个简单的Hash算法，将用户的SUPI+Dnn+Pdn Type合成32位字符串，Hash出UINT16的Hash索引。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/15/b4mZhdAHnC8tuVB.png&#34; alt=&#34;QQ图片20220315205317.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;链表初始化&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;申请一块内存，做一个64K+200K的链表。前面64K作为Hash表使用，后面200K作为冲突链使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/15/vf85VeKuZokrjP9.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;申请节点&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;申请节点时，先根据Hash出来的索引检查节点是否被占用。如果没被占用就直接使用，如果已经被占用，则从FreeList中取一个节点。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/P7xOBohCF86qTJc.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;节点挂链&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;节点挂链时，如果是索引对应的节点，则将NextEntry置为全F即可。否则说明是Freelist中得到的节点，要挂到索引所在节点的冲突链的末尾。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/1RhC7kLoGVprlQt.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/NwgeuQMzLlr6KGx.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;节点新增&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;对上面两个接口封装一个create接口。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/ISJaMpOAh2fscZV.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;节点释放&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;节点释放时，要判断该节点是否在冲突链中，如果是冲突链中的，释放节点后要将其挂回Freelist并将冲突链重新排序。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/1XgnjItuKoUlcVf.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/sCex3HFlS8YOI1b.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/TEiRLe5K6W3hXO2.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;冲突链查找&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;先根据Hash出来的索引找到入口节点，然后循环匹配该节点及其冲突链下的节点与请求的SUPI+Dnn+Pdn是否匹配。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/16/SOJItf8oqCFQg2a.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>扫描工具</title>
@@ -1306,6 +1388,14 @@ end
 &lt;p&gt;略&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/03/12/DAYV28f9Npx6Ibn.png&#34; alt=&#34;图片&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;section12&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a id=&#34;ref01&#34;&gt;&lt;a href=&#34;https://blog.csdn.net/m0_48594855/category_10106452.html&#34;&gt;基于FRR讲解BGP协议&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </description>
       
     </item>
