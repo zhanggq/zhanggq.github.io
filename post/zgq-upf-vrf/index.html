@@ -63,15 +63,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://zhanggq.github.io/post/zgq-upf-vrf/" />
 <meta property="article:published_time" content="2022-02-25T09:03:09&#43;08:00"/>
-<meta property="article:modified_time" content="2022-02-25T10:03:09&#43;08:00"/>
+<meta property="article:modified_time" content="2022-04-15T10:03:09&#43;08:00"/>
 
 <meta itemprop="name" content="UPF的VRF功能">
 <meta itemprop="description" content="摘要 我们的UPF网元在和客户对接使用的过程中，发现缺少了VRF功能，这里简单描述一下VRF功能的设计。 一、需求 Case1 按照客户目前的组网方案，基站">
 
 
 <meta itemprop="datePublished" content="2022-02-25T09:03:09&#43;08:00" />
-<meta itemprop="dateModified" content="2022-02-25T10:03:09&#43;08:00" />
-<meta itemprop="wordCount" content="1106">
+<meta itemprop="dateModified" content="2022-04-15T10:03:09&#43;08:00" />
+<meta itemprop="wordCount" content="1493">
 
 
 
@@ -168,7 +168,7 @@
               <a href="/categories/upf/"> UPF </a>
             
           </div>
-        <span class="more-meta"> 约 1106 字 </span>
+        <span class="more-meta"> 约 1493 字 </span>
         <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
@@ -261,7 +261,7 @@
 
 <p>\2. 本地接口配置生成的直连路由；</p>
 
-<p>\3. ARP学习到的路由；</p>
+<p>\3. ARP学习到的直连路由；</p>
 
 <p>\4. 静态路由；</p>
 
@@ -271,15 +271,49 @@
 
 <p><strong>路由表查找</strong></p>
 
-<p>根据前面思科的介绍，报文归属的VRF Id要在接收时打上。根据不同的报文来源，大致分以下场景：</p>
+<p>这里需要注意的是，UPF和路由器是不一样的，UPF有响应的报文转发规则，一般情况是N3口收到的报文从N6口出，N6口收到的报文从N3口出，所以需要先判断业务场景，再去查该业务对应的VRF Id，而不是单纯的根据接口。根据不同的报文来源，大致分以下场景：</p>
 
-<p>\1. 从DPDK收到的报文，目前代码是将Portid直接打在每个报文上的，所以根据PortId能够查询到VRF Id；</p>
+<p>\1. 从DPDK收到的报文，在校验完会话上下文之后就能知道这个是上行还是下行报文，可以打上相应的业务标识。其它报文如OSPF、ARP等上送的，不需要打标识；</p>
 
-<p>\2. 从KNI口收到的报文，因为Kni口和DPDK的Port是绑定关系，目前代码也是将Portid直接打在每个报文上的，同样根据PortId能够查询到VRF Id；</p>
+<p>\2. 从KNI口收到的报文，因为Kni口和DPDK的Port是绑定关系，目前可以直接用出口PortId来查VRF Id；</p>
 
 <p>\3. 从内部socket收到的报文，譬如SA报文，目前是没有打上Portid的，但这一类的报文方向是固定的，都是从N3口发往基站的报文所以可以在内部填充报文时，直接写死VRF Id；</p>
 
 <p>\4. UPF主动发送的报文，譬如gtpu echo报文、End Mark报文，同样没有Portid的，但其方向也是固定的，同样可以直接写死VRF Id。</p>
+
+<p><strong>Namespace隔离</strong></p>
+
+<p>UPF对于网管上配置的静态路由会反过来加到系统上，所以同样需要在系统上对N3口和N6口做Namespace隔离(系统是RHEL7.x，不支持VRF功能)。操作过程如下：</p>
+
+<pre><code class="language-shell">ip netns add ns3
+ip netns add ns6
+ip link set vEth0 netns ns3
+ip link set vEth1 netns ns6
+ip netns exec ns3 ifconfig vEth0 xxxx netmask xxxx up
+ip netns exec ns6 ifconfig vEth1 xxxx netmask xxxx up
+ip netns exec ns3 route add -net xxxx gw xxxx dev vEth0
+ip netns exec ns6 route add -net xxxx gw xxxx dev vEth1
+</code></pre>
+
+<p>同样对应的网络功能，譬如网络诊断等，都有跟上相应的Namespace：</p>
+
+<pre><code class="language-shell">ip netns exec ns3 ping xxxx
+</code></pre>
+
+<p><strong>Frrouting配置</strong></p>
+
+<p>由于客户不会发布路由给我们，所以暂时只需要Frr支持Namespace即可：</p>
+
+<pre><code class="language-shell">cat /usr/local/frr/etc/daemons |grep zebra
+# The watchfrr and zebra daemons are always started.
+zebra_options=&quot;  -A 127.0.0.1 -s 90000000 -n&quot;
+</code></pre>
+
+<p>参考<a href="https://blog.csdn.net/m0_48594855/article/details/106801153">FRR配置实例</a></p>
+
+<p><strong>Netlink监听</strong></p>
+
+<p>由于客户不会发布路由给我们，所以暂时不涉及。</p>
 
     </div>
 
@@ -292,7 +326,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2022-02-25</span>
+    <span class="item-content">2022-04-15</span>
   </p>
   
   <p class="copyright-item">

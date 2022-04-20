@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 14 Mar 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 24 Mar 2022 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>UPF防火墙</title>
+      <link>https://zhanggq.github.io/post/zgq-upf-firewall/</link>
+      <pubDate>Thu, 24 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-upf-firewall/</guid>
+      <description>摘要 在海外商用的环境被黑客攻破了，简单来说就是我们对外暴露的端口没有做防火墙，导致被人嗅探到了IP，且被破解了密码，最终被人ssh上去了。这</description>
+    </item>
     
     <item>
       <title>Hash冲突链</title>
@@ -180,15 +189,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-vue-debug/</guid>
       <description>摘要 差不多半年没碰Vue，回头再来看发现又差不多都忘了。Git hub上下载了最新的vue-element-admin，从头学起吧。学习的第一</description>
-    </item>
-    
-    <item>
-      <title>Django框架学习</title>
-      <link>https://zhanggq.github.io/post/zgq-paas-python-django/</link>
-      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-paas-python-django/</guid>
-      <description>摘要 最新需要搞一套Python的股市趋势分析，朋友提供核心算法，我负责搭建整个架子。数据部分以前有写过现成的东西（Go写的），重新拿过来改成</description>
     </item>
     
   </channel>

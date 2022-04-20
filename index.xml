@@ -5,10 +5,100 @@
     <description>Recent content on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 14 Mar 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 24 Mar 2022 09:03:09 +0800</lastBuildDate>
     
         <atom:link href="https://zhanggq.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>UPF防火墙</title>
+      <link>https://zhanggq.github.io/post/zgq-upf-firewall/</link>
+      <pubDate>Thu, 24 Mar 2022 09:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-upf-firewall/</guid>
+      
+        <description>
+
+&lt;p&gt;&lt;a name=&#34;section0&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在海外商用的环境被黑客攻破了，简单来说就是我们对外暴露的端口没有做防火墙，导致被人嗅探到了IP，且被破解了密码，最终被人ssh上去了。这里简单讲一下UPF与RHEL的firewalld的集成。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;section1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;一-防火墙配置&#34;&gt;一、防火墙配置&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;协议&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;将需要放开的协议做成服务，放在/usr/lib/firewalld/services/目录下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@testdept-upf-32-gsu-1 ~]# cat /usr/lib/firewalld/services/bgp.xml 
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;service&amp;gt;
+  &amp;lt;short&amp;gt;BGP&amp;lt;/short&amp;gt;
+  &amp;lt;description&amp;gt;BGP protocol.&amp;lt;/description&amp;gt;
+  &amp;lt;port protocol=&amp;quot;tcp&amp;quot; port=&amp;quot;179&amp;quot;/&amp;gt;
+  &amp;lt;port protocol=&amp;quot;tcp&amp;quot; port=&amp;quot;36242&amp;quot;/&amp;gt;
+  &amp;lt;port protocol=&amp;quot;tcp&amp;quot; port=&amp;quot;51832&amp;quot;/&amp;gt;
+&amp;lt;/service&amp;gt;
+[root@testdept-upf-32-gsu-1 ~]# cat /usr/lib/firewalld/services/bfd.xml 
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;service&amp;gt;
+  &amp;lt;short&amp;gt;BFD&amp;lt;/short&amp;gt;
+  &amp;lt;description&amp;gt;BFD protocol.&amp;lt;/description&amp;gt;
+  &amp;lt;port protocol=&amp;quot;udp&amp;quot; port=&amp;quot;3784&amp;quot;/&amp;gt;
+  &amp;lt;port protocol=&amp;quot;udp&amp;quot; port=&amp;quot;3785&amp;quot;/&amp;gt;
+  &amp;lt;port protocol=&amp;quot;udp&amp;quot; port=&amp;quot;4784&amp;quot;/&amp;gt;
+&amp;lt;/service&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;限制区&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为每个对外接口增加一个限制区，该限制区默认为Drop，只放开部分需要的协议，放在/etc/firewalld/zones/目录下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[root@testdept-upf-32-gsu-1 ~]# cat /etc/firewalld/zones/n3.xml 
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;zone target=&amp;quot;DROP&amp;quot;&amp;gt;
+  &amp;lt;short&amp;gt;Drop&amp;lt;/short&amp;gt;
+  &amp;lt;description&amp;gt;Unsolicited incoming network packets are dropped. Incoming packets that are related to outgoing network connections are accepted. Outgoing network connections are allowed.&amp;lt;/description&amp;gt;
+  &amp;lt;interface name=&amp;quot;vEth0&amp;quot;/&amp;gt;
+  &amp;lt;service name=&amp;quot;bgp&amp;quot;/&amp;gt;
+  &amp;lt;service name=&amp;quot;bfd&amp;quot;/&amp;gt;
+  &amp;lt;protocol value=&amp;quot;ipv6-icmp&amp;quot;/&amp;gt;
+  &amp;lt;protocol value=&amp;quot;icmp&amp;quot;/&amp;gt;
+  &amp;lt;protocol value=&amp;quot;ospf&amp;quot;/&amp;gt;
+&amp;lt;/zone&amp;gt;
+[root@testdept-upf-32-gsu-1 ~]# cat /etc/firewalld/zones/n6.xml 
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;zone target=&amp;quot;DROP&amp;quot;&amp;gt;
+  &amp;lt;short&amp;gt;Drop&amp;lt;/short&amp;gt;
+  &amp;lt;description&amp;gt;Unsolicited incoming network packets are dropped. Incoming packets that are related to outgoing network connections are accepted. Outgoing network connections are allowed.&amp;lt;/description&amp;gt;
+  &amp;lt;interface name=&amp;quot;vEth1&amp;quot;/&amp;gt;
+  &amp;lt;service name=&amp;quot;bgp&amp;quot;/&amp;gt;
+  &amp;lt;service name=&amp;quot;bfd&amp;quot;/&amp;gt;
+  &amp;lt;protocol value=&amp;quot;ipv6-icmp&amp;quot;/&amp;gt;
+  &amp;lt;protocol value=&amp;quot;icmp&amp;quot;/&amp;gt;
+  &amp;lt;protocol value=&amp;quot;ospf&amp;quot;/&amp;gt;
+&amp;lt;/zone&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将系统默认区设置为trusted：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;firewall-cmd --set-default-zone=trusted
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;其它&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;发现开启防火墙后ping6会不通，看有人也在说这个问题，解决方法是再加一条icmpv6的规则，参考&lt;a href=&#34;https://serverfault.com/questions/769374/firewalld-blocks-ipv6-ignores-config&#34;&gt;Ipv6&lt;/a&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;firewall-cmd --permanent --direct --add-rule ipv6 filter INPUT 0 -p icmpv6 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Hash冲突链</title>
@@ -286,7 +376,7 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
 
 &lt;p&gt;\2. 本地接口配置生成的直连路由；&lt;/p&gt;
 
-&lt;p&gt;\3. ARP学习到的路由；&lt;/p&gt;
+&lt;p&gt;\3. ARP学习到的直连路由；&lt;/p&gt;
 
 &lt;p&gt;\4. 静态路由；&lt;/p&gt;
 
@@ -296,15 +386,49 @@ AR == /opt/HP_Fortiy/HP_Fortify_SCA_and_Apps_4.40/bin/sourceanalyzer -b SAC $(TA
 
 &lt;p&gt;&lt;strong&gt;路由表查找&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;根据前面思科的介绍，报文归属的VRF Id要在接收时打上。根据不同的报文来源，大致分以下场景：&lt;/p&gt;
+&lt;p&gt;这里需要注意的是，UPF和路由器是不一样的，UPF有响应的报文转发规则，一般情况是N3口收到的报文从N6口出，N6口收到的报文从N3口出，所以需要先判断业务场景，再去查该业务对应的VRF Id，而不是单纯的根据接口。根据不同的报文来源，大致分以下场景：&lt;/p&gt;
 
-&lt;p&gt;\1. 从DPDK收到的报文，目前代码是将Portid直接打在每个报文上的，所以根据PortId能够查询到VRF Id；&lt;/p&gt;
+&lt;p&gt;\1. 从DPDK收到的报文，在校验完会话上下文之后就能知道这个是上行还是下行报文，可以打上相应的业务标识。其它报文如OSPF、ARP等上送的，不需要打标识；&lt;/p&gt;
 
-&lt;p&gt;\2. 从KNI口收到的报文，因为Kni口和DPDK的Port是绑定关系，目前代码也是将Portid直接打在每个报文上的，同样根据PortId能够查询到VRF Id；&lt;/p&gt;
+&lt;p&gt;\2. 从KNI口收到的报文，因为Kni口和DPDK的Port是绑定关系，目前可以直接用出口PortId来查VRF Id；&lt;/p&gt;
 
 &lt;p&gt;\3. 从内部socket收到的报文，譬如SA报文，目前是没有打上Portid的，但这一类的报文方向是固定的，都是从N3口发往基站的报文所以可以在内部填充报文时，直接写死VRF Id；&lt;/p&gt;
 
 &lt;p&gt;\4. UPF主动发送的报文，譬如gtpu echo报文、End Mark报文，同样没有Portid的，但其方向也是固定的，同样可以直接写死VRF Id。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Namespace隔离&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;UPF对于网管上配置的静态路由会反过来加到系统上，所以同样需要在系统上对N3口和N6口做Namespace隔离(系统是RHEL7.x，不支持VRF功能)。操作过程如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;ip netns add ns3
+ip netns add ns6
+ip link set vEth0 netns ns3
+ip link set vEth1 netns ns6
+ip netns exec ns3 ifconfig vEth0 xxxx netmask xxxx up
+ip netns exec ns6 ifconfig vEth1 xxxx netmask xxxx up
+ip netns exec ns3 route add -net xxxx gw xxxx dev vEth0
+ip netns exec ns6 route add -net xxxx gw xxxx dev vEth1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;同样对应的网络功能，譬如网络诊断等，都有跟上相应的Namespace：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;ip netns exec ns3 ping xxxx
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Frrouting配置&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;由于客户不会发布路由给我们，所以暂时只需要Frr支持Namespace即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cat /usr/local/frr/etc/daemons |grep zebra
+# The watchfrr and zebra daemons are always started.
+zebra_options=&amp;quot;  -A 127.0.0.1 -s 90000000 -n&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考&lt;a href=&#34;https://blog.csdn.net/m0_48594855/article/details/106801153&#34;&gt;FRR配置实例&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Netlink监听&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;由于客户不会发布路由给我们，所以暂时不涉及。&lt;/p&gt;
 </description>
       
     </item>
