@@ -6,154 +6,10 @@
     <description>Recent content in Posts on Zhanggq</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 24 Mar 2022 09:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 02 Apr 2021 09:03:09 +0800</lastBuildDate>
     
 	<atom:link href="https://zhanggq.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>UPF防火墙</title>
-      <link>https://zhanggq.github.io/post/zgq-upf-firewall/</link>
-      <pubDate>Thu, 24 Mar 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-upf-firewall/</guid>
-      <description>摘要 在海外商用的环境被黑客攻破了，简单来说就是我们对外暴露的端口没有做防火墙，导致被人嗅探到了IP，且被破解了密码，最终被人ssh上去了。这</description>
-    </item>
-    
-    <item>
-      <title>Hash冲突链</title>
-      <link>https://zhanggq.github.io/post/zgq-c-hash/</link>
-      <pubDate>Mon, 14 Mar 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-c-hash/</guid>
-      <description>摘要 写了一个Hash冲突链。 一、Hash冲突链解释 UPF单节点需要支持大量的用户，每个用户又会建立多条Pdu会话。所以需要一张Hash表用于</description>
-    </item>
-    
-    <item>
-      <title>扫描工具</title>
-      <link>https://zhanggq.github.io/post/zgq-c-check/</link>
-      <pubDate>Thu, 10 Mar 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-c-check/</guid>
-      <description>摘要 分享一下我在项目中用到的代码扫描工具。静态扫描工具Fortify和动态扫描工具Valgrind。 一、Valgrind 说明 Valgrind</description>
-    </item>
-    
-    <item>
-      <title>UPF的VRF功能</title>
-      <link>https://zhanggq.github.io/post/zgq-upf-vrf/</link>
-      <pubDate>Fri, 25 Feb 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-upf-vrf/</guid>
-      <description>摘要 我们的UPF网元在和客户对接使用的过程中，发现缺少了VRF功能，这里简单描述一下VRF功能的设计。 一、需求 Case1 按照客户目前的组网方案，基站</description>
-    </item>
-    
-    <item>
-      <title>性能调优工具</title>
-      <link>https://zhanggq.github.io/post/zgq-c-performance/</link>
-      <pubDate>Wed, 23 Feb 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-c-performance/</guid>
-      <description>摘要 最近搞UPF性能调优时，简单使用了一下性能调优工具，这里描述一下使用过程。gprof，vtune(待补充)。 一、gprof 编译 gprof</description>
-    </item>
-    
-    <item>
-      <title>DPDK的Mbuf</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</link>
-      <pubDate>Tue, 18 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</guid>
-      <description>摘要 上一篇做DPDK性能调优的时候，对于DPDK使用的Mbuf进行了拆分，但随之而来发现Mbuf的回收似乎出现了问题，一天灌包后基本上转发面</description>
-    </item>
-    
-    <item>
-      <title>DPDK性能调优</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-performance/</link>
-      <pubDate>Mon, 17 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-performance/</guid>
-      <description>摘要 最近在用上古16.07版本的DPDK做UPF，最初的性能是2核67wpps，调优后至少能到2核180wpps。这里记录一下整个操作过程。</description>
-    </item>
-    
-    <item>
-      <title>DPDK的Checksum offload</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-checksum/</link>
-      <pubDate>Sun, 16 Jan 2022 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-checksum/</guid>
-      <description>摘要 做DPDK性能调优的时候，涉及到了使用DPDK+硬件的Checksum offload功能，这里简单描述一下。 一、背景 对于IPv6的报文来</description>
-    </item>
-    
-    <item>
-      <title>UPF对接FRR之BGP</title>
-      <link>https://zhanggq.github.io/post/zgq-upf-bgp/</link>
-      <pubDate>Tue, 04 Jan 2022 13:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-upf-bgp/</guid>
-      <description>前言 动态路由是UPF冗余方案中必不可少的一部分，这里简单介绍一下UPF的冗余组网方案及UPF对接BGP路由。 一、UPF冗余网络模型 在商用的U</description>
-    </item>
-    
-    <item>
-      <title>UPF对接FRR之OSPF</title>
-      <link>https://zhanggq.github.io/post/zgq-upf-ospf/</link>
-      <pubDate>Tue, 04 Jan 2022 13:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-upf-ospf/</guid>
-      <description>前言 接续上一篇&amp;rdquo;UPF对接FRR之BGP&amp;rdquo;，这里简单列一下OSPF的配置。 一、主用UPF的OSPF配置参考 主用UPF</description>
-    </item>
-    
-    <item>
-      <title>VPP运行在ARM板上</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vpp-arm/</link>
-      <pubDate>Sat, 25 Dec 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vpp-arm/</guid>
-      <description>摘要 最近有个项目需要把VPP运行在ARM板子上，本篇文章主要记录一些操作过程： 环境信息； VPP交叉编译； UPF依赖交叉编译； 运行； 一、环境信</description>
-    </item>
-    
-    <item>
-      <title>论大型通信软件平台 队列篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</link>
-      <pubDate>Sun, 21 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</guid>
-      <description>摘要 继续归纳平台，本篇主要讲讲平台用于线程间通信的消息队列。 一、线程间通信概述 通常进程间通信的概念被人熟知，有很多著名的消息队列如Rabbi</description>
-    </item>
-    
-    <item>
-      <title>论大型通信软件平台 内存篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-4-mempool/</link>
-      <pubDate>Thu, 18 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-4-mempool/</guid>
-      <description>摘要 继续归纳平台，本篇主要讲讲平台的内存封装。 一、内存封装概述 对于一个C语言写的系统，由于缺乏内存管理机制，在代码中直接用mem_alloc</description>
-    </item>
-    
-    <item>
-      <title>论大型通信软件平台 接口篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-3-socket/</link>
-      <pubDate>Mon, 15 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-3-socket/</guid>
-      <description>摘要 继续归纳平台，本篇主要讲讲平台的Socket封装。 一、Socket封装概述 Socket封装简单来说就是对上层业务提供发送消息的接口。当业</description>
-    </item>
-    
-    <item>
-      <title>论大型通信软件平台 注册篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-2-register/</link>
-      <pubDate>Wed, 03 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-2-register/</guid>
-      <description>摘要 继续归纳平台，本篇主要讲讲平台的注册机制。 一、注册机制概述 说到服务注册、服务发现这些微服务方面的概念，大家肯定都比较耳熟，实际上这些概念</description>
-    </item>
-    
-    <item>
-      <title>论大型通信软件平台 概述篇</title>
-      <link>https://zhanggq.github.io/post/zgq-plat-1-overview/</link>
-      <pubDate>Mon, 01 Nov 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-plat-1-overview/</guid>
-      <description>摘要 最近接触了FreeRTOS，发现这实际上并不是什么操作系统，而是传统意义上的平台被移植到了嵌入式开发中。所以在学习之前，先结合这些年接触</description>
-    </item>
     
     <item>
       <title>关于Go的空指针检查</title>
@@ -162,15 +18,6 @@
       
       <guid>https://zhanggq.github.io/post/zgq-go-nil-pointer/</guid>
       <description>摘要 最近开发过程中遇到挺多空指针引发的Coredump，想在CI过程中集成一下Go的代码检查工具，但实际发现这些工具的效果都不行…… 一、测试</description>
-    </item>
-    
-    <item>
-      <title>VPP如何使用Mellanox网卡</title>
-      <link>https://zhanggq.github.io/post/zgq-dpdk-vpp-mellanox/</link>
-      <pubDate>Wed, 17 Mar 2021 09:03:09 +0800</pubDate>
-      
-      <guid>https://zhanggq.github.io/post/zgq-dpdk-vpp-mellanox/</guid>
-      <description>摘要 最近在用VPP做用户面报文的转发，发现Mellanox网卡挺难用，这里记录一下整个操作过程。整个过程大致有以下几步： 更新Mellanox</description>
     </item>
     
     <item>
@@ -189,6 +36,159 @@
       
       <guid>https://zhanggq.github.io/post/zgq-paas-vue-debug/</guid>
       <description>摘要 差不多半年没碰Vue，回头再来看发现又差不多都忘了。Git hub上下载了最新的vue-element-admin，从头学起吧。学习的第一</description>
+    </item>
+    
+    <item>
+      <title>Django框架学习</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-python-django/</link>
+      <pubDate>Sun, 28 Apr 2019 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-python-django/</guid>
+      <description>摘要 最新需要搞一套Python的股市趋势分析，朋友提供核心算法，我负责搭建整个架子。数据部分以前有写过现成的东西（Go写的），重新拿过来改成</description>
+    </item>
+    
+    <item>
+      <title>Openstack GPU Passthrough</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</link>
+      <pubDate>Thu, 27 Dec 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-gpu-pass/</guid>
+      <description>摘要 随着人工智能概念的火热，越来越多的云平台客户开始对Gpu透传表现出浓厚的兴趣（对比之下，最开始研究GPU透传的老外们大多是为了能在自己的</description>
+    </item>
+    
+    <item>
+      <title>重新梳理一下我自己的两个web工程</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</link>
+      <pubDate>Mon, 26 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-vue-springboot2/</guid>
+      <description>摘要 起因是自己的阿里云过期了，之前乱七八糟好多工程拷回本地后，打算梳理一下自己写过Demo工程。这里主要记录一下其中两个web工程。 一、My</description>
+    </item>
+    
+    <item>
+      <title>Openstack Horizon二次开发</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</link>
+      <pubDate>Tue, 06 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-openstack-dashboard/</guid>
+      <description>摘要 最近碰到个项目，需要在Horizon基础上开发增加一些小功能，这里将简单介绍一下Horizon的开发过程。 一、Horizon介绍 Hori</description>
+    </item>
+    
+    <item>
+      <title>mysql高可用集群搭建（上篇）</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-mysql/</link>
+      <pubDate>Mon, 05 Nov 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-mysql/</guid>
+      <description>摘要 众所周知，Mysql Galera Cluster为数据库提供了高一致性高可用的方案。但从实际商用的角度来看，仅仅依靠Galera插件并不能算是一个完</description>
+    </item>
+    
+    <item>
+      <title>Consul的不专业用法介绍</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-consul/</link>
+      <pubDate>Mon, 22 Oct 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-consul/</guid>
+      <description>摘要 Consul，一个做服务发现的框架，目前听说常用于微服务架构中的服务发现，而本文主要用它的Health Checking功能来做一个简单的</description>
+    </item>
+    
+    <item>
+      <title>来聊聊云/平台/微服务吧</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-cloud-microservice/</link>
+      <pubDate>Mon, 02 Jul 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-cloud-microservice/</guid>
+      <description>摘要 嗯~ o(￣▽￣)o，上一篇帖子中我还在写我想研究Spring Cloud，当写这个贴子的时候我就已经想抛弃它了，那么在抛弃之前先来聊聊吧。</description>
+    </item>
+    
+    <item>
+      <title>Vue &#43; Springboot开发过程中遇到的坑</title>
+      <link>https://zhanggq.github.io/post/zgq-web-vue-springboot/</link>
+      <pubDate>Fri, 29 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-vue-springboot/</guid>
+      <description>摘要 最近在学习Vue+Springboot，目的是做一个数据处理工具，并且为将来学习Spring Cloud打个基础。这里记录一下开发过程中遇</description>
+    </item>
+    
+    <item>
+      <title>【纯水贴】大数据分析应用于股票交易的尝试</title>
+      <link>https://zhanggq.github.io/post/zgq-finance-tushare/</link>
+      <pubDate>Wed, 13 Jun 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-finance-tushare/</guid>
+      <description>摘要 前不久写了一个大数据股票分析模型，筛了一些股票出来，然后挑了一个卖相好的，没想到中奖了，特此来水一贴 一、第一轮测试 于5月24日买入，于6</description>
+    </item>
+    
+    <item>
+      <title>kubernetes对接Ceph</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</link>
+      <pubDate>Fri, 25 May 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-ceph/</guid>
+      <description>摘要 总结一下kubernetes对接Ceph过程中遇到的问题，持续更新中 …… 一、环境准备 实验环境有点特殊，先部署了一套超融合环境，opens</description>
+    </item>
+    
+    <item>
+      <title>Interllij IDEA使用教程</title>
+      <link>https://zhanggq.github.io/post/zgq-web-idea/</link>
+      <pubDate>Tue, 08 May 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-idea/</guid>
+      <description>摘要 总结一下自己的Interllij IDEA使用过程中遇到的各种场景和问题，持续更新中 …… 一、配置maven 官方下载maven包，解压至D:</description>
+    </item>
+    
+    <item>
+      <title>VS code使用教程</title>
+      <link>https://zhanggq.github.io/post/zgq-web-vscode/</link>
+      <pubDate>Wed, 25 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-vscode/</guid>
+      <description>摘要 总结一下自己的VS code使用过程中遇到的各种场景和问题，持续更新中 …… 一、安装各种扩展 VS Code支持各种插件扩展，点击&amp;rdquo;查</description>
+    </item>
+    
+    <item>
+      <title>Window10安装tensorflow</title>
+      <link>https://zhanggq.github.io/post/zgq-ai-tensorflow/</link>
+      <pubDate>Tue, 24 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-ai-tensorflow/</guid>
+      <description>摘要 总结一下自己的Window10安装tensorflow过程。包括jupyter-notebook最简单用法和一个简单tensorflow</description>
+    </item>
+    
+    <item>
+      <title>一步一步创建Google虚机</title>
+      <link>https://zhanggq.github.io/post/zgq-web-google-vm/</link>
+      <pubDate>Mon, 09 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-web-google-vm/</guid>
+      <description>摘要 财大气粗的Google，申请一个账号就可以免费使用一年它的虚机，正好最近缺一个Centos的虚机，Vultr的虚机是Ubuntu的，所以</description>
+    </item>
+    
+    <item>
+      <title>Kubeadm、Kubespray在Centos7上自动部署kubernetes 1.9.3</title>
+      <link>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</link>
+      <pubDate>Wed, 04 Apr 2018 16:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-paas-k8s-kubespray-1.9.3/</guid>
+      <description>摘要 2015年第一次接触k8s，当时的搭建过程没那么复杂，yum装装，手工配配，没有证书，没有Dashboard，也没有墙…… 。过了3年没碰</description>
+    </item>
+    
+    <item>
+      <title>Ovs流表分析</title>
+      <link>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</link>
+      <pubDate>Wed, 04 Apr 2018 13:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/zgq-sdn-ovs-flow/</guid>
+      <description>前言 学习Ovs过程中的笔记，主要目的是看懂Ovs的流表处理过程。网上有很多关于OVS流表的文章，但大多数将的是br-int和br-tun，本</description>
+    </item>
+    
+    <item>
+      <title>Markdown Cases Preview</title>
+      <link>https://zhanggq.github.io/post/even-preview/</link>
+      <pubDate>Wed, 04 Apr 2018 10:03:09 +0800</pubDate>
+      
+      <guid>https://zhanggq.github.io/post/even-preview/</guid>
+      <description>摘要 综合展示一下Markdown各种语法的实例，算是自己以后写Blog的模板吧。 目前这个只能算是初级模板，还有其它很多高级的用法不在展示的范</description>
     </item>
     
   </channel>

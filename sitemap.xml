@@ -2,127 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://zhanggq.github.io/post/zgq-upf-firewall/</loc>
-    <lastmod>2022-03-24T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-c-hash/</loc>
-    <lastmod>2022-03-14T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-c-check/</loc>
-    <lastmod>2022-03-10T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-upf-vrf/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-c-performance/</loc>
-    <lastmod>2022-02-23T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-dpdk-mbuf-pool/</loc>
-    <lastmod>2022-01-18T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-dpdk-performance/</loc>
-    <lastmod>2022-03-11T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-dpdk-checksum/</loc>
-    <lastmod>2022-01-16T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-upf-bgp/</loc>
-    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-upf-ospf/</loc>
-    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-dpdk-vpp-arm/</loc>
-    <lastmod>2021-12-25T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-plat-5-msg-queue/</loc>
-    <lastmod>2021-11-21T11:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-plat-4-mempool/</loc>
-    <lastmod>2021-11-18T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-plat-3-socket/</loc>
-    <lastmod>2021-11-15T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-plat-2-register/</loc>
-    <lastmod>2021-11-03T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-plat-1-overview/</loc>
-    <lastmod>2021-11-01T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://zhanggq.github.io/post/zgq-go-nil-pointer/</loc>
     <lastmod>2021-04-02T10:03:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/zgq-dpdk-vpp-mellanox/</loc>
-    <lastmod>2021-03-17T10:03:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -269,156 +150,36 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
+    <lastmod>2021-04-02T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/firewall/</loc>
-    <lastmod>2022-03-24T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/post/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/upf/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/upf/</loc>
-    <lastmod>2022-03-24T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/c/</loc>
-    <lastmod>2022-03-14T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/c/</loc>
-    <lastmod>2022-03-14T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/hash/</loc>
-    <lastmod>2022-03-14T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/fortify/</loc>
-    <lastmod>2022-03-10T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/valgrind/</loc>
-    <lastmod>2022-03-10T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/vrf/</loc>
-    <lastmod>2022-04-15T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/performance/</loc>
-    <lastmod>2022-03-11T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/dpdk/</loc>
-    <lastmod>2022-03-11T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/dpdk/</loc>
-    <lastmod>2022-03-11T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/checksum/</loc>
-    <lastmod>2022-01-16T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/bgp/</loc>
-    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/frr/</loc>
-    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/ospf/</loc>
-    <lastmod>2022-01-04T13:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/arm/</loc>
-    <lastmod>2021-12-25T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/vpp/</loc>
-    <lastmod>2021-12-25T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/categories/plat/</loc>
-    <lastmod>2021-11-21T11:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/plat/</loc>
-    <lastmod>2021-11-21T11:03:09+08:00</lastmod>
+    <lastmod>2021-04-02T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zhanggq.github.io/categories/go/</loc>
+    <lastmod>2021-04-02T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/post/</loc>
+    <lastmod>2021-04-02T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/tags/</loc>
+    <lastmod>2021-04-02T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhanggq.github.io/</loc>
     <lastmod>2021-04-02T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -442,6 +203,12 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/tags/vue/</loc>
+    <lastmod>2019-05-21T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/tags/debug/</loc>
     <lastmod>2019-05-21T10:03:09+08:00</lastmod>
     <priority>0</priority>
@@ -449,12 +216,6 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/element/</loc>
-    <lastmod>2019-05-21T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/vue/</loc>
     <lastmod>2019-05-21T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -514,6 +275,12 @@
   </url>
   
   <url>
+    <loc>https://zhanggq.github.io/tags/springboot/</loc>
+    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://zhanggq.github.io/tags/amaze/</loc>
     <lastmod>2018-11-26T10:03:09+08:00</lastmod>
     <priority>0</priority>
@@ -521,12 +288,6 @@
   
   <url>
     <loc>https://zhanggq.github.io/tags/pass/</loc>
-    <lastmod>2018-11-26T10:03:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhanggq.github.io/tags/springboot/</loc>
     <lastmod>2018-11-26T10:03:09+08:00</lastmod>
     <priority>0</priority>
   </url>
